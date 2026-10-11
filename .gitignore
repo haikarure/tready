@@ -11,6 +11,8 @@ apps/android/android/
 apps/android/ios/
 *.jks
 *.keystore
+*.p12
+*.password
 *.apk
 *.aab
 artifacts/private/

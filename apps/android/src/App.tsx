@@ -86,6 +86,7 @@ function Receipts({v}:{v:AppView}){return <Shell><Heading eyebrow="04 / RECEIPT"
 function Main(){
   const insets=useSafeAreaInsets();const [controller]=useState(()=>new TreadyController());const v=useSyncExternalStore(controller.subscribe,controller.snapshot);const [route,setRoute]=useState<keyof Routes>('Account');const [plan,setPlan]=useState<Plan|null>(null);
   const [form,setForm]=useState<Form>({side:'long',budget:'5',stop:'',leverage:'5',entryBps:'10',stressBps:'20',funding:'0.5'});
+  useEffect(()=>setPlan(null),[v.mode]);
   useEffect(()=>{void controller.initialize();const subscription=AppState.addEventListener('change',state=>{if(state==='active')controller.resume();else controller.pause();});return()=>{subscription.remove();controller.destroy();};},[controller]);
   useEffect(()=>{if(!form.stop&&v.book&&v.config){const price=(form.side==='long'?v.book.asks[0]:v.book.bids[0])?.price;if(price)setForm(f=>({...f,stop:formatUnits(price*(form.side==='long'?99n:101n)/100n,v.config!.priceDecimals)}));}},[form.stop,form.side,v.book,v.config]);
   const mode=()=>Alert.alert('Pilih mode','Latihan memberi hasil sintetis. Beralih mode mengunci sesi lokal; posisi testnet tetap berada di venue.',[{text:'Kembali',style:'cancel'},{text:'Testnet',onPress:()=>{setPlan(null);controller.setMode('testnet');}},{text:'Latihan',onPress:()=>{setPlan(null);controller.setMode('replay');}}]);
