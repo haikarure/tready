@@ -2,7 +2,7 @@
 
 Android app untuk merencanakan trade Perpl dalam budget AUSD, memeriksa hasil eksekusi, dan memulihkan status yang bermasalah. Dibangun untuk Monad Metropolis Track01 dengan Expo, Mera, viem, Perpl, BigInt, SQLite dan SecureStore.
 
-**Status: native preview sedang diverifikasi; full P0/live trading belum selesai.** Empat layar dan alur latihan sudah diimplementasikan. Public configuration/book/RPC memakai Monad Testnet asli. Fill/stop/close latihan selalu berlabel synthetic; tidak ada real order atau pengguna eksternal yang diklaim.
+**Status: APK native preview berhasil dibuild dan alur latihan lulus di emulator; full P0/live trading belum selesai.** Empat layar tersedia. Public configuration/book/RPC memakai Monad Testnet asli. Fill/stop/close latihan selalu berlabel synthetic; tidak ada real order atau pengguna eksternal yang diklaim.
 
 ## Jalankan dan uji
 
@@ -18,6 +18,8 @@ chmod +x scripts/*.sh
 
 Preview build memuat JS bundle dan memakai private signing certificate lokal yang stabil. Output APK/checksum/certificate di `artifacts/`; secret signing tidak masuk Git. Untuk development, gunakan `./scripts/dev.sh pnpm start` dan native app dari `pnpm android`. Native passkey tidak diuji lewat Expo Go.
 
+[APK Android preview](artifacts/tready-0.1.0-preview.apk), sekitar52MiB, Android API24+ dan CPU arm64-v8a/x86_64. [Release metadata](artifacts/release.json) memuat SHA256 dan commit source aplikasi; minimum install tidak membuktikan kompatibilitas passkey provider pada HP nyata.
+
 **Alur review:** pilih Latihan → Plan → review sizing → entry latihan → Trade → stop → close → Receipt. Harga berasal dari market testnet; collateral100AUSD dan fills latihan merupakan simulasi. Bila market unavailable, UI memperlihatkan loading/stale, tanpa mengganti dengan quote fixture.
 
 Login passkey dan programmatic enrollment default disabled: founder belum mempunyai owned rpId/domain atau Origin whitelist Perpl. Schema EIP-712 enrollment juga memerlukan verified fixture. Tidak mengisi key di `.env` atau mengirim secret melalui chat. Langkah activation, signing, setup account dan recovery ada di [RUNBOOK](docs/RUNBOOK.md).
@@ -27,7 +29,7 @@ Login passkey dan programmatic enrollment default disabled: founder belum mempun
 - [Status terbaru](docs/IMPLEMENTATION_STATUS.md): apa yang dibangun, apa yang diuji, dan gate yang belum selesai.
 - [Core tests](artifacts/core-tests.json): offline/synthetic; money precision, risk assumptions, authorization, duplicate-entry, failure/late-success dan receipt semantics.
 - [Public integration probe](artifacts/integration-probe.json): real unsigned context/book/RPC reads; tidak ada wallet signing, enrollment atau trade.
-- [UI emulator awal](artifacts/screenshots/account-first.png): real native APK, tanpa Metro; emulator tidak membuktikan physical-device PRF support.
+- [Laporan emulator](artifacts/emulator-smoke.json): tujuh pemeriksaan UI/restart pada APK final, tanpa Metro; [Account](artifacts/screenshots/account-360dp.png), [stop latihan](artifacts/screenshots/trade-protected-360dp.png), [Receipt](artifacts/screenshots/receipt-360dp.png). Emulator tidak membuktikan physical-device PRF support.
 
 Physical Android passkey/biometric/restore, test funding/account creation, signed request-target, actual entry/stop/close, recycle charging/refund, API-expiry trigger lifecycle dan full financial reconciliation masih membutuhkan device/vendor integration. Mainnet writes tidak tersedia. Submission, outreach, customer sessions dan konfirmasi bounty belum dilakukan.
 

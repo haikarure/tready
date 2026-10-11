@@ -1,0 +1,22 @@
+{
+  "version": "0.1.0",
+  "build": 1,
+  "package": "xyz.tready.app",
+  "network": "Monad Testnet",
+  "chainId": 10143,
+  "file": "tready-0.1.0-preview.apk",
+  "bytes": 54200887,
+  "sha256": "48cc1638d8f118ae1f6088177da74282944d32cb94ac5876735a7a3f6513b36b",
+  "certificateSha256": "4C:81:BA:5E:EA:B3:EB:C6:4F:BD:5A:41:FD:09:4F:58:26:0C:FD:66:D5:99:87:31:70:FA:5C:3F:F9:2A:09:C4",
+  "sourceCommit": "63327de0f6f5dfa9cdd7a4846fafd2b35d6dc272",
+  "builtAt": "2026-10-11T16:19:05.472Z",
+  "supportedAbis": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "classification": "standalone_preview_APK_not_production_release",
+  "limitations": [
+    "No owned rpId/whitelisted Origin configured.",
+    "Physical-device PRF, authenticated API, owner transactions and live trading are not verified."
+  ]
+}

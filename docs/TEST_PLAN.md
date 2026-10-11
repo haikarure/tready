@@ -2,6 +2,8 @@
 
 Versi 0.1 · 11 Oktober 2026. Mengacu ke [PRD](PRD.md) dan [spesifikasi teknis](TECHNICAL_SPEC.md). Daftar ini adalah pengujian yang harus dilakukan saat implementasi, bukan laporan bahwa seluruhnya sudah lulus.
 
+Baseline status di bawah dibuat saat PRD. Hasil execution terbaru dipisahkan dalam [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md), [core test report](../artifacts/core-tests.json), dan bukti emulator. Unit/synthetic tests tidak menjadi bukti semua 42 skenario testnet/device telah lulus.
+
 ## 1. Status yang benar saat ini
 
 | Aktivitas | Hasil yang tersedia | Yang belum dibuktikan |

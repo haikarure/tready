@@ -1,6 +1,6 @@
 # Tready — implementasi, dependency, dan submission
 
-Versi 0.1 · 11 Oktober 2026. Rencana untuk solo dari nol, Android, testnet. Mengacu ke [PRD](PRD.md), [technical spec](TECHNICAL_SPEC.md), dan [test plan](TEST_PLAN.md). Belum ada app scaffold, APK, enrollment, transaksi, deployment, outreach, atau submission yang dilakukan.
+Versi 0.1 · 11 Oktober 2026. Baseline rencana untuk solo dari nol, Android, testnet. Mengacu ke [PRD](PRD.md), [technical spec](TECHNICAL_SPEC.md), dan [test plan](TEST_PLAN.md). Kemajuan aktual sejak rencana dibuat tersedia di [status implementasi](IMPLEMENTATION_STATUS.md); backlog di sini tetap mendefinisikan target dan bukti selesai.
 
 ## 1. Critical path dan anggaran waktu
 

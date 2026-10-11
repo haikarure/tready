@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "xyz.tready.app",
+      "sha256_cert_fingerprints": [
+        "4C:81:BA:5E:EA:B3:EB:C6:4F:BD:5A:41:FD:09:4F:58:26:0C:FD:66:D5:99:87:31:70:FA:5C:3F:F9:2A:09:C4"
+      ]
+    }
+  }
+]

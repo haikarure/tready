@@ -1,0 +1,48 @@
+{
+  "classification": "real_emulator_UI_test_of_public_data_and_synthetic_execution_only",
+  "testedAt": "2026-10-11T16:27:14.481523+00:00",
+  "apkSha256": "48cc1638d8f118ae1f6088177da74282944d32cb94ac5876735a7a3f6513b36b",
+  "appSourceCommit": "63327de0f6f5dfa9cdd7a4846fafd2b35d6dc272",
+  "device": "Pixel7 emulator, Android API36 x86_64, 360dp",
+  "passed": [
+    "standalone start; passkey disabled without rpId",
+    "synthetic entry reaches protection-pending",
+    "synthetic stop registration visible",
+    "synthetic close returns flat",
+    "receipt clearly labels synthetic results",
+    "SQLite receipts survive force-stop/restart",
+    "navigation and receipts usable at font scale1.4; visual review required"
+  ],
+  "screenshots": [
+    "account-360dp.png",
+    "plan-360dp.png",
+    "trade-unprotected-360dp.png",
+    "trade-protected-360dp.png",
+    "receipt-360dp.png",
+    "account-large-font.png",
+    "receipt-large-font.png"
+  ],
+  "not_verified": [
+    "physical PRF/biometric/passkey recovery",
+    "owner funding/signing",
+    "authenticated API",
+    "real entry/stop/close/recovery",
+    "customer demand"
+  ],
+  "visualReview": {
+    "reviewedAt": "2026-10-11T16:28:50.138393+00:00",
+    "screens": [
+      "account-360dp",
+      "plan-360dp",
+      "trade-protected-360dp",
+      "receipt-360dp",
+      "account-large-font",
+      "receipt-large-font"
+    ],
+    "observations": "Text wraps and fixed navigation remains accessible at 360dp/font1.4; long content scrolls. This is visual inspection, not a comparative UX or customer study."
+  },
+  "runtimeInspection": {
+    "scope": "final process after restart",
+    "AndroidRuntimeOrReactNativeJsErrorLines": 0
+  }
+}

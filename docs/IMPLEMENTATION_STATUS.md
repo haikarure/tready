@@ -19,15 +19,17 @@
 
 | Pemeriksaan | Bukti/status |
 |---|---|
-| TypeScript strict | Lulus pada source yang diperiksa; ulang pada final code sebelum release |
-| Core tests | Test report di [core-tests.json](../artifacts/core-tests.json); synthetic/offline, bukan authenticated integration tests |
+| TypeScript strict | Lulus pada final source aplikasi commit63327de |
+| Core tests | 31unique tests lulus di [core-tests.json](../artifacts/core-tests.json); synthetic/offline, bukan authenticated integration tests |
 | Android JS/Hermes export | Berhasil; bundle tidak menggantikan APK/device test |
-| Native build | Preliminary standalone APK berhasil compile dengan JDK17/SDK36; final preview certificate/build sedang diselesaikan |
-| Emulator | APK preliminary berhasil install dan start tanpa Metro; physical passkey belum diuji |
+| Native build | Final standalone preview berhasil compile JDK17/SDK36, exact lockfile, private preview certificate; checksum/ABI/cert association cocok dengan [release.json](../artifacts/release.json) |
+| Emulator | Tujuh checks lulus di [emulator-smoke.json](../artifacts/emulator-smoke.json): start dengan passkey disabled, entry→protection-pending, stop registered, close→flat, label synthetic, receipt tersimpan sesudah force-stop/restart, navigasi font1.4; physical passkey belum diuji |
 | Public integration | Context/book/RPC read-only berhasil, setelah satu timeout RPC pada percobaan awal |
 | Users/sponsor/submission | Nol sesi pengguna; kartu bounty belum dikonfirmasi; belum submission/outreach |
 
-Evidence final APK/emulator akan diperbarui setelah pemeriksaan selesai. [Screenshot awal](../artifacts/screenshots/account-first.png) merupakan real emulator UI, bukan image mockup.
+[APK preview](../artifacts/tready-0.1.0-preview.apk) berukuran54,200,887bytes dan mendukung arm64-v8a/x86_64, minimum install API24. App source commit `63327de0f6f5dfa9cdd7a4846fafd2b35d6dc272`, SHA256 `48cc1638d8f118ae1f6088177da74282944d32cb94ac5876735a7a3f6513b36b`. Laporan emulator mengikat hasil pada checksum APK tersebut. Update APK memakai certificate yang sama berhasil; ini tidak membuktikan passkey/account recovery.
+
+[Account](../artifacts/screenshots/account-360dp.png), [Plan](../artifacts/screenshots/plan-360dp.png), [stop latihan terdaftar](../artifacts/screenshots/trade-protected-360dp.png), dan [Receipt](../artifacts/screenshots/receipt-360dp.png) merupakan real emulator UI. Account/Receipt font1.4 diperiksa secara visual: teks membungkus, navigasi dapat dipakai, dan konten panjang dapat digulir pada viewport360dp. Pemeriksaan ini tidak mengukur keunggulan UX terhadap pesaing atau pemakaian oleh pengguna nyata. CI remote/cloud build belum dijalankan.
 
 ## Gate yang belum selesai
 

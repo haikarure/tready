@@ -1,6 +1,6 @@
 # Tready — spesifikasi teknis
 
-Versi 0.1 · 11 Oktober 2026 · Mendukung [PRD](PRD.md). Semua module/schema/API internal berikut adalah rancangan, belum implementasi. Data observasi disimpan terpisah dari target perilaku aplikasi.
+Versi 0.1 · 11 Oktober 2026 · Mendukung [PRD](PRD.md). Dokumen ini menyimpan baseline rancangan; code dan pengujian aktual dicatat di [status implementasi](IMPLEMENTATION_STATUS.md). Data observasi dipisahkan dari target perilaku aplikasi.
 
 ## 1. Struktur repository yang direncanakan
 

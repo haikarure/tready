@@ -1,6 +1,6 @@
 # Tready — Product Requirements Document
 
-Versi 0.1 · 11 Oktober 2026 · Bahasa kerja: Indonesia · Status: spesifikasi untuk implementasi, belum aplikasi yang berjalan.
+Versi 0.1 · 11 Oktober 2026 · Bahasa kerja: Indonesia · Baseline target produk. Kemajuan code/build dan bukti aktual tersedia di [status implementasi](IMPLEMENTATION_STATUS.md); requirement di bawah tidak otomatis dianggap selesai.
 
 **Tready adalah aplikasi Android untuk merencanakan trade Perpl dalam budget AUSD, memeriksa hasil eksekusi, dan membantu pengguna memulihkan status trade yang bermasalah.** Rilis hackathon memakai Monad Testnet. Fokusnya satu akun Mera, BTC, satu posisi aktif, dan empat layar.
 

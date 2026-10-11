@@ -805,6 +805,45 @@
       "limitations": [
         "No faucet claim, availability guarantee or automation performed."
       ]
+    },
+    {
+      "id": "pnpm11_release",
+      "url": "https://github.com/pnpm/pnpm.io/blob/main/blog/releases/11.0.md",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "pnpm11_allowBuilds_and_workspace_configuration"
+      ],
+      "limitations": [
+        "Documentation does not prove Tready physical passkey or production readiness."
+      ]
+    },
+    {
+      "id": "android_credentials",
+      "url": "https://developer.android.com/identity/credential-manager",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "Android_credential_provider_and_passkey_platform"
+      ],
+      "limitations": [
+        "Documentation does not prove Tready physical passkey or production readiness."
+      ]
+    },
+    {
+      "id": "react_native_signing",
+      "url": "https://reactnative.dev/docs/signed-apk-android",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "private_release_signing_and_certificate_continuity"
+      ],
+      "limitations": [
+        "Documentation does not prove Tready physical passkey or production readiness."
+      ]
     }
   ],
   "not_done": [
@@ -816,15 +855,17 @@
     "wallet_signing",
     "trading",
     "deployment",
-    "trading_application_implementation",
-    "mobile_device_test",
+    "physical_mobile_device_test",
     "live_reconnect_or_trigger_test",
-    "dependency_install_and_compatibility_test",
-    "native_APK_compile",
     "API_key_enrollment",
     "passkey_creation_or_restoration",
     "faucet_claim",
-    "external_host_or_domain_purchase"
+    "external_host_or_domain_purchase",
+    "full_P0_live_workflow_completion",
+    "physical_PRF_and_biometric_device_tests",
+    "authenticated_financial_and_trigger_semantics",
+    "owned_rpId_host_deployment",
+    "vendor_confirmed_EIP712_enrollment_schema"
   ],
   "unresolved": [
     "Agora_PWA_or_APK_acceptance",
@@ -840,14 +881,14 @@
     "end_to_end_trade_and_recovery",
     "owned_rpId_and_certificate_association",
     "Perpl_whitelisted_Origin_for_native_enrollment",
-    "published_Mera_vs_repository_native_peer_compatibility",
+    "physical_Mera_PRF_and_restore_compatibility",
     "signed_request_target_prefix",
     "API_key_expiry_trigger_survival_and_active_key_slots",
     "recycle_fee_charge_refund_semantics",
     "partial_IOC_linked_stop_behavior",
     "authenticated_history_pagination_and_uint64_codec",
     "actual_isolated_collateral_and_liquidation_semantics",
-    "Android_local_or_cloud_build_readiness"
+    "Android_cloud_build_and_physical_device_readiness"
   ],
   "current_recommendation_document": "docs/PRD.md",
   "completed": [
@@ -863,7 +904,17 @@
     "Android_PRD_36_requirements",
     "technical_specification_and_25_item_implementation_backlog",
     "42_case_test_plan_not_executed",
-    "document_requirement_coverage_and_local_link_validation"
+    "document_requirement_coverage_and_local_link_validation",
+    "Android_application_and_core_implementation",
+    "exact_lockfile_dependency_install",
+    "strict_TypeScript_check",
+    "31_offline_synthetic_core_tests",
+    "native_Android_prebuild_and_compile",
+    "standalone_APK_initial_emulator_install_start",
+    "private_preview_signing_and_assetlinks_generation",
+    "final_preview_APK_signed_compile_and_checksum_ABI_association_verification",
+    "seven_standalone_emulator_UI_and_SQLite_restart_checks",
+    "360dp_font1_4_Account_Receipt_visual_review"
   ],
   "offline_experiment": {
     "script": "research/risk_budget_audit.py",
@@ -954,5 +1005,18 @@
   "document_review": {
     "artifact": "research/prd/document-validation.json",
     "classification": "document_and_research_consistency_not_application_test"
+  },
+  "implementation_status_document": "docs/IMPLEMENTATION_STATUS.md",
+  "implementation_evidence": {
+    "core_tests": "artifacts/core-tests.json",
+    "public_probe": "artifacts/integration-probe.json",
+    "preview_metadata": "artifacts/release.json",
+    "status": "docs/IMPLEMENTATION_STATUS.md",
+    "limitations": [
+      "No hardware PRF, authenticated API, owner transaction, live trade, customer validation or sponsor confirmation claimed.",
+      "Native compile and emulator UI are separate from physical-device integration."
+    ],
+    "emulator_report": "artifacts/emulator-smoke.json",
+    "app_source_commit": "63327de0f6f5dfa9cdd7a4846fafd2b35d6dc272"
   }
 }

@@ -26,7 +26,7 @@ Development device membutuhkan native app (`pnpm android`) dengan Metro; Expo Go
 
 Script membuat preview certificate unik sekali di `.tooling/keys/`, lalu memakai certificate yang sama pada rebuild. File key/password bersifat lokal, diabaikan Git dan tidak masuk `.env`, log, hosting atau source repo. Simpan backup pribadi bila APK akan diperbarui pada perangkat yang menyimpan data. Mengganti certificate dapat memerlukan uninstall serta perubahan assetlinks; uninstall menghilangkan journal lokal.
 
-Output: `artifacts/tready-0.1.0-preview.apk`, `artifacts/release.json` (checksum/cert/network), dan `apps/access/public/.well-known/assetlinks.json`. APK mengandung ABI arm64-v8a dan x86_64; belum ada klaim dukungan Android32bit. Ini preview lokal, bukan Play Store production release atau account recovery test.
+Output: `artifacts/tready-0.1.0-preview.apk`, `artifacts/release.json` (checksum/cert/network), dan `apps/access/public/.well-known/assetlinks.json`. APK mengandung ABI arm64-v8a dan x86_64, minimum install Android API24; belum ada klaim dukungan Android32bit. Minimum install berbeda dari kompatibilitas PRF/passkey provider. Ini preview lokal, bukan Play Store production release atau account recovery test.
 
 Jika mencoba lewat ADB, pilih serial perangkat sendiri agar tidak memasang ke perangkat lain:
 
