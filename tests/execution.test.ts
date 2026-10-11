@@ -1,0 +1,15 @@
+import { describe, expect, it, vi } from 'vitest';
+import { Coordinator, requestOutcome, type ExecutionContext } from '../packages/execution/coordinator';
+import { MemoryJournal } from '../packages/storage/memory';
+import { approve } from '../packages/domain/plan';
+import { order } from '../packages/perpl/inventory';
+import { makePlan, o } from './fixtures';
+
+const ctx:ExecutionContext={sessionId:'s',live:true,fresh:true,accountFlat:true,lastForwarded:7n,head:100n,configDigest:'config',wallet:'0x1111111111111111111111111111111111111111',accountId:'42'};
+describe('execution safety invariants',()=>{
+  it('persists intent before send and ignores double taps',async()=>{const db=new MemoryJournal();const send=vi.fn(()=>{expect(db.values).toHaveLength(1);expect(db.values[0]?.status).toBe('prepared');});const c=new Coordinator(db,send);const p=makePlan();const a=approve(p,'s',1000);const outcomes=await Promise.allSettled([c.entry(p,a,ctx,20n,2000),c.entry(p,a,ctx,20n,2000)]);expect(send).toHaveBeenCalledTimes(1);expect(outcomes.filter(r=>r.status==='fulfilled')).toHaveLength(1);expect(db.values[0]?.id).toBe('8');});
+  it('does not send when the durable write fails',async()=>{const db=new MemoryJournal();db.prepare=async()=>{throw new Error('disk');};const send=vi.fn();const p=makePlan();await expect(new Coordinator(db,send).entry(p,approve(p,'s',1000),ctx,20n,2000)).rejects.toThrow('disk');expect(send).not.toHaveBeenCalled();});
+  it('blocks replacement after ambiguous transport failure',async()=>{const db=new MemoryJournal();const send=vi.fn(()=>{throw new Error('connection disappeared after send');});const c=new Coordinator(db,send);const p=makePlan();const a=approve(p,'s',1000);await expect(c.entry(p,a,ctx,20n,2000)).rejects.toThrow();expect(db.values[0]?.status).toBe('unknown');await expect(c.entry(p,a,ctx,20n,2000)).rejects.toThrow('UNKNOWN');expect(send).toHaveBeenCalledTimes(1);});
+  it('rejects replay, stale snapshots, changed wallet and existing exposure',async()=>{for(const changed of [{live:false},{fresh:false},{accountFlat:false},{wallet:'0x2222222222222222222222222222222222222222'}]){const send=vi.fn();const p=makePlan();await expect(new Coordinator(new MemoryJournal(),send).entry(p,approve(p,'s',1000),{...ctx,...changed},20n,2000)).rejects.toThrow();expect(send).not.toHaveBeenCalled();}});
+  it('processes late success after first failure without freezing inventory updates',async()=>{const db=new MemoryJournal();const row=await db.prepare('42',1n,'stop',null,rq=>({mt:22,sn:rq,rq,mkt:16n,acc:42n,t:3,s:100n,fl:4,lv:0,lb:0n}));expect(requestOutcome(row,order({...o,st:7}))?.status).toBe('failed');await db.update(row.id,'failed');const failed=(await db.rows())[0]!;const success=requestOutcome(failed,order(o));expect(success).toEqual({status:'settled',nonFailureSeen:true});await db.update(row.id,'settled',undefined,true);expect(requestOutcome((await db.rows())[0]!,order({...o,st:9}))).toBeNull();});
+});

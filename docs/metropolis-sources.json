@@ -1,0 +1,958 @@
+{
+  "researched_on": "2026-10-11",
+  "timezone": "Asia/Jakarta",
+  "user_constraints": {
+    "team": "solo",
+    "project_state": "starting_from_zero",
+    "potential_users_access": "none_yet",
+    "test_device": "Android"
+  },
+  "sources": [
+    {
+      "id": "official_rules",
+      "url": "https://hackathon.monad.xyz/api/v1/policies/current",
+      "kind": "organizer_primary",
+      "access": "read_without_login",
+      "version": "v3",
+      "last_updated": "2026-09-03",
+      "supports": [
+        "mandatory_open_source",
+        "mainnet_or_testnet_allowed",
+        "three_minute_demo",
+        "official_judging_weights",
+        "deadline",
+        "track_and_overall_awards"
+      ]
+    },
+    {
+      "id": "official_landing",
+      "url": "https://monad.xyz/developers/hackathons/metropolis",
+      "kind": "organizer_primary",
+      "access": "read_via_http",
+      "supports": [
+        "public_bounty_amounts",
+        "track_examples",
+        "schedule"
+      ],
+      "conflicts": [
+        "FAQ says open source optional; official Rules v3 requires it"
+      ]
+    },
+    {
+      "id": "portal_tracks",
+      "url": "https://hackathon.monad.xyz/tracks",
+      "kind": "organizer_primary",
+      "access": "public_shell_only",
+      "supports": [
+        "one_primary_track",
+        "multiple_sponsor_bounties",
+        "track_compatibility_matters",
+        "deadline_in_UTC"
+      ],
+      "limitations": [
+        "catalog endpoint requires authentication; full current cards not read"
+      ]
+    },
+    {
+      "id": "participant_brief_notes",
+      "url": "https://github.com/ProofBook-App/proofbook/blob/main/docs/reference/hackathon.md",
+      "kind": "participant_record_of_official_material",
+      "access": "read",
+      "supports_provisionally": [
+        "Agora_Mera_AUSD_Perpl_requirements",
+        "Perpl_prize_splits",
+        "track_specific_rubric",
+        "extra_track_deliverables"
+      ],
+      "limitations": [
+        "not an organizer source; reported firsthand read dated 2026-09-29; some earlier sections marked secondhand"
+      ]
+    },
+    {
+      "id": "participant_bounty_checklist",
+      "url": "https://github.com/ProofBook-App/proofbook/blob/main/spec.md",
+      "kind": "participant_record_of_official_material",
+      "access": "read",
+      "supports_provisionally": [
+        "Mera_UX_brief",
+        "Perpl_API_automation_brief",
+        "Perpl_prize_splits"
+      ]
+    },
+    {
+      "id": "desk",
+      "url": "https://github.com/frankolien/desk/blob/main/docs/submission.md",
+      "kind": "competitor_primary_self_description",
+      "access": "read",
+      "limitations": [
+        "app not run; selective quote/tracker/copy/trading-session code read; no full audit or independent deployment verification"
+      ]
+    },
+    {
+      "id": "plumb",
+      "url": "https://github.com/s0urledd/plumb/blob/main/docs/submission.md",
+      "kind": "competitor_primary_self_description_and_brief_mapping",
+      "access": "read",
+      "supports": [
+        "analytics_competitor_scope"
+      ],
+      "supports_provisionally": [
+        "Perpl_analytics_brief_scope"
+      ],
+      "limitations": [
+        "app not run; brief mapping is not current organizer confirmation"
+      ]
+    },
+    {
+      "id": "proofbook",
+      "url": "https://github.com/ProofBook-App/proofbook",
+      "kind": "competitor_primary_self_description",
+      "access": "read",
+      "limitations": [
+        "app not run; deployment claims not independently verified"
+      ]
+    },
+    {
+      "id": "covenant",
+      "url": "https://github.com/Monarchy712/Covenant",
+      "kind": "competitor_primary_self_description",
+      "access": "read",
+      "limitations": [
+        "app not run; deployment claims not independently verified"
+      ]
+    },
+    {
+      "id": "mera",
+      "url": "https://github.com/category-labs/mera",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "supports": [
+        "browser_and_React_Native_support",
+        "passkey_account_derivation",
+        "preview_status"
+      ]
+    },
+    {
+      "id": "mera_mobile",
+      "url": "https://github.com/category-labs/mera/blob/main/demos/mobile/README.md",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "supports": [
+        "Expo_demo",
+        "native_passkey_domain_configuration",
+        "PRF_device_requirements"
+      ],
+      "limitations": [
+        "demo uses fictional trading market; not a ready Perpl app"
+      ]
+    },
+    {
+      "id": "perpl_api",
+      "url": "https://github.com/PerplFoundation/api-docs",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "supports": [
+        "REST_and_WebSocket",
+        "API_authentication_account_forwarding_distinction"
+      ]
+    },
+    {
+      "id": "perpl_websocket",
+      "url": "https://github.com/PerplFoundation/api-docs/blob/main/websocket.md",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "supports": [
+        "linked_trigger_requests_and_positions",
+        "idempotency",
+        "order_status_reconciliation"
+      ]
+    },
+    {
+      "id": "perpl_order_types",
+      "url": "https://docs.perpl.xyz/exchange/order-types",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "supports": [
+        "mark_and_fill_prices_differ",
+        "IOC_partial_fill",
+        "triggers_use_keeper_layer"
+      ]
+    },
+    {
+      "id": "perpl_mainnet_context",
+      "url": "https://app.perpl.xyz/api/v1/pub/context",
+      "kind": "vendor_live_public_API",
+      "access": "HTTP_200_unsigned_GET",
+      "observed": {
+        "chain_id": 143,
+        "BTC_market_id": 1,
+        "collateral_symbol": "AUSD",
+        "collateral_decimals": 6,
+        "minimum_account_open_AUSD": 10,
+        "exchange_instance_id": 1,
+        "exchange_address": "0x34b6552d57a35a1d042ccae1951bd1c370112a6f",
+        "BTC_perpetual_id": 1,
+        "BTC_display_name": "BTC",
+        "BTC_price_decimals": 1,
+        "BTC_size_decimals": 5,
+        "BTC_base_taker_fee_micros": 345,
+        "BTC_recycle_fee_raw_AUSD": "0",
+        "minimum_deposit_raw_AUSD": "10000000",
+        "minimum_withdraw_raw_AUSD": "10000",
+        "collateral_address": "0x00000000efe302beaa2b3e6e1b18d08d69a9012a"
+      },
+      "limitations": [
+        "read-only market/config check; no authenticated or signed trade attempted"
+      ],
+      "read_on": "2026-10-11",
+      "snapshot_artifact": "research/prd/mainnet-configuration.json"
+    },
+    {
+      "id": "perpl_testnet_context",
+      "url": "https://testnet.perpl.xyz/api/v1/pub/context",
+      "kind": "vendor_live_public_API",
+      "access": "HTTP_200_unsigned_GET",
+      "observed": {
+        "chain_id": 10143,
+        "BTC_market_id": 16,
+        "collateral_symbol": "AUSD",
+        "collateral_decimals": 6,
+        "minimum_account_open_AUSD": 100,
+        "collateral_address": "0xa9012a055bd4e0edff8ce09f960291c09d5322dc",
+        "exchange_instance_id": 12,
+        "exchange_address": "0x1964c32f0be608e7d29302aff5e61268e72080cc",
+        "BTC_perpetual_id": 16,
+        "BTC_display_name": "BTC Perp",
+        "BTC_price_decimals": 1,
+        "BTC_size_decimals": 5,
+        "BTC_base_taker_fee_micros": 345,
+        "BTC_recycle_fee_raw_AUSD": "100000",
+        "minimum_deposit_raw_AUSD": "10000000",
+        "minimum_withdraw_raw_AUSD": "10000"
+      },
+      "limitations": [
+        "read-only market/config check; no authenticated or signed trade attempted",
+        "configuration may change"
+      ],
+      "read_on": "2026-10-11",
+      "snapshot_artifact": "research/prd/testnet-configuration.json"
+    },
+    {
+      "id": "kuru_v2_access",
+      "url": "https://kuru-testnet-docs.mintlify.site/introduction/getting-started.md",
+      "kind": "vendor_primary_documentation",
+      "access": "read_via_http",
+      "supports": [
+        "Spot_V2_testnet_available_for_integration",
+        "admin_mintable_test_assets",
+        "no_public_token_faucet",
+        "integration_contact_needed_for_asset_access"
+      ],
+      "limitations": [
+        "does not establish access restrictions for every other Kuru deployment"
+      ]
+    },
+    {
+      "id": "toobit_fixed_risk",
+      "url": "https://www.toobit.com/en-US/announcement/get-the-right-position-size-for-every-trade-with-fixed-risk",
+      "kind": "vendor_primary_product_announcement",
+      "access": "read",
+      "supports": [
+        "entry_stop_budget_sizing_preexists",
+        "stop_applied_at_placement",
+        "loss_can_exceed_input"
+      ],
+      "limitations": [
+        "product not run; statement dated 2026-06-11"
+      ]
+    },
+    {
+      "id": "costante_journal_guide",
+      "url": "https://www.costante.app/blog/crypto-trading-journal",
+      "kind": "vendor_primary_concept_guide",
+      "access": "read",
+      "supports": [
+        "plan_vs_actual_review_preexists",
+        "fees_funding_margin_journal_structure"
+      ],
+      "limitations": [
+        "guide content does not verify a working feature; no app run"
+      ]
+    },
+    {
+      "id": "night_desk_case_study",
+      "url": "https://www.definitive.fi/blog/night-desk",
+      "kind": "vendor_primary_customer_case_study",
+      "access": "read",
+      "supports": [
+        "executable_plan_URL_preexists",
+        "per_wallet_sizing_and_brackets",
+        "plan_adherence_and_receipts"
+      ],
+      "limitations": [
+        "vendor-reported product and onchain operation; app/code not independently verified"
+      ]
+    },
+    {
+      "id": "tradieon",
+      "url": "https://tradieon.app/ai-trading",
+      "kind": "vendor_primary_product_description",
+      "access": "read",
+      "supports": [
+        "AI_plan_risk_sizing_approval_preexists"
+      ],
+      "limitations": [
+        "app not run; marketing claims not verified"
+      ]
+    },
+    {
+      "id": "perplbot",
+      "url": "https://github.com/0x70626a/PerplBot",
+      "kind": "public_integrator_repo_self_description",
+      "access": "read",
+      "supports": [
+        "Perpl_CLI_SDK_chat_simulation_forensics_preexists"
+      ],
+      "limitations": [
+        "not read as an official Perpl SDK; app not run; roadmap distinct from implemented claims"
+      ]
+    },
+    {
+      "id": "ctrader_protections",
+      "url": "https://help.ctrader.com/ctrader-mobile/trading/protections/",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "supports": [
+        "mobile_trade_protection_preexists",
+        "server_side_protections"
+      ],
+      "limitations": [
+        "app not run; not a Perpl integration"
+      ]
+    },
+    {
+      "id": "propcockpit_positions",
+      "url": "https://propcockpit.com/docs/terminal/positions",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "supports": [
+        "unprotected_position_management_preexists"
+      ],
+      "limitations": [
+        "app not run; not a Perpl integration"
+      ]
+    },
+    {
+      "id": "desk_order_quote_code",
+      "url": "https://github.com/frankolien/desk/blob/main/DeskKit/Sources/DeskMoney/OrderQuote.swift",
+      "kind": "competitor_primary_code_selective_read",
+      "access": "read",
+      "supports": [
+        "margin_and_fee_affordability",
+        "quote_expiry",
+        "conservative_liquidation_headroom"
+      ],
+      "limitations": [
+        "selective source read, not full audit or app execution"
+      ]
+    },
+    {
+      "id": "desk_order_tracker_code",
+      "url": "https://github.com/frankolien/desk/blob/main/DeskKit/Sources/DeskPerpl/OrderTracker.swift",
+      "kind": "competitor_primary_code_selective_read",
+      "access": "read",
+      "supports": [
+        "forwarded_not_filled",
+        "partial_fill_parsing",
+        "request_mapping_and_dedup"
+      ],
+      "limitations": [
+        "selective source read, not full audit or live behavior verification"
+      ]
+    },
+    {
+      "id": "perpl_fees",
+      "url": "https://docs.perpl.xyz/exchange/fees",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "supports": [
+        "base_taker_3_45_bps",
+        "tiered_fee_schedule"
+      ],
+      "limitations": [
+        "runtime market/account fees may change"
+      ]
+    },
+    {
+      "id": "perpl_margin",
+      "url": "https://docs.perpl.xyz/exchange/margin",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "supports": [
+        "initial_margin_denominator_analogous_to_leverage",
+        "isolated_margin",
+        "reduce_only_initial_margin_exemption"
+      ],
+      "limitations": [
+        "runtime configuration may change; not proof close always succeeds"
+      ]
+    },
+    {
+      "id": "perpl_types",
+      "url": "https://github.com/PerplFoundation/api-docs/blob/main/types.md",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "supports": [
+        "price_size_fee_units",
+        "trigger_conditions",
+        "account_stats_realized_PnL_net_of_fees",
+        "position_fee_snapshot_vs_event_semantics"
+      ],
+      "limitations": [
+        "schema must be checked against actual authenticated payloads"
+      ]
+    },
+    {
+      "id": "perpl_rest_snapshots",
+      "url": "https://github.com/PerplFoundation/api-docs/blob/main/rest-endpoints.md",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "supports": [
+        "book_top_100_level_limit",
+        "separate_wallet_orders_positions_snapshot_anchors"
+      ],
+      "limitations": [
+        "individual snapshot anchors do not establish atomicity across multiple requests"
+      ]
+    },
+    {
+      "id": "perpl_btc_public_book",
+      "url": "https://app.perpl.xyz/api/v1/market-data/1/book?levels=50",
+      "kind": "vendor_live_public_API",
+      "access": "HTTP_200_unsigned_GET",
+      "supports": [
+        "saved_L2_book_fixture"
+      ],
+      "limitations": [
+        "unsigned public GET only; saved snapshot cannot be used as a current quote; no observed historical exits"
+      ],
+      "observed": {
+        "snapshot_UTC": "2026-10-11T11:41:23Z",
+        "block": 112459278,
+        "market_id": 1,
+        "bid_levels": 50,
+        "ask_levels": 50
+      }
+    },
+    {
+      "id": "perpl_issue_15",
+      "url": "https://github.com/PerplFoundation/api-docs/issues/15",
+      "kind": "integrator_primary_issue_report",
+      "access": "read",
+      "supports": [
+        "request_for_atomic_account_valuation_contract"
+      ],
+      "limitations": [
+        "not proof an endpoint is missing or venue is faulty; no comments at time of read"
+      ]
+    },
+    {
+      "id": "perpl_issue_17",
+      "url": "https://github.com/PerplFoundation/api-docs/issues/17",
+      "kind": "integrator_primary_issue_report",
+      "access": "read",
+      "supports": [
+        "testnet_collateral_docs_mismatch"
+      ],
+      "limitations": [
+        "reporter did not deposit; own unsigned context read agrees with new AUSD address"
+      ]
+    },
+    {
+      "id": "perpl_issue_7",
+      "url": "https://github.com/PerplFoundation/api-docs/issues/7",
+      "kind": "integrator_primary_issue_report",
+      "access": "read",
+      "supports": [
+        "leverage_unit_interpretation_confusion"
+      ],
+      "limitations": [
+        "inverted formula in report does not establish a venue bug"
+      ]
+    },
+    {
+      "id": "perpl_integrations",
+      "url": "https://github.com/PerplFoundation/api-docs/blob/main/integrations.md",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "origin_whitelist_for_programmatic_enrollment",
+        "Ed25519_wallet_authorized_enrollment",
+        "16_active_key_limit",
+        "web_UI_key_listing_and_revocation",
+        "trade_scope_cannot_withdraw"
+      ],
+      "limitations": [
+        "No enrollment request signed or submitted; native Origin behavior and key-expiry/trigger lifecycle untested."
+      ]
+    },
+    {
+      "id": "perpl_authentication",
+      "url": "https://github.com/PerplFoundation/api-docs/blob/main/authentication.md",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "canonical_request_signing",
+        "timestamp_window",
+        "WebSocket_signed_sign_in"
+      ],
+      "limitations": [
+        "Actual signed request-target prefix must be verified with authenticated fixtures."
+      ]
+    },
+    {
+      "id": "perpl_pinned_exchange_abi",
+      "url": "https://github.com/PerplFoundation/dex-sdk/blob/78ce8a06e39e2f9288792eba41aca5f3c08c1195/crates/sdk/abi/dex/Exchange.json",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "owner_create_forward_depositCollateral_withdrawCollateral_function_names",
+        "getAccountByAddr_single_read_fields"
+      ],
+      "limitations": [
+        "ABI read at pinned commit; no owner transaction or account balance semantics verified."
+      ]
+    },
+    {
+      "id": "mera_security_model",
+      "url": "https://mera.category.xyz/concepts/security-model/",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "software_key_from_PRF",
+        "runtime_and_dependency_trust",
+        "session_policy_is_application_responsibility"
+      ],
+      "limitations": [
+        "Documentation, not an audit of Tready or a device test."
+      ]
+    },
+    {
+      "id": "mera_account_recipe",
+      "url": "https://mera.category.xyz/recipes/create-passkey-accounts/",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "PRF_to_BIP39_and_BIP32_EVM_account_mapping",
+        "existing_discoverable_passkey_sign_in"
+      ],
+      "limitations": [
+        "Recipe illustrates browser behavior; Android clear-data restoration must be tested."
+      ]
+    },
+    {
+      "id": "mera_viem_recipe",
+      "url": "https://mera.category.xyz/recipes/send-a-transaction-with-viem/",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "Mera_signing_session_to_viem_adapter"
+      ],
+      "limitations": [
+        "No native build, transaction or signing-session test performed."
+      ]
+    },
+    {
+      "id": "mera_library_package",
+      "url": "https://github.com/category-labs/mera/blob/main/library/package.json",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "repository_library_dependencies_and_peer_versions"
+      ],
+      "limitations": [
+        "Mutable main branch; published Mera peer passkey 3.6.1 differs from repository 3.6.2."
+      ]
+    },
+    {
+      "id": "mera_mobile_package",
+      "url": "https://github.com/category-labs/mera/blob/main/demos/mobile/package.json",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "observed_Expo_React_Native_React_TypeScript_demo_baseline"
+      ],
+      "limitations": [
+        "Reference demo uses fictional trading; package observations are not Tready compatibility tests."
+      ]
+    },
+    {
+      "id": "mera_mobile_polyfills",
+      "url": "https://github.com/category-labs/mera/blob/main/demos/mobile/src/polyfills.ts",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "native_secure_random_bootstrap_with_Expo_Crypto"
+      ],
+      "limitations": [
+        "Polyfill reference does not establish WebCrypto subtle support or configured Ed25519 SHA512."
+      ]
+    },
+    {
+      "id": "monad_testnet_network",
+      "url": "https://docs.monad.xyz/developer-essentials/testnet",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "chain_id_10143",
+        "official_testnet_RPC_and_explorer"
+      ],
+      "limitations": [
+        "Public endpoint configuration can change."
+      ]
+    },
+    {
+      "id": "agora_deployments",
+      "url": "https://docs.agora.finance/developer/contract-deployments",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "Monad_testnet_AUSD_and_faucet_deployments"
+      ],
+      "limitations": [
+        "Read-only faucet bytecode observed; actual claim untested."
+      ]
+    },
+    {
+      "id": "agora_testnet_tokens_guide",
+      "url": "https://docs.agora.finance/instant-settlement/guides/getting-testnet-tokens",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "example_requestFunds_address_method"
+      ],
+      "limitations": [
+        "Example network is Sepolia; does not prove Monad claim amount or behavior."
+      ]
+    },
+    {
+      "id": "expo_development_builds",
+      "url": "https://docs.expo.dev/develop/development-builds/introduction/",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "custom_native_module_development_build_workflow"
+      ],
+      "limitations": [
+        "No development build made."
+      ]
+    },
+    {
+      "id": "expo_apk_distribution",
+      "url": "https://docs.expo.dev/build-reference/apk/",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "APK_build_profile_for_direct_Android_install"
+      ],
+      "limitations": [
+        "No APK, EAS account, signing credentials or judge installation tested."
+      ]
+    },
+    {
+      "id": "expo_securestore",
+      "url": "https://docs.expo.dev/versions/latest/sdk/securestore/",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "device_authenticated_secret_storage",
+        "biometric_change_and_uninstall_persistence_limitations"
+      ],
+      "limitations": [
+        "Device behavior and chosen SDK must be verified; storage is not runtime compromise protection."
+      ]
+    },
+    {
+      "id": "expo_crypto",
+      "url": "https://docs.expo.dev/versions/latest/sdk/crypto/",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "native_secure_random_primitive"
+      ],
+      "limitations": [
+        "Native adapter not implemented or tested."
+      ]
+    },
+    {
+      "id": "expo_sqlite",
+      "url": "https://docs.expo.dev/versions/latest/sdk/sqlite/",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "local_SQLite_transactional_storage_candidate"
+      ],
+      "limitations": [
+        "Journal protocol/schema is a Tready proposal, not implemented."
+      ]
+    },
+    {
+      "id": "react_native_environment",
+      "url": "https://reactnative.dev/docs/set-up-your-environment",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "JDK17_environment_recommendation",
+        "Android_SDK_build_requirements"
+      ],
+      "limitations": [
+        "Local Java27 availability does not prove baseline compatibility."
+      ]
+    },
+    {
+      "id": "react_native_appstate",
+      "url": "https://reactnative.dev/docs/appstate",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "native_app_lifecycle_events"
+      ],
+      "limitations": [
+        "Background write/lock/resume policy is proposed and requires physical-device verification."
+      ]
+    },
+    {
+      "id": "noble_ed25519",
+      "url": "https://github.com/paulmillr/noble-ed25519",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "v3_key_generation_API",
+        "React_Native_random_and_SHA512_integration_requirements"
+      ],
+      "limitations": [
+        "No actual API key generated or enrolled."
+      ]
+    },
+    {
+      "id": "cloudflare_static_assets",
+      "url": "https://developers.cloudflare.com/workers/static-assets/",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "small_HTTPS_static_asset_host_candidate"
+      ],
+      "limitations": [
+        "No host, rpId, certificate association or deployment created."
+      ]
+    },
+    {
+      "id": "cloudflare_workers_pricing",
+      "url": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "current_hosting_pricing_reference"
+      ],
+      "limitations": [
+        "No service purchase, account quota check or fixed project cost claim."
+      ]
+    },
+    {
+      "id": "expo_pricing",
+      "url": "https://expo.dev/pricing",
+      "kind": "vendor_primary_documentation",
+      "access": "read",
+      "read_on": "2026-10-11",
+      "supports": [
+        "free_build_low_priority_queue",
+        "paid_build_pricing_reference"
+      ],
+      "limitations": [
+        "Pricing can change; account allowance and queue time not verified."
+      ]
+    },
+    {
+      "id": "monad_testnet_faucet",
+      "url": "https://faucet.monad.xyz",
+      "kind": "vendor_primary_application",
+      "access": "official_link_reference_only_not_exercised",
+      "supports": [
+        "test_MON_faucet_entry_point"
+      ],
+      "limitations": [
+        "No faucet claim, availability guarantee or automation performed."
+      ]
+    }
+  ],
+  "not_done": [
+    "full_catalog_read_after_login",
+    "competitor_app_execution",
+    "full_competitor_code_audit",
+    "interviews",
+    "mentor_or_sponsor_messages",
+    "wallet_signing",
+    "trading",
+    "deployment",
+    "trading_application_implementation",
+    "mobile_device_test",
+    "live_reconnect_or_trigger_test",
+    "dependency_install_and_compatibility_test",
+    "native_APK_compile",
+    "API_key_enrollment",
+    "passkey_creation_or_restoration",
+    "faucet_claim",
+    "external_host_or_domain_purchase"
+  ],
+  "unresolved": [
+    "Agora_PWA_or_APK_acceptance",
+    "current_Agora_and_Mera_award_distribution",
+    "current_track_card_rubric",
+    "overall_and_track_award_cumulation",
+    "specific_Perpl_API_brief_fit",
+    "current_bounty_card_confirmation",
+    "qualified_customer_demand",
+    "measured_UX_advantage",
+    "authenticated_account_snapshot_semantics",
+    "native_passkey_device_compatibility",
+    "end_to_end_trade_and_recovery",
+    "owned_rpId_and_certificate_association",
+    "Perpl_whitelisted_Origin_for_native_enrollment",
+    "published_Mera_vs_repository_native_peer_compatibility",
+    "signed_request_target_prefix",
+    "API_key_expiry_trigger_survival_and_active_key_slots",
+    "recycle_fee_charge_refund_semantics",
+    "partial_IOC_linked_stop_behavior",
+    "authenticated_history_pagination_and_uint64_codec",
+    "actual_isolated_collateral_and_liquidation_semantics",
+    "Android_local_or_cloud_build_readiness"
+  ],
+  "current_recommendation_document": "docs/PRD.md",
+  "completed": [
+    "adversarial_product_research",
+    "selective_competitor_code_read",
+    "unsigned_public_configuration_and_book_GETs",
+    "offline_Decimal_risk_model_360_grid_cases_27_sampled_bound_cases",
+    "revised_product_specification",
+    "proposed_validation_protocol_and_recruitment_draft_not_sent",
+    "read_only_Monad_testnet_RPC_chain_code_and_AUSD_decimals_probe",
+    "unsigned_HTTP_origin_and_preflight_observations",
+    "native_candidate_stack_and_dependency_research",
+    "Android_PRD_36_requirements",
+    "technical_specification_and_25_item_implementation_backlog",
+    "42_case_test_plan_not_executed",
+    "document_requirement_coverage_and_local_link_validation"
+  ],
+  "offline_experiment": {
+    "script": "research/risk_budget_audit.py",
+    "results": "research/results.json",
+    "fixture": "research/fixtures/perpl-btc-public.json",
+    "classification": "offline_research_model",
+    "verified": [
+      "model_sizing_invariants_under_explicit_assumptions",
+      "negative_controls_show_budget_breach_outside_assumptions",
+      "unobserved_depth_stays_unknown"
+    ],
+    "not_verified": [
+      "real_orders",
+      "settlement_rounding",
+      "authenticated_account_coherence",
+      "hard_maximum_loss",
+      "profitability",
+      "customer_demand"
+    ]
+  },
+  "companion_specifications": [
+    "docs/TECHNICAL_SPEC.md",
+    "docs/IMPLEMENTATION_PLAN.md",
+    "docs/TEST_PLAN.md"
+  ],
+  "dependency_observations": {
+    "artifact": "research/prd/dependency-observations.json",
+    "classification": "registry_and_demo_observations_not_installed_or_compatibility_tested",
+    "source_urls": [
+      "https://registry.npmjs.org/@category-labs%2Fmera/latest",
+      "https://registry.npmjs.org/@noble%2Fed25519/latest",
+      "https://registry.npmjs.org/@noble%2Fhashes/latest",
+      "https://registry.npmjs.org/@playwright%2Ftest/latest",
+      "https://registry.npmjs.org/@react-navigation%2Fnative-stack/latest",
+      "https://registry.npmjs.org/@react-navigation%2Fnative/latest",
+      "https://registry.npmjs.org/@scure%2Fbip32/latest",
+      "https://registry.npmjs.org/@scure%2Fbip39/latest",
+      "https://registry.npmjs.org/@tailwindcss%2Fvite/latest",
+      "https://registry.npmjs.org/@tanstack%2Freact-query/latest",
+      "https://registry.npmjs.org/@tanstack%2Freact-router/latest",
+      "https://registry.npmjs.org/@testing-library%2Freact-native/latest",
+      "https://registry.npmjs.org/@vitejs%2Fplugin-react/latest",
+      "https://registry.npmjs.org/expo-crypto/latest",
+      "https://registry.npmjs.org/expo-router/latest",
+      "https://registry.npmjs.org/expo-secure-store/latest",
+      "https://registry.npmjs.org/expo-sqlite/latest",
+      "https://registry.npmjs.org/expo/57.0.26",
+      "https://registry.npmjs.org/expo/latest",
+      "https://registry.npmjs.org/fake-indexeddb/latest",
+      "https://registry.npmjs.org/hono/latest",
+      "https://registry.npmjs.org/idb/latest",
+      "https://registry.npmjs.org/jest-expo/latest",
+      "https://registry.npmjs.org/jest/latest",
+      "https://registry.npmjs.org/lossless-json/latest",
+      "https://registry.npmjs.org/pnpm/latest",
+      "https://registry.npmjs.org/react-dom/latest",
+      "https://registry.npmjs.org/react-native-get-random-values/latest",
+      "https://registry.npmjs.org/react-native-passkey/3.6.1",
+      "https://registry.npmjs.org/react-native-passkey/3.6.2",
+      "https://registry.npmjs.org/react-native/0.86.3",
+      "https://registry.npmjs.org/react-native/latest",
+      "https://registry.npmjs.org/react/19.2.8",
+      "https://registry.npmjs.org/react/latest",
+      "https://registry.npmjs.org/tailwindcss/latest",
+      "https://registry.npmjs.org/typescript/6.0.3",
+      "https://registry.npmjs.org/typescript/latest",
+      "https://registry.npmjs.org/viem/latest",
+      "https://registry.npmjs.org/vite/latest",
+      "https://registry.npmjs.org/vitest/latest",
+      "https://registry.npmjs.org/wrangler/latest",
+      "https://registry.npmjs.org/zod/latest"
+    ],
+    "limitations": [
+      "Metadata read only; dependencies not installed, pinned or compiled.",
+      "Includes web-stack candidates investigated before Android preference; PRD specifies the selected native baseline."
+    ]
+  },
+  "readonly_integration_probes": {
+    "artifact": "research/prd/integration-probes.json",
+    "classification": "read_only_RPC_and_unsigned_HTTP",
+    "not_verified": [
+      "enrollment_permission",
+      "faucet_claim",
+      "owner_signing",
+      "real_trade_or_recovery"
+    ]
+  },
+  "document_review": {
+    "artifact": "research/prd/document-validation.json",
+    "classification": "document_and_research_consistency_not_application_test"
+  }
+}

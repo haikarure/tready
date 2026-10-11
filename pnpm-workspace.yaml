@@ -1,0 +1,9 @@
+packages:
+  - apps/*
+allowBuilds:
+  esbuild: true
+nodeLinker: hoisted
+saveExact: true
+autoInstallPeers: false
+strictPeerDependencies: true
+verifyDepsBeforeRun: false

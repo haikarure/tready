@@ -1,0 +1,99 @@
+{
+  "status": "offline_research_model_only",
+  "fixture_sha256": "30d5563edd2795f56a3ece203e570ee906e96d1308d0561f1d2ce83240013870",
+  "source": {
+    "book_source_url": "https://app.perpl.xyz/api/v1/market-data/1/book?levels=50",
+    "context_source_url": "https://app.perpl.xyz/api/v1/pub/context",
+    "captured_on": "2026-10-11",
+    "book_snapshot_utc": "2026-10-11T11:41:23Z",
+    "access": "unsigned public GET, no credentials or trades",
+    "book_block": 112459278,
+    "network": "Monad mainnet",
+    "chain_id": 143,
+    "separate_snapshots": true,
+    "precision_source": "BTC config from the separately captured public context",
+    "warning": "Saved research fixture; never use this stale quote to submit an order."
+  },
+  "assumptions": {
+    "side": "long",
+    "budget_AUSD": "5",
+    "quoted_entry_AUSD": "82992.9",
+    "synthetic_stop_AUSD": "82909.9",
+    "assumed_worst_entry_AUSD": "83075.9",
+    "assumed_stress_exit_AUSD": "82826.9",
+    "outside_exit_bound_AUSD": "82744.0",
+    "fee_rate_each_leg": "0.000345",
+    "lot_step_BTC": "0.00001",
+    "fee_tier": "base, fixed for the whole simulated trade",
+    "funding_reserve_AUSD_for_BTC_example": "0",
+    "included": [
+      "adverse price loss",
+      "two modeled taker fees rounded up to AUSD micros"
+    ],
+    "excluded": [
+      "funding beyond an assumed reserve",
+      "gas in MON",
+      "liquidation or ADL",
+      "builder fee",
+      "keeper/venue outages",
+      "actual settlement rounding verification"
+    ],
+    "important": "Future exit prices are synthetic assumptions; today's order book does not prove future stop liquidity. Context and book are separate snapshots. No atomic account valuation is asserted."
+  },
+  "synthetic_100_to_99_9_loss_AUSD": "8.448275",
+  "BTC_comparison": [
+    {
+      "method": "stop_distance_only",
+      "quantity_BTC": "0.06024",
+      "modeled_loss_at_stop_AUSD": "8.447845",
+      "modeled_loss_with_10bps_exit_gap_AUSD": "13.446040"
+    },
+    {
+      "method": "fees_at_quoted_entry",
+      "quantity_BTC": "0.03565",
+      "modeled_loss_at_stop_AUSD": "4.999431",
+      "modeled_loss_with_10bps_exit_gap_AUSD": "7.957360"
+    },
+    {
+      "method": "fees_and_assumed_entry_exit_bounds",
+      "quantity_BTC": "0.01632",
+      "modeled_loss_at_bounds_AUSD": "4.997780",
+      "modeled_loss_OUTSIDE_exit_bound_AUSD": "6.350241"
+    }
+  ],
+  "saved_book_projection_for_fee_aware_quantity": {
+    "requested_BTC": "0.03565",
+    "observed_matched_BTC": "0.03565",
+    "observed_notional_AUSD": "2958.696885",
+    "entire_quantity_observed": true,
+    "vwap_if_entire_quantity_observed": "82992.9",
+    "unobserved_tail_BTC": "0.00000"
+  },
+  "unknown_tail_case": {
+    "requested_BTC": "0.87197",
+    "observed_matched_BTC": "0.87196",
+    "observed_notional_AUSD": "72556.939973",
+    "entire_quantity_observed": false,
+    "vwap_if_entire_quantity_observed": null,
+    "unobserved_tail_BTC": "0.00001"
+  },
+  "verification": {
+    "sizing_grid_cases": 360,
+    "sampled_in_bound_cases": 27,
+    "negative_controls": [
+      "naive fee omission",
+      "gap beyond quote-only sizing",
+      "gap outside declared envelope",
+      "insufficient observed depth"
+    ]
+  },
+  "not_proved": [
+    "profitable strategy",
+    "hard maximum loss",
+    "live order lifecycle",
+    "venue reliability",
+    "customer demand",
+    "novelty",
+    "hackathon prize eligibility"
+  ]
+}

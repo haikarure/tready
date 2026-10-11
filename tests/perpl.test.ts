@@ -1,0 +1,30 @@
+import { describe, expect, it } from 'vitest';
+import * as ed from '@noble/ed25519';
+import { base64urlnopad } from '@scure/base';
+import { sha256 } from '@noble/hashes/sha2.js';
+import { bytesToHex, hexToBytes, utf8ToBytes } from '@noble/hashes/utils.js';
+import fixture from '../research/prd/testnet-configuration.json';
+import { decode, encode } from '../packages/perpl/codec';
+import { resolveConfig } from '../packages/perpl/config';
+import { depthEstimate } from '../packages/perpl/book';
+import { applyInventory, emptyInventory, position } from '../packages/perpl/inventory';
+import { restHeaders, signIn, possessionSignature, type ApiCredential } from '../packages/perpl/auth';
+import { protection } from '../packages/execution/workflow';
+import { orderHistory } from '../packages/perpl/history';
+import type { PerplHttp } from '../packages/perpl/http';
+import { p, o } from './fixtures';
+
+const context={chain:fixture.chain,instances:fixture.instances,tokens:fixture.tokens,markets:[fixture.BTC_market]};
+const key:ApiCredential={token:'synthetic-not-enrolled',secret:new Uint8Array(32).fill(7),wallet:'0x1111111111111111111111111111111111111111',scope:3,expiresAt:0};
+describe('Perpl boundaries',()=>{
+  it('round-trips uint64 as exact numeric wire tokens',()=>{const input='{"id":18446744073709551615,"negative":-9007199254740993,"small":16}';const value=decode(input);expect((value as {id:bigint}).id).toBe(18446744073709551615n);expect(encode(value)).toBe(input);});
+  it('resolves current BTC testnet binding and rejects mismatched deployments',()=>{const c=resolveConfig(context);expect([c.chainId,c.instanceId,c.marketId,c.perpetualId,c.recycleFee]).toEqual([10143,12n,16n,16n,100000n]);expect(()=>resolveConfig({...context,chain:{...fixture.chain,chain_id:143}})).toThrow('NETWORK');expect(()=>resolveConfig({...context,tokens:[{...fixture.tokens[0],address:'0x1111111111111111111111111111111111111111'}]})).toThrow('DEPLOYMENT');});
+  it('keeps unseen book depth unknown',()=>{expect(depthEstimate([{price:100n,size:2n}],3n)).toEqual({price:null,filled:2n,complete:false});expect(depthEstimate([{price:100n,size:2n},{price:102n,size:2n}],3n).price).toBe(101n);});
+  it('requires the documented d array rather than treating missing snapshots as empty',()=>{expect(()=>applyInventory(emptyInventory('e'),{mt:26},1000)).toThrow();const s=applyInventory(emptyInventory('e'),{mt:26,d:[p],at:{b:100,t:1000}},1000);expect(s.positions[0]?.size).toBe(100n);});
+  it('retains trigger lifecycle updates after registration',()=>{let s=applyInventory(emptyInventory('e'),{mt:23,d:[o],at:{b:100,t:1000}},1000);expect(protection(position(p),s.orders)).not.toBeNull();s=applyInventory(s,{mt:24,d:[{...o,st:9,sr:54}],at:{b:101,t:1100}},1100);expect(s.orders[0]?.status).toBe(9);s=applyInventory(s,{mt:24,d:[{...o,st:10,r:true}],at:{b:102,t:1200}},1200);expect(s.orders).toHaveLength(0);});
+  it('tracks heartbeat sequence independently of snapshot block numbers',()=>{let s=applyInventory(emptyInventory('e'),{mt:19,sn:10,addr:key.wallet,as:[],at:{b:100,t:1000}},1000);s=applyInventory(s,{mt:26,sn:100,d:[],at:{b:100,t:1000}},1000);s=applyInventory(s,{mt:100,sn:11,h:101},1000);expect(s.continuous).toBe(true);s=applyInventory(s,{mt:100,sn:13,h:103},1000);expect(s.continuous).toBe(false);});
+  it('removes closed positions and preserves actual partial remaining size',()=>{let s=applyInventory(emptyInventory('e'),{mt:26,d:[p],at:{b:100,t:1000}},1000);s=applyInventory(s,{mt:27,d:[{...p,s:20}],at:{b:101,t:1100}},1100);expect(s.positions[0]?.size).toBe(20n);s=applyInventory(s,{mt:27,d:[{...p,s:0,st:2}],at:{b:102,t:1200}},1200);expect(s.positions).toHaveLength(0);});
+  it('signs documented exact REST bytes and uses fresh nonces',async()=>{const target='/v1/trading/fills?count=1';const now=1791720000000;const a=await restHeaders(key,'GET',target,'',now);const b=await restHeaders(key,'GET',target,'',now);expect(a['X-API-Nonce']).not.toBe(b['X-API-Nonce']);const canonical=[10143,'GET',target,String(now),a['X-API-Nonce'],bytesToHex(sha256(utf8ToBytes('')))].join('\n');expect(await ed.verifyAsync(base64urlnopad.decode(a['X-API-Signature']!),utf8ToBytes(canonical),await ed.getPublicKeyAsync(key.secret))).toBe(true);await expect(restHeaders({...key,expiresAt:now-1},'GET',target,'',now)).rejects.toThrow('EXPIRED');});
+  it('can sign on Hermes-like crypto without subtle and signs PoP over EIP712 digest',async()=>{const original=globalThis.crypto;Object.defineProperty(globalThis,'crypto',{configurable:true,value:{getRandomValues:original.getRandomValues.bind(original)}});try{const frame=await signIn(key);expect(frame.mt).toBe(29);const digest='0x'+'11'.repeat(32);const signature=await possessionSignature(digest,key.secret);expect(await ed.verifyAsync(hexToBytes(signature.slice(2)),hexToBytes(digest.slice(2)),await ed.getPublicKeyAsync(key.secret))).toBe(true);}finally{Object.defineProperty(globalThis,'crypto',{configurable:true,value:original});}});
+  it('does not conclude absent requests when pagination is truncated',async()=>{let n=0;const http={request:async()=>({d:[],np:`page-${++n}`})} as unknown as PerplHttp;const result=await orderHistory(http,key,new Set(['99']),2);expect(result.complete).toBe(false);expect(result.found.size).toBe(0);expect(n).toBe(2);});
+});

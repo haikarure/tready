@@ -1,0 +1,46 @@
+# Tready
+
+Android app untuk merencanakan trade Perpl dalam budget AUSD, memeriksa hasil eksekusi, dan memulihkan status yang bermasalah. Dibangun untuk Monad Metropolis Track01 dengan Expo, Mera, viem, Perpl, BigInt, SQLite dan SecureStore.
+
+**Status: native preview sedang diverifikasi; full P0/live trading belum selesai.** Empat layar dan alur latihan sudah diimplementasikan. Public configuration/book/RPC memakai Monad Testnet asli. Fill/stop/close latihan selalu berlabel synthetic; tidak ada real order atau pengguna eksternal yang diklaim.
+
+## Jalankan dan uji
+
+Baseline lokal: Node24.21.0, pnpm11.28.5, JDK17, Android SDK36. Linux x86_64 bootstrap tidak mengubah Node/JDK sistem dan menyimpan tooling lokal di `.tooling/`.
+
+```bash
+chmod +x scripts/*.sh
+./scripts/bootstrap-linux.sh
+./scripts/dev.sh pnpm check
+./scripts/dev.sh pnpm probe
+./scripts/build-android.sh
+```
+
+Preview build memuat JS bundle dan memakai private signing certificate lokal yang stabil. Output APK/checksum/certificate di `artifacts/`; secret signing tidak masuk Git. Untuk development, gunakan `./scripts/dev.sh pnpm start` dan native app dari `pnpm android`. Native passkey tidak diuji lewat Expo Go.
+
+**Alur review:** pilih Latihan → Plan → review sizing → entry latihan → Trade → stop → close → Receipt. Harga berasal dari market testnet; collateral100AUSD dan fills latihan merupakan simulasi. Bila market unavailable, UI memperlihatkan loading/stale, tanpa mengganti dengan quote fixture.
+
+Login passkey dan programmatic enrollment default disabled: founder belum mempunyai owned rpId/domain atau Origin whitelist Perpl. Schema EIP-712 enrollment juga memerlukan verified fixture. Tidak mengisi key di `.env` atau mengirim secret melalui chat. Langkah activation, signing, setup account dan recovery ada di [RUNBOOK](docs/RUNBOOK.md).
+
+## Bukti dan batas implementasi
+
+- [Status terbaru](docs/IMPLEMENTATION_STATUS.md): apa yang dibangun, apa yang diuji, dan gate yang belum selesai.
+- [Core tests](artifacts/core-tests.json): offline/synthetic; money precision, risk assumptions, authorization, duplicate-entry, failure/late-success dan receipt semantics.
+- [Public integration probe](artifacts/integration-probe.json): real unsigned context/book/RPC reads; tidak ada wallet signing, enrollment atau trade.
+- [UI emulator awal](artifacts/screenshots/account-first.png): real native APK, tanpa Metro; emulator tidak membuktikan physical-device PRF support.
+
+Physical Android passkey/biometric/restore, test funding/account creation, signed request-target, actual entry/stop/close, recycle charging/refund, API-expiry trigger lifecycle dan full financial reconciliation masih membutuhkan device/vendor integration. Mainnet writes tidak tersedia. Submission, outreach, customer sessions dan konfirmasi bounty belum dilakukan.
+
+## Spesifikasi dan riset
+
+| Dokumen | Isi |
+|---|---|
+| [PRD](docs/PRD.md) | Masalah, empat layar, 36 requirement, scope P0/P1/P2 dan sponsor gates |
+| [Technical spec](docs/TECHNICAL_SPEC.md) | Stack, wallet/API keys, risk math, journal, recovery dan receipt |
+| [Implementation plan](docs/IMPLEMENTATION_PLAN.md) | 25 backlog items, dependency, build dan submission |
+| [Test plan](docs/TEST_PLAN.md) | 42 planned scenarios; actual status dipisahkan dari target |
+| [Adversarial review](docs/metropolis-adversarial-review.md) | Pembanding dan alasan ide awal bisa kalah |
+| [Source ledger](docs/metropolis-sources.json) | Primary sources, observations dan unresolved questions |
+| [Offline research](research/README.md) | Python Decimal baseline, 360 sizing combinations; bukan backtest/profit proof |
+
+Source Tready berlisensi [MIT](LICENSE). [Third-party attribution dan AI disclosure](third-party/NOTICE.md). Keunggulan UX, demand, sponsor eligibility dan hasil kompetisi belum dibuktikan oleh keberadaan code atau test count.

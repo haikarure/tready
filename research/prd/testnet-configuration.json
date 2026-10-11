@@ -1,0 +1,136 @@
+{
+  "observed_on": "2026-10-11",
+  "source_url": "https://testnet.perpl.xyz/api/v1/pub/context",
+  "classification": "public_configuration_snapshot_not_current_quote",
+  "chain": {
+    "ver": 272,
+    "chain_id": 10143,
+    "name": "Monad Testnet",
+    "block_explorer_urls": [
+      "https://testnet.monadscan.com/"
+    ],
+    "gas": {
+      "at": {
+        "b": 70107154,
+        "t": 1791720425000
+      },
+      "h": 70107154,
+      "max": "103000000001",
+      "p95": "103000000001",
+      "p50": "102000000000",
+      "min": "0",
+      "base": "100000000000"
+    }
+  },
+  "instances": [
+    {
+      "ver": 272,
+      "id": 12,
+      "address": "0x1964c32f0be608e7d29302aff5e61268e72080cc",
+      "collateral_token_id": 1,
+      "min_account_open_amount": "100000000",
+      "min_deposit_amount": "10000000",
+      "min_withdraw_amount": "10000",
+      "max_account_trigger_orders": 16
+    }
+  ],
+  "tokens": [
+    {
+      "ver": 272,
+      "id": 1,
+      "address": "0xa9012a055bd4e0edff8ce09f960291c09d5322dc",
+      "symbol": "AUSD",
+      "name": "AUSD",
+      "decimals": 6,
+      "display_precision": 2,
+      "usd_index": "<index_name>"
+    }
+  ],
+  "BTC_market": {
+    "ver": 272,
+    "id": 16,
+    "instance_id": 12,
+    "perpetual_id": 16,
+    "symbol": "BTC",
+    "name": "BTC Perp",
+    "size_units": "BTC",
+    "icon": "",
+    "funding_interval_sec": 2580,
+    "funding_interval_blocks": 8571,
+    "order_ttl_blocks": 20,
+    "order_retry_blocks": 22,
+    "order_max_market_slippage_bps": 1000,
+    "order_max_neg_pnl_collat_bps": 1000,
+    "config": {
+      "at": {
+        "b": 69090219,
+        "t": 1791412373000
+      },
+      "is_open": true,
+      "price_decimals": 1,
+      "size_decimals": 5,
+      "min_posting_amount": "0",
+      "min_settle_amount": "0",
+      "funding_sum_scaling_exp": 0,
+      "initial_margin": 1500,
+      "maintenance_margin": 2500,
+      "maker_fee": 45,
+      "taker_fee": 345,
+      "maker_fees": [
+        45,
+        25,
+        15,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "taker_fees": [
+        345,
+        300,
+        250,
+        210,
+        175,
+        150,
+        125,
+        0
+      ],
+      "recycle_fee": "100000",
+      "contract_version": [
+        1,
+        7,
+        5
+      ]
+    },
+    "state": {
+      "at": {
+        "b": 70107144,
+        "t": 1791720422000
+      },
+      "orl": 831243,
+      "mrk": 831600,
+      "lst": 831575,
+      "mid": 831514,
+      "bid": 831464,
+      "ask": 831564,
+      "prv": 828124,
+      "dv": 4253757,
+      "dva": "3527564854465",
+      "oi": 1918019,
+      "tvl": "339393256020"
+    },
+    "funding": {
+      "at": {
+        "b": 70102209,
+        "t": 1791718932000
+      },
+      "feb": 70102209,
+      "rate": 10,
+      "idx": 829607,
+      "ppl": 8,
+      "sum": 125372,
+      "div": 1
+    }
+  }
+}

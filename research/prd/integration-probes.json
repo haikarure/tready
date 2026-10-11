@@ -1,0 +1,45 @@
+{
+  "observed_on": "2026-10-11",
+  "network": {
+    "access": "read-only JSON-RPC; no transaction submission",
+    "rpc_url": "https://testnet-rpc.monad.xyz",
+    "chain_id": 10143,
+    "contracts": {
+      "exchange": {
+        "address": "0x1964c32f0be608e7d29302aff5e61268e72080cc",
+        "code_bytes": 225,
+        "code_sha256": "a8e4b551fee1a15e0d8623b2ac36693a3c8d6939c3881f4ec93af924343bf5ab"
+      },
+      "AUSD": {
+        "address": "0xa9012a055bd4e0edff8ce09f960291c09d5322dc",
+        "code_bytes": 5937,
+        "code_sha256": "afd51ba8e6000688ef64b1ad2e4163560c422d12a1a0a788464a59e99f2454bd"
+      },
+      "AUSD_faucet": {
+        "address": "0xd236c18d274e54faccc3dd9dda4b27965a73ee6c",
+        "code_bytes": 1200,
+        "code_sha256": "e9b823c45bc19f4dfa4716bfb78bcd9ee38ae7064b76898be981e274bb083147"
+      }
+    },
+    "AUSD_decimals": 6
+  },
+  "cors": [
+    {
+      "name": "public_context",
+      "method": "GET",
+      "url": "https://testnet.perpl.xyz/api/v1/pub/context",
+      "origin": "http://localhost:5173",
+      "status": 200,
+      "cors_headers": {},
+      "limitation": "CORS response alone does not verify origin enrollment authorization or signed trading."
+    },
+    {
+      "name": "enrollment_preflight",
+      "method": "OPTIONS",
+      "url": "https://testnet.perpl.xyz/api/v1/api-key/payload",
+      "origin": "http://localhost:5173",
+      "error": "HTTP Error 404: Not Found"
+    }
+  ],
+  "limitation": "Read-only probes. Contract bytecode does not prove faucet claim success, API enrollment permission, live trading, or safety."
+}
