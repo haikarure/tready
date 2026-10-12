@@ -1,6 +1,6 @@
 # Status implementasi Tready
 
-11 Oktober 2026. Dokumen ini membedakan kode yang tersedia, pengujian yang dilakukan, dan gate yang masih membutuhkan akses/device. PRD tetap merupakan target P0; keberadaan kode tidak menandai seluruh acceptance criteria selesai.
+Update12Oktober2026; bukti build/core/emulator berasal dari11Oktober. Dokumen ini membedakan kode yang tersedia, pengujian yang dilakukan, dan gate yang masih membutuhkan akses/device. PRD tetap merupakan target P0; keberadaan kode tidak menandai seluruh acceptance criteria selesai.
 
 ## Yang telah dibangun
 
@@ -33,7 +33,9 @@
 
 ## Gate yang belum selesai
 
-User mengonfirmasi belum mempunyai domain/rpId dan whitelist Perpl. Login/enrollment pada build default tetap disabled sampai stable owned HTTPS host/cert association dan vendor-confirmed enrollment schema siap. Tidak memakai domain sponsor atau header palsu sebagai substitusi.
+User mengonfirmasi memiliki `archzxy.com` dengan hosting Netlify. Root HTTPS aktif; DNS memakai nameserver Spaceship. Kandidat `auth.archzxy.com` belum mempunyai record DNS, dan assetlinks pada root404. Paket host disiapkan dalam [RUNBOOK](RUNBOOK.md); tidak ada deployment/DNS mutation, dan APK belum rebuild untuk domain tersebut. Login/enrollment pada build default tetap disabled sampai HTTPS host/cert association dan vendor-confirmed enrollment schema siap. Origin whitelist Perpl belum terkonfirmasi.
+
+HP fisik bukan syarat mutlak untuk mencoba Mera: demo upstream mengizinkan emulator dengan PRF-capable provider. Dukungan PRF provider pada emulator Tready belum diuji. Simulasi biometrik/UI tidak membuktikan kompatibilitas hardware asli.
 
 Pengujian physical Android PRF, clear-data identity restore, biometric SecureStore, funding/account/forwarding, authenticated request-target, real entry/stop/close, API-expiry trigger survival, recycle charge/refund, partial fills dan live recovery belum dilakukan. Error/partial traces yang diuji secara synthetic tidak diubah menjadi klaim actual trading. Penyelesaian unknown setelah venue failure masih konservatif; tidak ada automatic replacement/retry dari missing history.
 

@@ -5,7 +5,9 @@
     "team": "solo",
     "project_state": "starting_from_zero",
     "potential_users_access": "none_yet",
-    "test_device": "Android"
+    "test_device": "Android",
+    "owned_domain": "archzxy.com",
+    "hosting": "Netlify"
   },
   "sources": [
     {
@@ -1018,5 +1020,20 @@
     ],
     "emulator_report": "artifacts/emulator-smoke.json",
     "app_source_commit": "63327de0f6f5dfa9cdd7a4846fafd2b35d6dc272"
+  },
+  "domain_observation": {
+    "observedAt": "2026-10-12T02:52:20.709628+00:00",
+    "apexHttpsStatus": 200,
+    "httpServer": "Netlify",
+    "nameservers": [
+      "launch1.spaceship.net",
+      "launch2.spaceship.net"
+    ],
+    "candidateRpId": "auth.archzxy.com",
+    "candidateDnsStatus": "NXDOMAIN",
+    "apexAssetlinksStatus": 404,
+    "domainOwnershipEvidence": "user_confirmation",
+    "hostingAuthenticationAvailable": false,
+    "deployed": false
   }
 }

@@ -22,7 +22,7 @@ Preview build memuat JS bundle dan memakai private signing certificate lokal yan
 
 **Alur review:** pilih Latihan → Plan → review sizing → entry latihan → Trade → stop → close → Receipt. Harga berasal dari market testnet; collateral100AUSD dan fills latihan merupakan simulasi. Bila market unavailable, UI memperlihatkan loading/stale, tanpa mengganti dengan quote fixture.
 
-Login passkey dan programmatic enrollment default disabled: founder belum mempunyai owned rpId/domain atau Origin whitelist Perpl. Schema EIP-712 enrollment juga memerlukan verified fixture. Tidak mengisi key di `.env` atau mengirim secret melalui chat. Langkah activation, signing, setup account dan recovery ada di [RUNBOOK](docs/RUNBOOK.md).
+Login passkey dan programmatic enrollment default disabled: founder memiliki `archzxy.com` di Netlify, tetapi kandidat host passkey `auth.archzxy.com` belum dikonfigurasi/associated dan Origin whitelist Perpl belum siap. Schema EIP-712 enrollment juga memerlukan verified fixture. Tidak mengisi key di `.env` atau mengirim secret melalui chat. Paket host, langkah activation, signing, setup account dan recovery ada di [RUNBOOK](docs/RUNBOOK.md).
 
 ## Bukti dan batas implementasi
 

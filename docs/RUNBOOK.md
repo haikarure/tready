@@ -37,11 +37,19 @@ adb -s YOUR_SERIAL install -r artifacts/tready-0.1.0-preview.apk
 
 ## Domain/passkey dan enrollment yang belum siap
 
+Update12Oktober: founder memiliki `archzxy.com` dan mengonfirmasi hosting Netlify. Pemeriksaan publik menunjukkan root HTTPS200, nameserver `launch1.spaceship.net`/`launch2.spaceship.net`, assetlinks root404, dan kandidat `auth.archzxy.com` belum mempunyai DNS. Ownership berdasarkan konfirmasi founder; akses akun hosting/DNS belum tersedia di workspace.
+
+Kandidat host passkey adalah `auth.archzxy.com`. Paket [tready-passkey-host.zip](../artifacts/tready-passkey-host.zip) memuat file public dari `apps/access/public`, termasuk direktori `.well-known` dan header JSON untuk Netlify. Paket tidak memuat APK atau private signing key. Untuk manual deploy, ekstrak paket dan upload folder hasil ekstraksi melalui Netlify Drop; pastikan `.well-known/assetlinks.json` ikut ter-upload.
+
+Tambahkan `auth.archzxy.com` sebagai custom domain pada site Netlify tersebut. Di DNS Spaceship, buat CNAME host `auth` menuju hostname site yang diberikan Netlify (`NAMA-SITE.netlify.app`, bukan placeholder ini). Tunggu DNS/TLS aktif, kemudian periksa URL assetlinks langsung: HTTPS200, JSON, tidak redirect, package/certificate cocok. Instruksi mengikuti [Netlify external DNS](https://docs.netlify.com/manage/domains/configure-domains/configure-external-dns/). Belum ada deployment atau DNS mutation yang dilakukan.
+
+Setelah association berhasil, config build yang direncanakan adalah `TREADY_RP_ID=auth.archzxy.com` dan `TREADY_ORIGIN=https://auth.archzxy.com`. Origin Perpl tetap perlu whitelist vendor dan schema enrollment. APK preview yang sudah dibagikan masih tanpa rpId; belum rebuild untuk domain tersebut.
+
 1. Pilih hostname HTTPS yang dikuasai tim. Publish assetlinks pada `https://HOST/.well-known/assetlinks.json` dengan JSON MIME, tanpa redirect/auth gate. Certificate harus cocok dengan APK yang benar-benar dipasang. RP ID adalah hostname, bukan URL dengan path. Jangan memakai domain Mera/peserta lain.
 2. Isi build config `TREADY_RP_ID` dan `TREADY_ORIGIN=https://HOST`; keduanya public metadata. Tempatkan dalam environment build atau file `.env` lokal pada `apps/android/`. Rebuild APK sebelum membuat credential. Domain adalah bagian dari identitas derivation yang dibekukan.
 3. Perpl harus mengizinkan Origin untuk `/api-key/payload` dan `/api-key/enroll`. Mengubah header/relay tidak memberikan whitelist. Draft pertanyaan vendor tersedia di [implementation plan](IMPLEMENTATION_PLAN.md); belum dikirim.
 4. Pin schema payload EIP-712 yang dikonfirmasi vendor ke `TREADY_ENROLLMENT_POLICY_JSON`. Objek memuat `domainName`, `domainVersion`, `verifyingContract`, `primaryType`, serta nama field `addressField`, `publicKeyField`, `scopeField`, `expiryField`. Belum ada verified fixture vendor untuk mengisi nilai-nilai itu. Adapter yang memerlukan perubahan schema/domain harus diperbaiki dan diuji; jangan menebak nilai agar signing lolos.
-5. Uji create dan existing passkey pada Android nyata, termasuk PRF support/provider, clear-data restore, cancellation dan lock. Emulator build/UI test tidak membuktikan ini.
+5. Uji create dan existing passkey pada Android dengan PRF-capable credential provider, termasuk clear-data restore, cancellation dan lock. [Mera mendukung device atau emulator yang providernya mendukung PRF](https://github.com/category-labs/mera/blob/main/demos/mobile/README.md). Emulator UI test yang sudah dilakukan belum membuktikan PRF; kompatibilitas perangkat asli dicatat terpisah.
 6. Lakukan test funding/account/forwarding/enrollment/read di device, tangkap sanitized payload. Verifikasi signed target `/v1/...` terhadap endpoint `/api/v1/...`, account balance, recycle charge/refund, trigger lifecycle/expiry dan financial event semantics sebelum menganggap P0 selesai.
 
 Build tanpa konfigurasi tersebut sengaja menonaktifkan onboarding/trading live. Public market/testnet reads dan latihan tersedia. Tidak ada token/API secret yang harus dikirim lewat chat atau dimasukkan ke build config; API key nantinya dibuat client dan disimpan pada device-authenticated SecureStore.
@@ -62,6 +70,6 @@ Secrets tidak disimpan di SQLite, receipt, `.env` atau CI. Config dan snapshot h
 
 ## Distribusi dan submission
 
-Folder `apps/access/public` siap untuk host static HTTPS; belum deployment atau domain ownership. Menghosting HTML saja tidak memberi eligibility Agora atau whitelist Perpl. Public repo, APK, actual Monad trade evidence, qualified users dan video≤3menit merupakan deliverable berbeda. Submission belum dikirim, outreach belum dilakukan, sponsor cards terkini belum dikonfirmasi.
+Folder `apps/access/public` siap untuk host static HTTPS; domain induk dikonfirmasi founder, tetapi host passkey belum deployed/associated. Menghosting HTML saja tidak memberi eligibility Agora atau whitelist Perpl. Public repo, APK, actual Monad trade evidence, qualified users dan video≤3menit merupakan deliverable berbeda. Submission belum dikirim, outreach belum dilakukan, sponsor cards terkini belum dikonfirmasi.
 
 Lisensi source Tready: [MIT](../LICENSE). [Attribution/disclosure](../third-party/NOTICE.md). Rules dan spesifikasi lengkap tersedia di [PRD](PRD.md).
