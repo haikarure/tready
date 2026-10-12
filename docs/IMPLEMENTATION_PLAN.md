@@ -110,7 +110,7 @@ Untuk Perpl (final, **siap dikirim — belum terkirim**; pengirim harus founder)
 > `https://tready-archzxy.netlify.app`
 >
 > What we've measured so far (12 Oct 2026, testnet):
-> - `POST /api/v1/api-key/payload` with that Origin → **HTTP 400**, reproduced 6 times interleaved with controls.
+> - `POST /api/v1/api-key/payload` with that Origin → **HTTP 400**, reproduced on three app-Origin requests among six interleaved requests, and confirmed again by the latest readiness probe.
 > - The same request with no `Origin` header → 200; with `Origin: https://testnet.perpl.xyz` → 200.
 > - We are deliberately **not** omitting the Origin header to slip past the check — your docs require it to be whitelisted, and we'd rather be on the list.
 > - Our Ed25519 signing for REST (`X-API-Key`/`X-API-Timestamp`/`X-API-Nonce`/`X-API-Signature`) and the WebSocket `mt:29` sign-in both work against testnet with a key created from your web UI.
@@ -123,7 +123,7 @@ Untuk Perpl (final, **siap dikirim — belum terkirim**; pengirim harus founder)
 > 5. Does expiry free the active-key slot (max 16)?
 > 6. What are the correct steps to create a Perpl account for a brand-new wallet over the API? We see `404 target profile not found` when enrolling for a wallet that has no account yet.
 >
-> Repo and evidence: [tready] (MIT, AI disclosure included). Happy to share the repro script.
+> Repo and evidence: https://github.com/haikarure/tready (MIT, AI disclosure included). Repro script: `scripts/origin-readiness.ts`; sanitized result: `artifacts/remediation/origin.json`.
 >
 > Thanks!
 

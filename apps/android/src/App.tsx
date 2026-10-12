@@ -15,7 +15,6 @@ type Routes={Account:undefined;Plan:undefined;Trade:undefined;Receipt:undefined}
 const Stack=createNativeStackNavigator<Routes>();const navigation=createNavigationContainerRef<Routes>();
 const colors={bg:'#0B111A',card:'#151D29',border:'#283341',text:'#F3F5F7',muted:'#9AA7B7',lime:'#D6F58B',purple:'#BDA8FF',danger:'#FFB4AB',yellow:'#F6D58A'};
 const money=(raw:bigint|null|undefined,decimals=6)=>raw===null||raw===undefined?'—':formatUnits(raw,decimals,Math.min(decimals,6));
-const short=(value:string)=>value.length>16?`${value.slice(0,7)}…${value.slice(-5)}`:value;
 const confirm=(title:string,message:string,action:()=>void)=>Alert.alert(title,message,[{text:'Kembali',style:'cancel'},{text:'Konfirmasi',onPress:action}]);
 function Label({children,tone='muted'}:{children:React.ReactNode;tone?:'muted'|'lime'|'danger'|'yellow'|'purple'}){return <Text style={[s.label,{color:colors[tone]}]}>{children}</Text>;}
 function Card({children,style}:{children:React.ReactNode;style?:object}){return <View style={[s.card,style]}>{children}</View>;}
@@ -31,7 +30,7 @@ function Account({c,v}:{c:TreadyController;v:AppView}){
   useEffect(()=>{if(!v.unlocked){setApiToken('');setApiSecret('');setShowImport(false);}},[v.unlocked]);
   const action=(kind:OwnerAction,title:string)=>confirm(title,`Monad Testnet · ${['approve','create','deposit','withdraw'].includes(kind)?`${amount} AUSD`:'wallet milik lu'}\nPeriksa hasil transaksi sebelum melanjutkan.`,()=>void c.ownerAction(kind,amount));
   return <Shell><Heading eyebrow="01 / ACCOUNT" title={'Wallet lu.\nKendali lu.'} body="Mulai dengan passkey. Dana uji dan posisi selalu terikat ke wallet yang sama."/>
-    <Card><View style={s.row}><Label>IDENTITAS MERA</Label><Text style={[s.tag,{color:v.unlocked?colors.lime:colors.muted}]}>{v.unlocked?'Terbuka':'Terkunci'}</Text></View><Text selectable style={s.wallet}>{v.identity?short(v.identity.address):'Belum ada wallet'}</Text><Text style={s.body}>{v.identity?'Buka sesi untuk tindakan yang lu konfirmasi.':'Passkey membuat identitas wallet yang bisa dipulihkan lewat credential yang sama.'}</Text>
+    <Card><View style={s.row}><Label>IDENTITAS MERA</Label><Text style={[s.tag,{color:v.unlocked?colors.lime:colors.muted}]}>{v.unlocked?'Terbuka':'Terkunci'}</Text></View><Text selectable accessibilityLabel={v.identity?'Alamat wallet':undefined} style={[s.wallet,v.identity&&{fontSize:14,lineHeight:22,fontFamily:'monospace'}]}>{v.identity?v.identity.address:'Belum ada wallet'}</Text><Text style={s.body}>{v.identity?'Tekan lama alamat untuk menyalinnya ke faucet. Buka sesi untuk tindakan yang lu konfirmasi.':'Passkey membuat identitas wallet yang bisa dipulihkan lewat credential yang sama.'}</Text>
       {!c.passkeyConfigured&&<View style={s.notice}><Text style={s.noticeText}>Login passkey belum diaktifkan di build ini. Alur perencanaan bisa dicoba melalui mode latihan.</Text></View>}
       {!v.identity&&<Button label="Buat passkey" onPress={()=>void c.unlock(true)} disabled={v.busy||!c.passkeyConfigured||v.mode!=='testnet'}/>}
       {!v.unlocked&&<Button label={v.identity?'Buka passkey':'Pulihkan passkey yang sudah ada'} secondary onPress={()=>void c.unlock(false)} disabled={v.busy||!c.passkeyConfigured||v.mode!=='testnet'}/>}
