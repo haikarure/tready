@@ -2,7 +2,7 @@
 
 Ini petunjuk implementasi yang ada di repository. Status bukti terbaru dicatat di [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md); seluruh acceptance criteria PRD belum otomatis selesai.
 
-Panduan penuntasan terbaru: [CLOSEOUT_GUIDE](CLOSEOUT_GUIDE.md). APK0.1.3/build6 menyediakan alamat lengkap yang dapat disalin dan waktu prompt passkey300detik. Bukti create/restore native tetap menjadi gate tersendiri.
+Panduan penuntasan terbaru: [CLOSEOUT_GUIDE](CLOSEOUT_GUIDE.md). APK0.1.4/build7 menyediakan alamat lengkap yang dapat disalin dan waktu prompt passkey300detik. Native PRF create/restore dan clear-data recovery emulator sudah terbukti dalam laporan; funding/API/trading APK masih menjadi gate.
 
 ## Core dan aplikasi
 
@@ -23,18 +23,20 @@ Development device membutuhkan native app (`pnpm android`) dengan Metro; Expo Go
 ## APK mandiri dan signing
 
 ```bash
+TREADY_RP_ID=tready-archzxy.netlify.app \
+TREADY_ORIGIN=https://tready-archzxy.netlify.app \
 ./scripts/build-android.sh
 ```
 
 Script membuat preview certificate unik sekali di `.tooling/keys/`, lalu memakai certificate yang sama pada rebuild. File key/password bersifat lokal, diabaikan Git dan tidak masuk `.env`, log, hosting atau source repo. Simpan backup pribadi bila APK akan diperbarui pada perangkat yang menyimpan data. Mengganti certificate dapat memerlukan uninstall serta perubahan assetlinks; uninstall menghilangkan journal lokal.
 
-Output: `artifacts/tready-0.1.3-preview.apk`, `artifacts/release.json` (checksum/cert/network), dan `apps/access/public/.well-known/assetlinks.json`. Metadata dibaca dari config/manifest dan certificate di APK hasil build, bukan dari environment saat membuat laporan. Gradle juga mengawasi shared source `packages/` dan dependency root agar perubahan wallet/risk engine menginvalidasi JS bundle. APK mengandung ABI arm64-v8a dan x86_64, minimum install Android API24; belum ada klaim dukungan Android32bit. Minimum install berbeda dari kompatibilitas PRF/passkey provider. Ini preview, bukan Play Store production release atau account recovery test.
+Output: `artifacts/tready-0.1.4-preview.apk`, `artifacts/release.json` (checksum/cert/network), dan `apps/access/public/.well-known/assetlinks.json`. Metadata dibaca dari config/manifest dan certificate di APK hasil build, bukan dari environment saat membuat laporan. Gradle juga mengawasi shared source `packages/` dan dependency root agar perubahan wallet/risk engine menginvalidasi JS bundle. APK mengandung ABI arm64-v8a dan x86_64, minimum install Android API24; belum ada klaim dukungan Android32bit. Minimum install berbeda dari kompatibilitas PRF/passkey provider. Ini preview; native PRF recovery diuji di emulator. Hardware biometrics/provider cloud sync dan Play Store release belum diuji.
 
 Jika mencoba lewat ADB, pilih serial perangkat sendiri agar tidak memasang ke perangkat lain:
 
 ```bash
 adb devices
-adb -s YOUR_SERIAL install -r artifacts/tready-0.1.3-preview.apk
+adb -s YOUR_SERIAL install -r artifacts/tready-0.1.4-preview.apk
 ```
 
 ## Host passkey aktif dan enrollment
@@ -89,6 +91,6 @@ Secrets tidak disimpan di SQLite, receipt, `.env` atau CI. Config dan snapshot h
 
 ## Distribusi dan submission
 
-Host static HTTPS sudah aktif pada site Netlify terpisah. [Download APK](https://tready-archzxy.netlify.app/downloads/tready-0.1.3-preview.apk) dan [metadata publik](https://tready-archzxy.netlify.app/downloads/release.json) memberikan HTTPS200 tanpa redirect; byte count/SHA256 download cocok dengan APK yang diuji di emulator. Bundel deploy APK disimpan lokal di `.tooling/`, tidak dimasukkan Git. Menghosting HTML/assetlinks tidak memberi eligibility Agora atau whitelist Perpl. Public repo, actual Monad trade evidence, qualified users dan video≤3menit merupakan deliverable berbeda. Submission belum dikirim, outreach belum dilakukan, sponsor cards terkini belum dikonfirmasi.
+Host static HTTPS sudah aktif pada site Netlify terpisah. [Download APK](https://tready-archzxy.netlify.app/downloads/tready-0.1.4-preview.zip) didistribusikan dalam ZIP melalui redirect ke release GitHub publik. Ekstrak ZIP sebelum install. [Metadata publik](https://tready-archzxy.netlify.app/downloads/release.json) tetap JSON pada host RP; byte count/SHA256 ZIP serta APK setelah ekstraksi cocok dengan [distribution report](../artifacts/completion/distribution.json). Assetlinks tetap HTTPS200/JSON tanpa redirect. Bundel deploy APK disimpan lokal di `.tooling/`, tidak dimasukkan Git. Menghosting HTML/assetlinks tidak memberi eligibility Agora atau whitelist Perpl. Public repo, actual Monad trade evidence, qualified users dan video≤3menit merupakan deliverable berbeda. Submission belum dikirim, outreach belum dilakukan, sponsor cards terkini belum dikonfirmasi.
 
 Lisensi source Tready: [MIT](../LICENSE). [Attribution/disclosure](../third-party/NOTICE.md). Rules dan spesifikasi lengkap tersedia di [PRD](PRD.md).

@@ -1,0 +1,13 @@
+{
+  "preparedAt": "2026-10-12T19:23:44.865787+00:00",
+  "format": "ZIP containing one signed APK; extract before installing",
+  "file": "tready-0.1.4-preview.zip",
+  "bytes": 24650719,
+  "sha256": "6ce2e4fbe664f93710e1da7f3a7c48bf7bd0542586403ff889f4173bc5736ebe",
+  "apkFile": "tready-0.1.4-preview.apk",
+  "apkBytes": 54220615,
+  "apkSha256": "30a071a6f2484a1c18df56c01b063d07a6f68e79b07be2bfb877465ae4818659",
+  "certificateSha256": "4C:81:BA:5E:EA:B3:EB:C6:4F:BD:5A:41:FD:09:4F:58:26:0C:FD:66:D5:99:87:31:70:FA:5C:3F:F9:2A:09:C4",
+  "sourceCommit": "91dea2892908163eb35ecda99f642639daa7dc53",
+  "containsOnlyVerifiedApk": true
+}

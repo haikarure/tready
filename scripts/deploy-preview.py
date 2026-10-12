@@ -1,5 +1,5 @@
 """Publish only the existing Tready Netlify site, with verified APK and no secret files."""
-import json,zipfile,hashlib,time,argparse,urllib.request,urllib.error,urllib.parse,shutil,subprocess
+import json,zipfile,hashlib,time,argparse,urllib.request,urllib.error,urllib.parse,shutil,subprocess,io
 from pathlib import Path
 from datetime import datetime,timezone
 ROOT=Path(__file__).resolve().parent.parent
@@ -9,15 +9,24 @@ parser=argparse.ArgumentParser();parser.add_argument('--deploy',action='store_tr
 release=json.loads((ROOT/'artifacts/release.json').read_text())
 assert release['build']>=4 and release['rpId']=='tready-archzxy.netlify.app'
 apk=ROOT/'artifacts'/release['file'];assert hashlib.sha256(apk.read_bytes()).hexdigest()==release['sha256']
+distribution=json.loads((ROOT/'artifacts/completion/distribution.json').read_text())
+package=ROOT/'artifacts'/distribution['file']
+assert distribution['apkSha256']==release['sha256'] and hashlib.sha256(package.read_bytes()).hexdigest()==distribution['sha256']
+with zipfile.ZipFile(package) as packaged:
+ assert packaged.namelist()==[release['file']] and hashlib.sha256(packaged.read(release['file'])).hexdigest()==release['sha256']
 for name in ['emulator-smoke.json','native-passkey-probe.json']:
  evidence=json.loads((ROOT/'artifacts'/name).read_text());assert evidence['apkSha256']==release['sha256']
 bootstrap=json.loads((ROOT/'artifacts/remediation/native-journal-bootstrap.json').read_text());assert bootstrap['success'] and bootstrap['apkSha256']==release['sha256']
 stage=ROOT/'.tooling/netlify-build4';shutil.rmtree(stage,ignore_errors=True);shutil.copytree(ROOT/'apps/access/public',stage)
 downloads=stage/'downloads';downloads.mkdir(exist_ok=True)
-shutil.copy2(apk,downloads/release['file']);shutil.copy2(ROOT/'artifacts/release.json',downloads/'release.json')
+# The verified ZIP lives in the public GitHub release. Netlify redirects its
+# stable download URL there, keeping large uploads out of the static deploy.
+shutil.copy2(ROOT/'artifacts/release.json',downloads/'release.json')
+shutil.copy2(ROOT/'artifacts/completion/distribution.json',downloads/'distribution.json')
 shutil.copy2(ROOT/'artifacts/remediation/trade-evidence.json',downloads/'trade-evidence.json')
 shutil.copy2(ROOT/'artifacts/remediation/recovery-smoke.json',downloads/'recovery-smoke.json')
-for version,build in [('0.1.0','build3'),('0.1.1','build4'),('0.1.2','build5')]:
+shutil.copy2(ROOT/'artifacts/completion/native-prf.json',downloads/'native-prf.json')
+for version,build in [('0.1.0','build3'),('0.1.1','build4'),('0.1.2','build5'),('0.1.3','build6')]:
  old=ROOT/'artifacts'/f'tready-{version}-preview.apk'
  if old.exists():shutil.copy2(old,downloads/old.name)
  metadata=ROOT/'artifacts/archive'/build/'release.json'
@@ -46,12 +55,9 @@ print(json.dumps({'deployId':id,'method':'file-digest','requiredFiles':len(deplo
 for sha in deploy.get('required',[]):
  name=next(name for name,value in digests.items() if value==sha);file=files[name]
  path='/deploys/'+id+'/files/'+urllib.parse.quote(name,safe='/')
- if file.stat().st_size>5_000_000:
-  # Supply auth through stdin config, not command arguments or logs. PUT is idempotent.
-  curl_config='header = "Authorization: Bearer '+token+'"\nheader = "Content-Type: application/octet-stream"\n'
-  result=subprocess.run(['curl','--silent','--show-error','--connect-timeout','20','--max-time','240','--retry','2','--retry-all-errors','--config','-','--request','PUT','--data-binary','@'+str(file),'--output',str(ROOT/'.tooling/netlify-upload-response.json'),'--write-out','%{http_code}','https://api.netlify.com/api/v1'+path],input=curl_config,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
-  assert result.stdout.strip() in ['200','201','202'], 'Netlify file upload HTTP '+result.stdout.strip()
- else:api(path,file.read_bytes(),'application/octet-stream','PUT')
+ # The same Content-Length upload works for small files and APKs. Authentication
+ # stays in process memory; recreating this digest deploy reuses cached files.
+ api(path,file.read_bytes(),'application/octet-stream','PUT')
  print(json.dumps({'uploaded':name,'bytes':file.stat().st_size}),flush=True)
 for _ in range(60):
  current=api('/deploys/'+id)
@@ -61,13 +67,16 @@ for _ in range(60):
 assert current['state']=='ready'
 site=api('/sites/'+SITE);assert site['published_deploy']['id']==id
 checks=[]
-for path in ['/','/proof.html','/.well-known/assetlinks.json','/downloads/release.json','/downloads/'+release['file'],'/downloads/tready-preview-demo.mp4']:
- if path.endswith('.apk'):
-  downloaded=ROOT/'.tooling/netlify-verified.apk'
-  subprocess.run(['curl','--silent','--show-error','--fail','--connect-timeout','20','--max-time','120','--retry','2','--retry-all-errors','--output',str(downloaded),ORIGIN+path],check=True)
+for path in ['/','/proof.html','/.well-known/assetlinks.json','/downloads/native-prf.json','/downloads/release.json','/downloads/distribution.json','/downloads/'+distribution['file'],'/downloads/tready-preview-demo.mp4']:
+ if path.endswith('.zip'):
+  downloaded=ROOT/'.tooling/netlify-verified.zip'
+  subprocess.run(['curl','--location','--silent','--show-error','--fail','--connect-timeout','20','--max-time','120','--retry','2','--retry-all-errors','--output',str(downloaded),ORIGIN+path],check=True)
   data=downloaded.read_bytes();digest=hashlib.sha256(data).hexdigest()
-  assert len(data)==release['bytes'] and digest==release['sha256']
-  checks.append({'path':path,'status':200,'bytes':len(data),'sha256':digest,'matchesRelease':True,'method':'complete_curl_download_with_transfer_validation'});continue
+  assert len(data)==distribution['bytes'] and digest==distribution['sha256']
+  with zipfile.ZipFile(io.BytesIO(data)) as z:
+   assert z.namelist()==[release['file']];binary=z.read(release['file'])
+  apk_digest=hashlib.sha256(binary).hexdigest();assert len(binary)==release['bytes'] and apk_digest==release['sha256']
+  checks.append({'path':path,'status':200,'bytes':len(data),'sha256':digest,'apkBytes':len(binary),'apkSha256':apk_digest,'matchesRelease':True,'redirectedToPublicGitHubRelease':True,'method':'complete_ZIP_download_and_uncompressed_APK_validation'});continue
  with urllib.request.urlopen(ORIGIN+path,timeout=60) as r:
   digest=hashlib.sha256();size=0;parts=[]
   while chunk:=r.read(1024*1024):

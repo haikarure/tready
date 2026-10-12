@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-10-12T19:42:00.148537+00:00",
+  "url": "https://github.com/haikarure/tready/releases/tag/v0.1.4",
+  "prerelease": true,
+  "public": true,
+  "assetDigestsMatchLocal": true,
+  "assets": [
+    {
+      "name": "tready-preview-demo.mp4",
+      "size": 2911584,
+      "digest": "sha256:9425e4adbec37582c304b111b036d355860570b9cbabe94be22f59938bf01653",
+      "url": "https://github.com/haikarure/tready/releases/download/v0.1.4/tready-preview-demo.mp4"
+    },
+    {
+      "name": "native-prf.json",
+      "size": 1807,
+      "digest": "sha256:50f69c7c6c33142f603f2ad3c93a64498ead9d5a7afa5309ac4cb3e46ecb0b81",
+      "url": "https://github.com/haikarure/tready/releases/download/v0.1.4/native-prf.json"
+    },
+    {
+      "name": "release.json",
+      "size": 963,
+      "digest": "sha256:0179d24657b64ccf0e70df7cfcec2856b17f599105820684f5bba3c3af0ff3eb",
+      "url": "https://github.com/haikarure/tready/releases/download/v0.1.4/release.json"
+    },
+    {
+      "name": "tready-0.1.4-preview.zip",
+      "size": 24650719,
+      "digest": "sha256:6ce2e4fbe664f93710e1da7f3a7c48bf7bd0542586403ff889f4173bc5736ebe",
+      "url": "https://github.com/haikarure/tready/releases/download/v0.1.4/tready-0.1.4-preview.zip"
+    },
+    {
+      "name": "distribution.json",
+      "size": 633,
+      "digest": "sha256:18f62bcc05b274c56b36e2561e53f7e1484019c891d68c22b64a36e01cec89f3",
+      "url": "https://github.com/haikarure/tready/releases/download/v0.1.4/distribution.json"
+    }
+  ]
+}

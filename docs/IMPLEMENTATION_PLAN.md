@@ -109,10 +109,12 @@ Untuk Perpl (final, **siap dikirim — belum terkirim**; pengirim harus founder)
 > **Request: please whitelist this Origin for `/api/v1/api-key/payload` and `/api/v1/api-key/enroll`:**
 > `https://tready-archzxy.netlify.app`
 >
-> What we've measured so far (12 Oct 2026, testnet):
+> Native Mera PRF creation and same-wallet recovery after clearing app data now work on our Android emulator (APK0.1.4). Wallet: `0xb82BAea2b6F7F32c5BfD4B80b5b033F019fB7e54`; funding/account setup is the next step.
+>
+> What we've measured so far (12 Oct 2026 UTC, testnet):
 > - `POST /api/v1/api-key/payload` with that Origin → **HTTP 400**, reproduced on three app-Origin requests among six interleaved requests, and confirmed again by the latest readiness probe.
 > - The same request with no `Origin` header → 200; with `Origin: https://testnet.perpl.xyz` → 200.
-> - We are deliberately **not** omitting the Origin header to slip past the check — your docs require it to be whitelisted, and we'd rather be on the list.
+> - Enrollment requests include our application's actual Origin. Please confirm where/how this Origin can be added to your whitelist.
 > - Our Ed25519 signing for REST (`X-API-Key`/`X-API-Timestamp`/`X-API-Nonce`/`X-API-Signature`) and the WebSocket `mt:29` sign-in both work against testnet with a key created from your web UI.
 >
 > Additional questions:

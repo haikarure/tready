@@ -1,0 +1,37 @@
+{
+  "createdAt": "2026-10-12T18:36:58.946516+00:00",
+  "classification": "native_Mera_PRF_create_build6_and_same_wallet_restore_on_current_APK",
+  "apkSha256": "30a071a6f2484a1c18df56c01b063d07a6f68e79b07be2bfb877465ae4818659",
+  "sourceCommit": "91dea2892908163eb35ecda99f642639daa7dc53",
+  "rpId": "tready-archzxy.netlify.app",
+  "provider": "KeePassDX Free 4.5.2",
+  "providerApkSha256": "220c5a96c7e42d69abfda8c450fbee2ef15b0de3c3fb786b19733716144a0526",
+  "device": "Android API36 x86_64 emulator",
+  "nativePrfCreateVerified": true,
+  "address": "0xb82BAea2b6F7F32c5BfD4B80b5b033F019fB7e54",
+  "physicalHardwareVerified": false,
+  "cloudSyncVerified": false,
+  "ownerTransactionVerified": false,
+  "nativeTradingVerified": false,
+  "checksPassed": [
+    "native credential creation derives a Mera wallet and opens the signing session",
+    "native PRF get restores the same wallet after session lock and process restart, with vault master-key authentication",
+    "installed APK checksum matches release metadata",
+    "native PRF get opens the same signing identity on the current APK",
+    "discoverable credential restores the same wallet after clearing app data",
+    "native fresh-wallet UI displays 0 MON and 0 AUSD after decoded account absence"
+  ],
+  "nativePrfRestoreVerified": true,
+  "nativePrfRestartVerified": true,
+  "checkedAt": "2026-10-12T19:06:06.359270+00:00",
+  "creationApkSha256": "836aa13fd648aac0fd8f6da34b3584c564e5bc7b0dc9ce1d4e2a45772070e563",
+  "creationSourceCommit": "18abcab27851b27f8e0fcd20a1b93435eaf9fe86",
+  "nativePrfDiscoverableRestoreVerified": true,
+  "appDataClearedBeforeRestore": true,
+  "initialWalletAbsentObserved": true,
+  "newOrdersSent": 0,
+  "screenshots": [
+    "screenshots/native-prf-restored.png"
+  ],
+  "nativeWalletBalancesReadVerified": true
+}

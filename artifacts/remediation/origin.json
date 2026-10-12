@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-10-12T17:19:38.585Z",
+  "checkedAt": "2026-10-12T18:56:22.386Z",
   "classification": "own_origin_unsigned_payload_readiness_only",
   "origin": "https://tready-archzxy.netlify.app",
-  "wallet": "0xE804159b01FD4F466A6479022007Cb40434966E4",
+  "wallet": "0xb82BAea2b6F7F32c5BfD4B80b5b033F019fB7e54",
   "status": 400,
   "schemaAccepted": false,
   "error": "Perpl HTTP 400",

@@ -1,0 +1,67 @@
+{
+  "checkedAt": "2026-10-12T19:41:59.431102+00:00",
+  "status": "verified_preview_published_external_gates_remain",
+  "release": {
+    "version": "0.1.4",
+    "build": 7,
+    "package": "xyz.tready.app",
+    "network": "Monad Testnet",
+    "chainId": 10143,
+    "file": "tready-0.1.4-preview.apk",
+    "bytes": 54220615,
+    "sha256": "30a071a6f2484a1c18df56c01b063d07a6f68e79b07be2bfb877465ae4818659",
+    "certificateSha256": "4C:81:BA:5E:EA:B3:EB:C6:4F:BD:5A:41:FD:09:4F:58:26:0C:FD:66:D5:99:87:31:70:FA:5C:3F:F9:2A:09:C4",
+    "sourceCommit": "91dea2892908163eb35ecda99f642639daa7dc53",
+    "builtAt": "2026-10-12T18:57:17.861Z",
+    "rpId": "tready-archzxy.netlify.app",
+    "origin": "https://tready-archzxy.netlify.app",
+    "enrollmentConfigured": false,
+    "supportedAbis": [
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "classification": "standalone_preview_APK_not_production_release",
+    "limitations": [
+      "Authenticated reads were verified in Node; native owner transactions and live trading are not verified.",
+      "Native PRF/provider, hardware biometrics and provider sync require separate verification."
+    ]
+  },
+  "distribution": {
+    "preparedAt": "2026-10-12T19:23:44.865787+00:00",
+    "format": "ZIP containing one signed APK; extract before installing",
+    "file": "tready-0.1.4-preview.zip",
+    "bytes": 24650719,
+    "sha256": "6ce2e4fbe664f93710e1da7f3a7c48bf7bd0542586403ff889f4173bc5736ebe",
+    "apkFile": "tready-0.1.4-preview.apk",
+    "apkBytes": 54220615,
+    "apkSha256": "30a071a6f2484a1c18df56c01b063d07a6f68e79b07be2bfb877465ae4818659",
+    "certificateSha256": "4C:81:BA:5E:EA:B3:EB:C6:4F:BD:5A:41:FD:09:4F:58:26:0C:FD:66:D5:99:87:31:70:FA:5C:3F:F9:2A:09:C4",
+    "sourceCommit": "91dea2892908163eb35ecda99f642639daa7dc53",
+    "containsOnlyVerifiedApk": true
+  },
+  "coreTestsPassed": 72,
+  "emulatorUIChecksPassed": 7,
+  "nativeCancellationChecksPassed": 3,
+  "nativeSQLiteBootstrapVerified": true,
+  "nativePrfCreateAndRestartVerified": true,
+  "nativePrfDiscoverableRestoreCurrentAPKVerified": true,
+  "publicRPCReceiptsVerified": 3,
+  "demoSeconds": 128.833333,
+  "demoNativeWalletSegment": "recorded_app_state_after_real_PRF_recovery_private_authentication_omitted",
+  "publicSite": "https://tready-archzxy.netlify.app",
+  "deployId": "6acd372a92dc49aff521087f",
+  "githubRelease": "https://github.com/haikarure/tready/releases/tag/v0.1.4",
+  "fullP0Complete": false,
+  "remaining": [
+    "native wallet MON/AUSD funding, account and forwarding",
+    "own-Origin Perpl enrollment still HTTP400",
+    "actual APK entry/stop/close/recovery and financial reconciliation",
+    "hardware biometrics and provider cloud sync",
+    "founder portal registration and sponsor cards",
+    "external customer sessions",
+    "final submission and acceptance timestamp"
+  ],
+  "userOutreachSent": false,
+  "submissionSent": false,
+  "mainnetWrites": false
+}

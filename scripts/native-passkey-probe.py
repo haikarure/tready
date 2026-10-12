@@ -19,7 +19,7 @@ accounts=adb('shell','dumpsys','account').decode()
 match=re.search(r'Accounts:\s*(\d+)',accounts)
 assert match and match.group(1)=='0', 'This signed-out probe requires an empty test emulator.'
 provider=adb('shell','settings','get','secure','credential_service_primary').decode().strip()
-assert any(name in provider for name in ['com.google.android.gms','com.kunzisoft.keepass.libre']), 'Inspect an unknown provider before probing.'
+assert any(name in provider for name in ['com.google.android.gms','com.kunzisoft.keepass.libre','com.kunzisoft.keepass.free']), 'Inspect an unknown provider before probing.'
 
 def hierarchy():
     adb('shell','rm','-f','/sdcard/tready-passkey-probe.xml')
@@ -42,7 +42,7 @@ for _ in range(6):
     time.sleep(1)
 assert button is not None and button.get('enabled')=='true'
 tap(button)
-prompt='Create passkey to sign in to Tready?' if 'com.kunzisoft.keepass.libre' in provider else 'Create passkey on another device?'
+prompt='Create passkey to sign in to Tready?' if 'com.kunzisoft.keepass.' in provider else 'Create passkey on another device?'
 for _ in range(10):
     root=hierarchy()
     if any(prompt in text for text in labels(root)): break
