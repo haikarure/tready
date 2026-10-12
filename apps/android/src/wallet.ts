@@ -2,6 +2,7 @@ import { createPasskeyWithPrfOutput, getPasskeyPrfOutput, type PasskeyCredential
 import { reactNativeWebAuthnClient } from '@category-labs/mera/react-native-webauthn-client';
 import { bytesToHex } from '@noble/hashes/utils.js';
 import { deriveWallet } from '../../../packages/wallet/derive';
+import { passkeyFailureMessage } from '../../../packages/wallet/passkey-error';
 import type { NativeStore } from './storage';
 
 export interface Identity { address:`0x${string}`; credential:PasskeyCredentialMetadata; rpId:string; derivationVersion:1 }
@@ -13,7 +14,8 @@ export class WalletManager {
   async initialize():Promise<void>{this.identity=await this.store.get<Identity>('identity');if(this.identity&&this.identity.rpId!==this.rpId)throw new Error('PASSKEY_DOMAIN_CHANGED');}
   async unlock(create=false):Promise<Identity>{
     if(!/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i.test(this.rpId))throw new Error('Domain passkey belum dikonfigurasi. Ikuti panduan setup.');
-    const result=create?await createPasskeyWithPrfOutput({rp:{id:this.rpId,name:'Tready'},user:{name:'Tready wallet',displayName:'Tready wallet'},webAuthnClient:reactNativeWebAuthnClient}):await getPasskeyPrfOutput({rpId:this.rpId,credential:this.identity?.credential,webAuthnClient:reactNativeWebAuthnClient});
+    const ceremony=()=>create?createPasskeyWithPrfOutput({rp:{id:this.rpId,name:'Tready'},user:{name:'Tready wallet',displayName:'Tready wallet'},webAuthnClient:reactNativeWebAuthnClient}):getPasskeyPrfOutput({rpId:this.rpId,credential:this.identity?.credential,webAuthnClient:reactNativeWebAuthnClient});
+    const result=await ceremony().catch(error=>{throw new Error(passkeyFailureMessage(error));});
     this.lock(false);const wallet=deriveWallet(result.prfOutput);
     if(this.identity&&!create&&this.identity.address.toLowerCase()!==wallet.address.toLowerCase()){wallet.session.end();throw new Error('WALLET_IDENTITY_MISMATCH');}
     const identity:Identity={address:wallet.address,credential:{credentialId:result.credentialId},rpId:this.rpId,derivationVersion:1};

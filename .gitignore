@@ -17,4 +17,6 @@ apps/android/ios/
 *.aab
 artifacts/private/
 artifacts/android-bundle/
+__pycache__/
+*.pyc
 

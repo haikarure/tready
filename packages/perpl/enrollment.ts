@@ -5,9 +5,16 @@ import { PerplHttp } from './http';
 import { TESTNET } from './config';
 
 export interface EnrollmentPolicy { domainName:string; domainVersion:string; verifyingContract:Address; primaryType:string; addressField:string; publicKeyField:string; scopeField:string; expiryField:string }
+export function hasEnrollmentPolicy(value:unknown):value is EnrollmentPolicy {
+  if(!value||typeof value!=='object'||Array.isArray(value))return false;
+  const p=value as Record<string,unknown>;
+  const fields=['domainName','domainVersion','primaryType','addressField','publicKeyField','scopeField','expiryField'];
+  return fields.every(field=>typeof p[field]==='string'&&(p[field] as string).trim().length>0)
+    &&typeof p.verifyingContract==='string'&&/^0x[0-9a-f]{40}$/i.test(p.verifyingContract);
+}
 // This policy must be pinned from a vendor-confirmed payload before signing.
 export function validateEnrollment(payload:unknown,policy:EnrollmentPolicy|null,expected:{wallet:string;publicKey:string;scope:number;expiry:number}):TypedDataDefinition {
-  if(!policy)throw new Error('ENROLLMENT_SCHEMA_CONFIRMATION_REQUIRED');
+  if(!hasEnrollmentPolicy(policy))throw new Error('ENROLLMENT_SCHEMA_CONFIRMATION_REQUIRED');
   const value=record(payload);const domain=record(value.domain);const message=record(value.message);
   if(safeNumber(domain.chainId)!==10143||domain.name!==policy.domainName||domain.version!==policy.domainVersion||text(domain.verifyingContract).toLowerCase()!==policy.verifyingContract.toLowerCase()||value.primaryType!==policy.primaryType)throw new Error('ENROLLMENT_DOMAIN_MISMATCH');
   if(text(message[policy.addressField]).toLowerCase()!==expected.wallet.toLowerCase()||text(message[policy.publicKeyField]).toLowerCase()!==expected.publicKey.toLowerCase()||safeNumber(message[policy.scopeField])!==expected.scope||safeNumber(message[policy.expiryField])!==expected.expiry)throw new Error('ENROLLMENT_CAPABILITY_MISMATCH');
@@ -16,7 +23,7 @@ export function validateEnrollment(payload:unknown,policy:EnrollmentPolicy|null,
   return value as unknown as TypedDataDefinition;
 }
 export async function enroll(http:PerplHttp,origin:string,wallet:Address,sign:(typed:TypedDataDefinition)=>Promise<`0x${string}`>,policy:EnrollmentPolicy|null,authorized:()=>boolean=()=>false):Promise<ApiCredential>{
-  if(!origin.startsWith('https://')||!policy)throw new Error('Domain/whitelist dan schema enrollment belum siap.');
+  if(!origin.startsWith('https://')||!hasEnrollmentPolicy(policy))throw new Error('Domain/whitelist dan schema enrollment belum siap.');
   const {secret,publicKey}=await generateKey();const expiry=Date.now()+24*60*60_000;const scope=3;
   try{
     const response=record(await http.request('/v1/api-key/payload',{method:'POST',origin,body:{chain_id:10143,address:wallet,public_key:publicKey,scope_mask:scope,label:'Tready Android testnet',expires_at:expiry}}));

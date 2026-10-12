@@ -13,7 +13,7 @@ import { type ApiCredential, assertCredential } from '../../../packages/perpl/au
 import { TradingSocket, type SocketLike } from '../../../packages/perpl/socket';
 import { applyInventory, emptyInventory, admission, order, type Inventory, type Position, type Order } from '../../../packages/perpl/inventory';
 import { record, list, safeNumber, u64 } from '../../../packages/perpl/codec';
-import { enroll, type EnrollmentPolicy } from '../../../packages/perpl/enrollment';
+import { enroll, hasEnrollmentPolicy, type EnrollmentPolicy } from '../../../packages/perpl/enrollment';
 import { orderHistory } from '../../../packages/perpl/history';
 import { Coordinator, requestOutcome, type JournalRow, type ExecutionContext } from '../../../packages/execution/coordinator';
 import { workflow, protection } from '../../../packages/execution/workflow';
@@ -57,7 +57,7 @@ export class TreadyController {
   }
   private checkRPC(cfg:MarketConfig):void{if(this.rpcBusy)return;this.rpcBusy=true;void verifyChain(cfg).then(()=>{if(this.state.config?.digest===cfg.digest)this.patch({rpcVerified:true});}).catch(()=>this.patch({rpcVerified:false})).finally(()=>{this.rpcBusy=false;});}
   get passkeyConfigured():boolean{return !!this.extra.rpId;}
-  get enrollmentConfigured():boolean{return !!this.extra.origin&&!!this.extra.enrollmentPolicy;}
+  get enrollmentConfigured():boolean{return !!this.extra.origin&&hasEnrollmentPolicy(this.extra.enrollmentPolicy);}
   async task(action:()=>Promise<void>):Promise<void>{if(this.state.busy)return;this.patch({busy:true,error:null});try{await action();}catch(error){this.patch({error:userError(error)});}finally{this.patch({busy:false,unlocked:this.wallet?.unlocked??false});}}
   async unlock(create=false):Promise<void>{await this.task(async()=>{if(this.state.mode!=='testnet')throw new Error('Pilih mode testnet untuk login.');const identity=await this.wallet.unlock(create);this.patch({identity,unlocked:true});await this.refreshBalance();const key=await loadKey(identity.address);if(key){assertCredential(key);if(key.wallet.toLowerCase()!==identity.address.toLowerCase())throw new Error('API_WALLET_MISMATCH');this.key=key;await this.connect();}});}
   lock():void{this.wallet?.lock();}
