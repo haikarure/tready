@@ -5,6 +5,7 @@ describe('passkey provider failures',()=>{
   it('distinguishes native provider setup, missing credential, cancellation and PRF failures inside SDK causes',()=>{
     const wrapped=(code:string)=>({code:'PASSKEY_OPERATION_FAILED',cause:{code}});
     expect(passkeyFailureMessage(wrapped('NoCreateOption'))).toContain('Aktifkan provider');
+    expect(passkeyFailureMessage({code:'PASSKEY_OPERATION_FAILED',cause:{error:'NoCreateOption',message:'No create option.'}})).toContain('Aktifkan provider');
     expect(passkeyFailureMessage(wrapped('NoCredentials'))).toContain('tidak ditemukan');
     expect(passkeyFailureMessage(wrapped('UserCancelled'))).toContain('dibatalkan');
     expect(passkeyFailureMessage({code:'PRF_UNAVAILABLE'})).toContain('PRF');

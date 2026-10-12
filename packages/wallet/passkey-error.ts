@@ -2,8 +2,10 @@
 export function passkeyFailureMessage(error:unknown):string {
   let current=error;
   for(let depth=0;depth<4&&current&&typeof current==='object';depth++){
-    const value=current as {code?:unknown;cause?:unknown};
-    switch(value.code){
+    const value=current as {code?:unknown;error?:unknown;cause?:unknown};
+    // react-native-passkey rejects with {error, message}; Mera wraps that
+    // object as its cause, while other clients expose {code}.
+    switch(typeof value.code==='string'?value.code:value.error){
       case 'PRF_UNAVAILABLE': return 'Provider passkey belum mendukung PRF. Pilih provider yang mendukung PRF lalu coba lagi.';
       case 'NoCreateOption': case 'NotConfigured': return 'Provider belum dapat membuat passkey. Aktifkan provider dan akunnya di pengaturan passkey Android.';
       case 'NoCredentials': return 'Passkey wallet ini tidak ditemukan. Pilih provider tempat passkey lu disimpan.';
