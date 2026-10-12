@@ -34,6 +34,10 @@ module.exports = function withPreviewSigning(config) {
       // only watch the app directory. Include shared money/wallet code too.
       contents += `\n${sharedMarker}\ntasks.configureEach { task ->\n    if (task.name.startsWith('createBundle') && task.name.endsWith('JsAndAssets')) {\n        task.inputs.dir(file('../../../../packages')).withPropertyName('treadySharedSources')\n        task.inputs.files(file('../../../../package.json'), file('../../../../pnpm-lock.yaml')).withPropertyName('treadyRootDependencies')\n    }\n}\n`;
     }
+    const configMarker = '// Tready passkey configuration build inputs';
+    if (!contents.includes(configMarker)) {
+      contents += `\n${configMarker}\ntasks.configureEach { task ->\n    if (task.name.startsWith('createBundle') && task.name.endsWith('JsAndAssets')) {\n        ['TREADY_RP_ID', 'TREADY_ORIGIN', 'TREADY_ENROLLMENT_POLICY_JSON'].each { key ->\n            task.inputs.property(key, System.getenv(key) ?: '')\n        }\n    }\n}\n`;
+    }
     mod.modResults.contents = contents;
     return mod;
   });

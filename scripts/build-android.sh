@@ -2,6 +2,8 @@
 set -euo pipefail
 TREADY_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$TREADY_ROOT"
+: "${TREADY_RP_ID:?Set TREADY_RP_ID to the existing passkey host before building.}"
+: "${TREADY_ORIGIN:?Set TREADY_ORIGIN to the application HTTPS Origin before building.}"
 mkdir -p .tooling/keys artifacts
 if [[ ! -f .tooling/keys/preview.p12 ]]; then
   python - <<'PY'
@@ -27,3 +29,9 @@ PY
 TREADY_APK_OUTPUT="artifacts/tready-$TREADY_APK_VERSION-preview.apk"
 cp apps/android/android/app/build/outputs/apk/release/app-release.apk "$TREADY_APK_OUTPUT"
 ./scripts/dev.sh node node_modules/tsx/dist/cli.mjs scripts/release-metadata.ts "$TREADY_APK_OUTPUT"
+python - <<'PY'
+import json,os
+from pathlib import Path
+r=json.loads(Path('artifacts/release.json').read_text())
+assert r['rpId']==os.environ['TREADY_RP_ID'] and r['origin']==os.environ['TREADY_ORIGIN'], 'APK passkey configuration differs from build environment.'
+PY
