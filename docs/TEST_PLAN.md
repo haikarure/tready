@@ -4,7 +4,7 @@ Versi 0.1 · 11 Oktober 2026. Mengacu ke [PRD](PRD.md) dan [spesifikasi teknis](
 
 Baseline status di bawah dibuat saat PRD. Hasil execution terbaru dipisahkan dalam [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md), [core test report](../artifacts/core-tests.json), dan bukti emulator. Unit/synthetic tests tidak menjadi bukti semua 42 skenario testnet/device telah lulus.
 
-## 1. Status yang benar saat ini
+## 1. Baseline saat PRD dibuat
 
 | Aktivitas | Hasil yang tersedia | Yang belum dibuktikan |
 |---|---|---|
@@ -23,7 +23,7 @@ Unit/core tests tidak menggunakan key, account, RPC write atau network. Mock tra
 
 Simpan fixture sanitized yang mencakup chain, instance, schema/config version, source, fetched/received time, dan real/synthetic classification. Jangan menyimpan API secret/token, enrollment signatures, PRF, seed, atau private key di fixture. Test nonce/auth menggunakan synthetic keys yang tidak pernah diberi dana atau capability live.
 
-Device utama: Android milik founder; catat model/OS/browser atau provider, credential sync status, build certificate/profile, network, dan build commit. Emulator/RN test renderer tidak menggantikan PRF/biometric/recovery test pada HP nyata. Tidak perlu membeli device untuk menyatakan dukungan yang belum diuji.
+Native passkey dapat diuji pada Android device atau emulator yang mempunyai PRF-capable provider. Catat OS/provider, credential sync status, build certificate/profile, network, dan build commit. Browser virtual PRF membuktikan browser/Mera/derivation; native emulator membuktikan hanya kombinasi provider/build yang dijalankan. Keduanya tidak membuktikan hardware biometrics atau provider sync pada HP founder. Tidak perlu membeli device untuk menyatakan dukungan yang belum diuji.
 
 ## 3. Test case matrix
 

@@ -846,6 +846,42 @@
       "limitations": [
         "Documentation does not prove Tready physical passkey or production readiness."
       ]
+    },
+    {
+      "id": "gradle_incremental_inputs",
+      "url": "https://docs.gradle.org/current/userguide/incremental_build.html",
+      "kind": "platform_primary",
+      "access": "read_without_login",
+      "supports": [
+        "declaring shared JS directories as Gradle task inputs"
+      ]
+    },
+    {
+      "id": "chrome_virtual_webauthn",
+      "url": "https://developer.chrome.com/docs/devtools/webauthn",
+      "kind": "platform_primary",
+      "access": "read_without_login",
+      "supports": [
+        "browser virtual authenticator support"
+      ]
+    },
+    {
+      "id": "netlify_api",
+      "url": "https://docs.netlify.com/api-and-cli-guides/api-guides/get-started-with-api/",
+      "kind": "platform_primary",
+      "access": "read_without_login",
+      "supports": [
+        "site and ZIP deploy API"
+      ]
+    },
+    {
+      "id": "netlify_internal_rewrite",
+      "url": "https://docs.netlify.com/manage/routing/redirects/rewrites-proxies/",
+      "kind": "platform_primary",
+      "access": "read_without_login",
+      "supports": [
+        "HTTP200 internal rewrite"
+      ]
     }
   ],
   "not_done": [
@@ -1019,7 +1055,11 @@
       "Native compile and emulator UI are separate from physical-device integration."
     ],
     "emulator_report": "artifacts/emulator-smoke.json",
-    "app_source_commit": "63327de0f6f5dfa9cdd7a4846fafd2b35d6dc272"
+    "app_source_commit": "adb0e9ed578f8edcb27dfa16dadd6cb0bdd0f56e",
+    "browser_passkey_report": "artifacts/passkey-browser-smoke.json",
+    "hosting_report": "artifacts/netlify-host.json",
+    "native_passkey_report": "artifacts/native-passkey-probe.json",
+    "hosting_page_report": "artifacts/hosting-page-smoke.json"
   },
   "domain_observation": {
     "observedAt": "2026-10-12T02:52:20.709628+00:00",
@@ -1033,7 +1073,14 @@
     "candidateDnsStatus": "NXDOMAIN",
     "apexAssetlinksStatus": 404,
     "domainOwnershipEvidence": "user_confirmation",
-    "hostingAuthenticationAvailable": false,
-    "deployed": false
-  }
+    "hostingAuthenticationAvailable": true,
+    "deployed": true,
+    "activeRpId": "tready-archzxy.netlify.app",
+    "activeOrigin": "https://tready-archzxy.netlify.app",
+    "dnsMutationsPerformed": false,
+    "optionalCustomDomain": "auth.archzxy.com",
+    "updateNote": "Prior observation records the initial public DNS state. Local Netlify credentials were subsequently found; the separate Netlify hostname was published as the active preview RP without requiring Spaceship DNS access.",
+    "deploymentVerifiedAt": "2026-10-12T04:05:21.941441+00:00"
+  },
+  "last_updated_on": "2026-10-12"
 }

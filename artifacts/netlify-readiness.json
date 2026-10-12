@@ -1,0 +1,21 @@
+{
+  "authenticated": true,
+  "matchingSites": [
+    {
+      "id": "65bc0f0a-6cdc-4aef-aafc-005f6d9631d6",
+      "name": "archzxy",
+      "url": "https://archzxy.com",
+      "ssl_url": "https://archzxy.com",
+      "custom_domain": "archzxy.com",
+      "domain_aliases": [
+        "www.archzxy.com"
+      ],
+      "published_deploy": {
+        "id": "6ac78359360a5f0e7bcecfa7",
+        "state": "ready",
+        "published_at": "2026-10-08T11:50:08.111Z",
+        "deploy_ssl_url": "https://6ac78359360a5f0e7bcecfa7--archzxy.netlify.app"
+      }
+    }
+  ]
+}

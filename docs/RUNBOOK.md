@@ -26,7 +26,7 @@ Development device membutuhkan native app (`pnpm android`) dengan Metro; Expo Go
 
 Script membuat preview certificate unik sekali di `.tooling/keys/`, lalu memakai certificate yang sama pada rebuild. File key/password bersifat lokal, diabaikan Git dan tidak masuk `.env`, log, hosting atau source repo. Simpan backup pribadi bila APK akan diperbarui pada perangkat yang menyimpan data. Mengganti certificate dapat memerlukan uninstall serta perubahan assetlinks; uninstall menghilangkan journal lokal.
 
-Output: `artifacts/tready-0.1.0-preview.apk`, `artifacts/release.json` (checksum/cert/network), dan `apps/access/public/.well-known/assetlinks.json`. APK mengandung ABI arm64-v8a dan x86_64, minimum install Android API24; belum ada klaim dukungan Android32bit. Minimum install berbeda dari kompatibilitas PRF/passkey provider. Ini preview lokal, bukan Play Store production release atau account recovery test.
+Output: `artifacts/tready-0.1.0-preview.apk`, `artifacts/release.json` (checksum/cert/network), dan `apps/access/public/.well-known/assetlinks.json`. Metadata dibaca dari config/manifest dan certificate di APK hasil build, bukan dari environment saat membuat laporan. Gradle juga mengawasi shared source `packages/` dan dependency root agar perubahan wallet/risk engine menginvalidasi JS bundle. APK mengandung ABI arm64-v8a dan x86_64, minimum install Android API24; belum ada klaim dukungan Android32bit. Minimum install berbeda dari kompatibilitas PRF/passkey provider. Ini preview, bukan Play Store production release atau account recovery test.
 
 Jika mencoba lewat ADB, pilih serial perangkat sendiri agar tidak memasang ke perangkat lain:
 
@@ -35,24 +35,40 @@ adb devices
 adb -s YOUR_SERIAL install -r artifacts/tready-0.1.0-preview.apk
 ```
 
-## Domain/passkey dan enrollment yang belum siap
+## Host passkey aktif dan enrollment
 
-Update12Oktober: founder memiliki `archzxy.com` dan mengonfirmasi hosting Netlify. Pemeriksaan publik menunjukkan root HTTPS200, nameserver `launch1.spaceship.net`/`launch2.spaceship.net`, assetlinks root404, dan kandidat `auth.archzxy.com` belum mempunyai DNS. Ownership berdasarkan konfirmasi founder; akses akun hosting/DNS belum tersedia di workspace.
+Update12Oktober: akses Netlify lokal berhasil diverifikasi. Site terpisah `tready-archzxy` sudah dipublikasikan pada [tready-archzxy.netlify.app](https://tready-archzxy.netlify.app). Host ini menjadi RP ID preview. [Assetlinks](https://tready-archzxy.netlify.app/.well-known/assetlinks.json) memberikan HTTPS200, JSON dan certificate/package APK yang cocok, tanpa redirect atau login gate. Bukti deployment tersedia di [netlify-host.json](../artifacts/netlify-host.json).
 
-Kandidat host passkey adalah `auth.archzxy.com`. Paket [tready-passkey-host.zip](../artifacts/tready-passkey-host.zip) memuat file public dari `apps/access/public`, termasuk direktori `.well-known` dan header JSON untuk Netlify. Paket tidak memuat APK atau private signing key. Untuk manual deploy, ekstrak paket dan upload folder hasil ekstraksi melalui Netlify Drop; pastikan `.well-known/assetlinks.json` ikut ter-upload.
+Deployment website `archzxy.com` diverifikasi tetap sama. Tidak ada perubahan DNS, apex, www atau nameserver. DNS induk dikelola Spaceship dan akses DNS belum tersedia. `auth.archzxy.com` tetap pilihan untuk masa depan; bukan hostname aktif dan tidak dibutuhkan untuk preview ini. Credential terikat RP ID: mengganti host setelah membuat passkey menghasilkan identitas berbeda dan memerlukan rencana migrasi/recovery, bukan perubahan config diam-diam.
 
-Tambahkan `auth.archzxy.com` sebagai custom domain pada site Netlify tersebut. Di DNS Spaceship, buat CNAME host `auth` menuju hostname site yang diberikan Netlify (`NAMA-SITE.netlify.app`, bukan placeholder ini). Tunggu DNS/TLS aktif, kemudian periksa URL assetlinks langsung: HTTPS200, JSON, tidak redirect, package/certificate cocok. Instruksi mengikuti [Netlify external DNS](https://docs.netlify.com/manage/domains/configure-domains/configure-external-dns/). Belum ada deployment atau DNS mutation yang dilakukan.
+Paket [tready-passkey-host.zip](../artifacts/tready-passkey-host.zip) adalah arsip host association sebelum penambahan download APK; tidak memuat APK atau private key. Netlify ZIP API mengabaikan direktori `.well-known` pada percobaan awal. File `assetlinks.json` di root dan `_redirects` kini melayani path `.well-known` melalui internal rewrite200, tanpa HTTP redirect. Release script menghasilkan kedua salinan JSON dari certificate APK yang diverifikasi agar tidak berbeda. Deploy preview lengkap perlu menyertakan APK dan metadata pada `/downloads/` seperti site aktif; arsip association saja tidak menyediakan download.
 
-Setelah association berhasil, config build yang direncanakan adalah `TREADY_RP_ID=auth.archzxy.com` dan `TREADY_ORIGIN=https://auth.archzxy.com`. Origin Perpl tetap perlu whitelist vendor dan schema enrollment. APK preview yang sudah dibagikan masih tanpa rpId; belum rebuild untuk domain tersebut.
+Build preview dengan konfigurasi host aktif:
+
+```bash
+TREADY_RP_ID=tready-archzxy.netlify.app \
+TREADY_ORIGIN=https://tready-archzxy.netlify.app \
+./scripts/build-android.sh
+```
+
+Host HTTPS dan native enrollment Perpl adalah gate berbeda. Whitelist Origin vendor serta schema enrollment belum terkonfirmasi; `TREADY_ENROLLMENT_POLICY_JSON` tetap kosong dan otorisasi API trading disabled.
 
 1. Pilih hostname HTTPS yang dikuasai tim. Publish assetlinks pada `https://HOST/.well-known/assetlinks.json` dengan JSON MIME, tanpa redirect/auth gate. Certificate harus cocok dengan APK yang benar-benar dipasang. RP ID adalah hostname, bukan URL dengan path. Jangan memakai domain Mera/peserta lain.
 2. Isi build config `TREADY_RP_ID` dan `TREADY_ORIGIN=https://HOST`; keduanya public metadata. Tempatkan dalam environment build atau file `.env` lokal pada `apps/android/`. Rebuild APK sebelum membuat credential. Domain adalah bagian dari identitas derivation yang dibekukan.
 3. Perpl harus mengizinkan Origin untuk `/api-key/payload` dan `/api-key/enroll`. Mengubah header/relay tidak memberikan whitelist. Draft pertanyaan vendor tersedia di [implementation plan](IMPLEMENTATION_PLAN.md); belum dikirim.
 4. Pin schema payload EIP-712 yang dikonfirmasi vendor ke `TREADY_ENROLLMENT_POLICY_JSON`. Objek memuat `domainName`, `domainVersion`, `verifyingContract`, `primaryType`, serta nama field `addressField`, `publicKeyField`, `scopeField`, `expiryField`. Belum ada verified fixture vendor untuk mengisi nilai-nilai itu. Adapter yang memerlukan perubahan schema/domain harus diperbaiki dan diuji; jangan menebak nilai agar signing lolos.
-5. Uji create dan existing passkey pada Android dengan PRF-capable credential provider, termasuk clear-data restore, cancellation dan lock. [Mera mendukung device atau emulator yang providernya mendukung PRF](https://github.com/category-labs/mera/blob/main/demos/mobile/README.md). Emulator UI test yang sudah dilakukan belum membuktikan PRF; kompatibilitas perangkat asli dicatat terpisah.
+5. Uji create dan existing passkey pada Android dengan PRF-capable credential provider, termasuk clear-data restore, cancellation dan lock. [Mera mendukung device atau emulator yang providernya mendukung PRF](https://github.com/category-labs/mera/blob/main/demos/mobile/README.md). Browser virtual-authenticator test membuktikan Mera/derivation secara terpisah; hasilnya tidak membuktikan native Android bridge atau provider.
 6. Lakukan test funding/account/forwarding/enrollment/read di device, tangkap sanitized payload. Verifikasi signed target `/v1/...` terhadap endpoint `/api/v1/...`, account balance, recycle charge/refund, trigger lifecycle/expiry dan financial event semantics sebelum menganggap P0 selesai.
 
-Build tanpa konfigurasi tersebut sengaja menonaktifkan onboarding/trading live. Public market/testnet reads dan latihan tersedia. Tidak ada token/API secret yang harus dikirim lewat chat atau dimasukkan ke build config; API key nantinya dibuat client dan disimpan pada device-authenticated SecureStore.
+Build tanpa rpId menonaktifkan onboarding; build tanpa pinned enrollment policy menonaktifkan otorisasi API trading. Public market/testnet reads dan latihan tersedia. Tidak ada token/API secret yang harus dikirim lewat chat atau dimasukkan ke build config; API key nantinya dibuat client dan disimpan pada device-authenticated SecureStore.
+
+## Pengujian passkey tanpa HP
+
+`python scripts/passkey-browser-smoke.py` memakai Python Playwright1.58.0, Chrome153.0.8010.12 di cache lokal dan CDP virtual authenticator dengan PRF. Test harness memakai Mera0.2.0 serta `packages/wallet/derive.ts` produksi; dijalankan melalui localhost secure context, tanpa mempublikasikan harness, credential private key, seed atau PRF.
+
+Delapan checks lulus: create, signature/address verification, session lock, same-credential restore sesudah reload, discoverable restore tanpa metadata app, credential berbeda menghasilkan wallet berbeda, wrong RP ditolak, dan authenticator tanpa PRF gagal dengan `PRF_UNAVAILABLE`. Laporan [passkey-browser-smoke.json](../artifacts/passkey-browser-smoke.json) memuat versi browser dan hash source derivation. Provider sync, hardware biometrics dan native Android belum terbukti oleh pengujian ini.
+
+`python scripts/native-passkey-probe.py` hanya menargetkan AVD `tready-api36` pada `emulator-5556` yang tidak mempunyai akun. Provider Google menampilkan pilihan membuat passkey pada perangkat lain; probe membatalkan prompt dan memeriksa pesan cancellation, wallet terkunci serta enrollment disabled. [Native report](../artifacts/native-passkey-probe.json) terikat checksum APK final. Probe ini tidak memasangkan perangkat lain atau menghasilkan credential/PRF native.
 
 ## Alur latihan yang bisa direview
 
@@ -70,6 +86,6 @@ Secrets tidak disimpan di SQLite, receipt, `.env` atau CI. Config dan snapshot h
 
 ## Distribusi dan submission
 
-Folder `apps/access/public` siap untuk host static HTTPS; domain induk dikonfirmasi founder, tetapi host passkey belum deployed/associated. Menghosting HTML saja tidak memberi eligibility Agora atau whitelist Perpl. Public repo, APK, actual Monad trade evidence, qualified users dan video≤3menit merupakan deliverable berbeda. Submission belum dikirim, outreach belum dilakukan, sponsor cards terkini belum dikonfirmasi.
+Host static HTTPS sudah aktif pada site Netlify terpisah. [Download APK](https://tready-archzxy.netlify.app/downloads/tready-0.1.0-preview.apk) dan [metadata publik](https://tready-archzxy.netlify.app/downloads/release.json) memberikan HTTPS200 tanpa redirect; byte count/SHA256 download cocok dengan APK yang diuji di emulator. Bundel deploy APK disimpan lokal di `.tooling/`, tidak dimasukkan Git. Menghosting HTML/assetlinks tidak memberi eligibility Agora atau whitelist Perpl. Public repo, actual Monad trade evidence, qualified users dan video≤3menit merupakan deliverable berbeda. Submission belum dikirim, outreach belum dilakukan, sponsor cards terkini belum dikonfirmasi.
 
 Lisensi source Tready: [MIT](../LICENSE). [Attribution/disclosure](../third-party/NOTICE.md). Rules dan spesifikasi lengkap tersedia di [PRD](PRD.md).

@@ -1,0 +1,7 @@
+# Third-party attribution
+
+- `packages/perpl/exchange-abi.json` is a subset of the Exchange ABI published by Perpl Foundation at [dex-sdk commit 78ce8a06e39e2f9288792eba41aca5f3c08c1195](https://github.com/PerplFoundation/dex-sdk/blob/78ce8a06e39e2f9288792eba41aca5f3c08c1195/crates/sdk/abi/dex/Exchange.json). Copyright 2025 Perpl Foundation. Its MIT license is preserved in [PERPL-SDK-LICENSE](PERPL-SDK-LICENSE).
+- Wallet mapping and native secure-random bootstrap follow [Mera documentation](https://mera.category.xyz/recipes/create-passkey-accounts/) and the [mobile example](https://github.com/category-labs/mera/tree/main/demos/mobile). The installed `@category-labs/mera` package provides its MIT/Apache-2.0 licenses.
+- API codecs/authentication/integration behavior follow the [official Perpl API documentation](https://github.com/PerplFoundation/api-docs); Tready adapters are independently implemented. No API access or sponsorship is implied.
+- Expo, React Native, viem, noble, scure, SQLite modules, navigation and other dependencies retain their upstream licenses. Exact resolved versions are recorded in `pnpm-lock.yaml`.
+- AI disclosure: research, specification, application code and tests were developed with OpenAI Codex. Current verification and unresolved integration requirements are reported separately; generated code is not presented as a completed device or live-trading test.

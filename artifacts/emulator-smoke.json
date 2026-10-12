@@ -1,11 +1,11 @@
 {
   "classification": "real_emulator_UI_test_of_public_data_and_synthetic_execution_only",
-  "testedAt": "2026-10-11T16:27:14.481523+00:00",
-  "apkSha256": "48cc1638d8f118ae1f6088177da74282944d32cb94ac5876735a7a3f6513b36b",
-  "appSourceCommit": "63327de0f6f5dfa9cdd7a4846fafd2b35d6dc272",
+  "testedAt": "2026-10-12T03:51:45.602392+00:00",
+  "apkSha256": "b887c49bb4aec5372c682d0391b1a9c2e04a535d956232ead55e21349ef4d9c7",
+  "appSourceCommit": "adb0e9ed578f8edcb27dfa16dadd6cb0bdd0f56e",
   "device": "Pixel7 emulator, Android API36 x86_64, 360dp",
   "passed": [
-    "standalone start; passkey disabled without rpId",
+    "standalone start; configured passkey control enabled, ceremony not implied",
     "synthetic entry reaches protection-pending",
     "synthetic stop registration visible",
     "synthetic close returns flat",
@@ -30,16 +30,13 @@
     "customer demand"
   ],
   "visualReview": {
-    "reviewedAt": "2026-10-11T16:28:50.138393+00:00",
+    "reviewedAt": "2026-10-12T03:53:48.353851+00:00",
     "screens": [
-      "account-360dp",
-      "plan-360dp",
-      "trade-protected-360dp",
-      "receipt-360dp",
       "account-large-font",
-      "receipt-large-font"
+      "receipt-large-font",
+      "native-passkey-cancelled"
     ],
-    "observations": "Text wraps and fixed navigation remains accessible at 360dp/font1.4; long content scrolls. This is visual inspection, not a comparative UX or customer study."
+    "observations": "Account/Receipt text wraps and fixed navigation stays accessible at 360dp/font1.4. Native cancellation displays a clear message and keeps the wallet locked. This is visual inspection, not a customer study."
   },
   "runtimeInspection": {
     "scope": "final process after restart",

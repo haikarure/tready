@@ -1,0 +1,26 @@
+{
+  "classification": "real_browser_WebAuthn_with_virtual_PRF_authenticator",
+  "meraVersion": "0.2.0",
+  "physicalDevice": false,
+  "notVerified": [
+    "Android native passkey bridge/provider",
+    "hardware biometrics",
+    "provider sync or cross-device restoration",
+    "owner transactions",
+    "Perpl enrollment/authenticated trading"
+  ],
+  "passed": [
+    "Mera creates a discoverable user-verified credential and receives a 32-byte virtual PRF",
+    "production wallet derivation signs a message verified against its EVM address",
+    "ending the Mera session rejects later signing",
+    "fresh page session plus existing credential recovers the same wallet address",
+    "discoverable credential restores identity without saved app metadata",
+    "a newly created credential produces a separate wallet identity",
+    "the browser rejects a passkey request for an unrelated relying party",
+    "Mera fails closed with PRF_UNAVAILABLE on an authenticator without PRF"
+  ],
+  "browserVersion": "153.0.8010.12",
+  "success": true,
+  "walletDerivationSha256": "bfd1061061ff8ee0a123edc79687a4b032902a87342b59ef1def9d1938d67171",
+  "testedAt": "2026-10-12T03:13:05.954695+00:00"
+}

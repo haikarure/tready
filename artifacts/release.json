@@ -1,22 +1,25 @@
 {
   "version": "0.1.0",
-  "build": 1,
+  "build": 3,
   "package": "xyz.tready.app",
   "network": "Monad Testnet",
   "chainId": 10143,
   "file": "tready-0.1.0-preview.apk",
-  "bytes": 54200887,
-  "sha256": "48cc1638d8f118ae1f6088177da74282944d32cb94ac5876735a7a3f6513b36b",
+  "bytes": 54202455,
+  "sha256": "b887c49bb4aec5372c682d0391b1a9c2e04a535d956232ead55e21349ef4d9c7",
   "certificateSha256": "4C:81:BA:5E:EA:B3:EB:C6:4F:BD:5A:41:FD:09:4F:58:26:0C:FD:66:D5:99:87:31:70:FA:5C:3F:F9:2A:09:C4",
-  "sourceCommit": "63327de0f6f5dfa9cdd7a4846fafd2b35d6dc272",
-  "builtAt": "2026-10-11T16:19:05.472Z",
+  "sourceCommit": "adb0e9ed578f8edcb27dfa16dadd6cb0bdd0f56e",
+  "builtAt": "2026-10-12T03:48:10.911Z",
+  "rpId": "tready-archzxy.netlify.app",
+  "origin": "https://tready-archzxy.netlify.app",
+  "enrollmentConfigured": false,
   "supportedAbis": [
     "arm64-v8a",
     "x86_64"
   ],
   "classification": "standalone_preview_APK_not_production_release",
   "limitations": [
-    "No owned rpId/whitelisted Origin configured.",
-    "Physical-device PRF, authenticated API, owner transactions and live trading are not verified."
+    "Authenticated API, owner transactions and live trading are not verified.",
+    "Native PRF/provider, hardware biometrics and provider sync require separate verification."
   ]
 }
