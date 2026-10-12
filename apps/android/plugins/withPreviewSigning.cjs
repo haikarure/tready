@@ -28,6 +28,12 @@ module.exports = function withPreviewSigning(config) {
       contents = contents.slice(0, debugSign) + 'signingConfig signingConfigs.treadyPreview' + contents.slice(debugSign + 'signingConfig signingConfigs.debug'.length);
       contents += `\n// Never associate a passkey domain with the shared template debug key.\ngradle.taskGraph.whenReady { graph ->\n    if (graph.allTasks.any { it.name == 'assembleRelease' || it.name == 'packageRelease' }) {\n        if (!System.getenv('TREADY_KEYSTORE_PATH') || !System.getenv('TREADY_KEYSTORE_PASSWORD_FILE')) {\n            throw new GradleException('Use scripts/build-android.sh to configure the private preview certificate.')\n        }\n    }\n}\n`;
     }
+    const sharedMarker = '// Tready shared JS build inputs';
+    if (!contents.includes(sharedMarker)) {
+      // Metro resolves outside apps/android, but RN's default Gradle inputs
+      // only watch the app directory. Include shared money/wallet code too.
+      contents += `\n${sharedMarker}\ntasks.configureEach { task ->\n    if (task.name.startsWith('createBundle') && task.name.endsWith('JsAndAssets')) {\n        task.inputs.dir(file('../../../../packages')).withPropertyName('treadySharedSources')\n        task.inputs.files(file('../../../../package.json'), file('../../../../pnpm-lock.yaml')).withPropertyName('treadyRootDependencies')\n    }\n}\n`;
+    }
     mod.modResults.contents = contents;
     return mod;
   });
