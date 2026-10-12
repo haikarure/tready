@@ -1,7 +1,7 @@
 import { digest } from '../domain/plan';
 import { bool, list, record, safeNumber, text, u64 } from './codec';
 
-export const TESTNET = { chainId: 10143 as const, api: 'https://testnet.perpl.xyz/api', ws: 'wss://testnet.perpl.xyz', rpc: 'https://testnet-rpc.monad.xyz', exchange: '0x1964c32f0be608e7d29302aff5e61268e72080cc', collateral: '0xa9012a055bd4e0edff8ce09f960291c09d5322dc', faucet: '0xd236c18d274e54faccc3dd9dda4b27965a73ee6c' };
+export const TESTNET = { chainId: 10143 as const, instanceId:12n, marketId:16n, api: 'https://testnet.perpl.xyz/api', ws: 'wss://testnet.perpl.xyz', rpc: 'https://testnet-rpc.monad.xyz', exchange: '0x1964c32f0be608e7d29302aff5e61268e72080cc', collateral: '0xa9012a055bd4e0edff8ce09f960291c09d5322dc', faucet: '0xd236c18d274e54faccc3dd9dda4b27965a73ee6c' };
 export interface MarketConfig { chainId: 10143; instanceId: bigint; marketId: bigint; perpetualId: bigint; exchange: string; collateral: string; collateralDecimals: number; priceDecimals: number; sizeDecimals: number; initialMargin: number; maintenanceMargin: number; takerFees: number[]; recycleFee: bigint; minOpen: bigint; minDeposit: bigint; minWithdraw: bigint; minSettle: bigint; ttlBlocks: bigint; maxSlippageBps: number; isOpen: boolean; digest: string }
 export function resolveConfig(payload: unknown): MarketConfig {
   const root = record(payload); const chain = record(root.chain);

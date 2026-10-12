@@ -1,0 +1,46 @@
+{
+  "testedAt": "2026-10-12T13:42:48.938361+00:00",
+  "classification": "production_journal_SQL_on_Android_SQLite_engine_not_Expo_JS_API",
+  "device": "tready-api36 emulator",
+  "cases": [
+    {
+      "case": "confirmed outcome survives stale local/transport writes",
+      "passed": 1,
+      "status": "settled",
+      "seen": 1
+    },
+    {
+      "case": "forwarded survives delayed sent",
+      "passed": 1,
+      "status": "forwarded",
+      "seen": 0
+    },
+    {
+      "case": "failure survives transport success",
+      "passed": 1,
+      "status": "failed",
+      "seen": 0
+    },
+    {
+      "case": "late venue success allowed",
+      "passed": 1,
+      "status": "settled",
+      "seen": 1
+    },
+    {
+      "case": "unknown needs venue outcome",
+      "passed": 1,
+      "status": "unknown",
+      "seen": 0
+    },
+    {
+      "case": "restart repairs legacy confirmed status",
+      "passed": 1,
+      "status": "settled",
+      "seen": 1
+    }
+  ],
+  "success": true,
+  "nativeBootstrapMigration": "not_yet_tested",
+  "realOrdersSent": 0
+}

@@ -1,0 +1,269 @@
+{
+  "classification": "origin_whitelist_probe_no_key_created",
+  "checkedAt": "2026-10-12T07:12:00.174Z",
+  "endpoint": "/v1/api-key/payload",
+  "probeWallet": "0xE804159b01FD4F466A6479022007Cb40434966E4",
+  "notCalled": [
+    "/v1/api-key/enroll"
+  ],
+  "note": "Payload returns an unsigned EIP-712 challenge; no signature was submitted and no API key was created.",
+  "summary": [
+    {
+      "seq": 0,
+      "origin": null,
+      "status": 200
+    },
+    {
+      "seq": 1,
+      "origin": "https://tready-archzxy.netlify.app",
+      "status": 400
+    },
+    {
+      "seq": 2,
+      "origin": null,
+      "status": 200
+    },
+    {
+      "seq": 3,
+      "origin": "https://tready-archzxy.netlify.app",
+      "status": 400
+    },
+    {
+      "seq": 4,
+      "origin": "https://testnet.perpl.xyz",
+      "status": 200
+    },
+    {
+      "seq": 5,
+      "origin": "https://tready-archzxy.netlify.app",
+      "status": 400
+    }
+  ],
+  "attempts": [
+    {
+      "seq": 0,
+      "origin": null,
+      "ok": true,
+      "status": 200,
+      "error": null,
+      "schema": {
+        "domain": {
+          "name": "perpl.xyz",
+          "version": "1",
+          "chainId": "0x279f",
+          "verifyingContract": "0x0000000000000000000000000000000000000000",
+          "salt": "0x00000000000000000000000000000000000000006acc883f368ca5c38df090cd"
+        },
+        "primaryType": "PerplRegisterApiKey",
+        "typeNames": [
+          "EIP712Domain",
+          "PerplRegisterApiKey"
+        ],
+        "messageFields": [
+          {
+            "name": "signer",
+            "type": "address"
+          },
+          {
+            "name": "statement",
+            "type": "string"
+          },
+          {
+            "name": "publicKey",
+            "type": "string"
+          },
+          {
+            "name": "scope",
+            "type": "string"
+          },
+          {
+            "name": "label",
+            "type": "string"
+          },
+          {
+            "name": "expiresAt",
+            "type": "string"
+          },
+          {
+            "name": "ipCidrs",
+            "type": "string"
+          },
+          {
+            "name": "origin",
+            "type": "string"
+          },
+          {
+            "name": "builderId",
+            "type": "string"
+          },
+          {
+            "name": "maxBuilderFeePer100K",
+            "type": "string"
+          },
+          {
+            "name": "time",
+            "type": "uint64"
+          }
+        ]
+      }
+    },
+    {
+      "seq": 1,
+      "origin": "https://tready-archzxy.netlify.app",
+      "ok": false,
+      "status": 400,
+      "error": "Perpl HTTP 400",
+      "schema": null
+    },
+    {
+      "seq": 2,
+      "origin": null,
+      "ok": true,
+      "status": 200,
+      "error": null,
+      "schema": {
+        "domain": {
+          "name": "perpl.xyz",
+          "version": "1",
+          "chainId": "0x279f",
+          "verifyingContract": "0x0000000000000000000000000000000000000000",
+          "salt": "0x00000000000000000000000000000000000000006acc8840def173c38d417f9e"
+        },
+        "primaryType": "PerplRegisterApiKey",
+        "typeNames": [
+          "EIP712Domain",
+          "PerplRegisterApiKey"
+        ],
+        "messageFields": [
+          {
+            "name": "signer",
+            "type": "address"
+          },
+          {
+            "name": "statement",
+            "type": "string"
+          },
+          {
+            "name": "publicKey",
+            "type": "string"
+          },
+          {
+            "name": "scope",
+            "type": "string"
+          },
+          {
+            "name": "label",
+            "type": "string"
+          },
+          {
+            "name": "expiresAt",
+            "type": "string"
+          },
+          {
+            "name": "ipCidrs",
+            "type": "string"
+          },
+          {
+            "name": "origin",
+            "type": "string"
+          },
+          {
+            "name": "builderId",
+            "type": "string"
+          },
+          {
+            "name": "maxBuilderFeePer100K",
+            "type": "string"
+          },
+          {
+            "name": "time",
+            "type": "uint64"
+          }
+        ]
+      }
+    },
+    {
+      "seq": 3,
+      "origin": "https://tready-archzxy.netlify.app",
+      "ok": false,
+      "status": 400,
+      "error": "Perpl HTTP 400",
+      "schema": null
+    },
+    {
+      "seq": 4,
+      "origin": "https://testnet.perpl.xyz",
+      "ok": true,
+      "status": 200,
+      "error": null,
+      "schema": {
+        "domain": {
+          "name": "perpl.xyz",
+          "version": "1",
+          "chainId": "0x279f",
+          "verifyingContract": "0x0000000000000000000000000000000000000000",
+          "salt": "0x00000000000000000000000000000000000000006acc8840895a93c38d8ec33f"
+        },
+        "primaryType": "PerplRegisterApiKey",
+        "typeNames": [
+          "EIP712Domain",
+          "PerplRegisterApiKey"
+        ],
+        "messageFields": [
+          {
+            "name": "signer",
+            "type": "address"
+          },
+          {
+            "name": "statement",
+            "type": "string"
+          },
+          {
+            "name": "publicKey",
+            "type": "string"
+          },
+          {
+            "name": "scope",
+            "type": "string"
+          },
+          {
+            "name": "label",
+            "type": "string"
+          },
+          {
+            "name": "expiresAt",
+            "type": "string"
+          },
+          {
+            "name": "ipCidrs",
+            "type": "string"
+          },
+          {
+            "name": "origin",
+            "type": "string"
+          },
+          {
+            "name": "builderId",
+            "type": "string"
+          },
+          {
+            "name": "maxBuilderFeePer100K",
+            "type": "string"
+          },
+          {
+            "name": "time",
+            "type": "uint64"
+          }
+        ]
+      }
+    },
+    {
+      "seq": 5,
+      "origin": "https://tready-archzxy.netlify.app",
+      "ok": false,
+      "status": 400,
+      "error": "Perpl HTTP 400",
+      "schema": null
+    }
+  ]
+}

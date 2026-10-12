@@ -1,0 +1,61 @@
+{
+  "checkedAt": "2026-10-12T13:44:02.403Z",
+  "classification": "read_only_order_history_and_chain_receipt_resolution_for_existing_smoke_trade",
+  "historyComplete": true,
+  "foundRequests": [
+    "3",
+    "2",
+    "1"
+  ],
+  "entries": [
+    {
+      "requestId": "3",
+      "orderId": "4614482100240",
+      "status": 4,
+      "reason": 43,
+      "block": "70411409",
+      "transactionIndex": "2",
+      "txHash": "0x9a076e339b6145aeb20591e0cbaf3e82f4734e119a47249016d0d8e47fea5596",
+      "confirmed": true,
+      "actualSizeLots": "1",
+      "explorer": "https://testnet.monadscan.com/tx/0x9a076e339b6145aeb20591e0cbaf3e82f4734e119a47249016d0d8e47fea5596"
+    },
+    {
+      "requestId": "3",
+      "orderId": "286089458614337",
+      "status": 5,
+      "reason": 28,
+      "block": "70411409",
+      "transactionIndex": null,
+      "txHash": null,
+      "confirmed": false,
+      "actualSizeLots": "0",
+      "explorer": null
+    },
+    {
+      "requestId": "2",
+      "orderId": "286089458614337",
+      "status": 8,
+      "reason": 35,
+      "block": "70411406",
+      "transactionIndex": "8",
+      "txHash": "0xf487ae371a61b5ff5823e786ffdf2d5672af4873a1b48009609c56bd32ee35f8",
+      "confirmed": true,
+      "actualSizeLots": "0",
+      "explorer": "https://testnet.monadscan.com/tx/0xf487ae371a61b5ff5823e786ffdf2d5672af4873a1b48009609c56bd32ee35f8"
+    },
+    {
+      "requestId": "1",
+      "orderId": "4614481707009",
+      "status": 4,
+      "reason": 43,
+      "block": "70411403",
+      "transactionIndex": "3",
+      "txHash": "0x976e8d7eb4b636ff03d711a43fb1974b3a99260d7085f64d9982f679891d5f45",
+      "confirmed": true,
+      "actualSizeLots": "1",
+      "explorer": "https://testnet.monadscan.com/tx/0x976e8d7eb4b636ff03d711a43fb1974b3a99260d7085f64d9982f679891d5f45"
+    }
+  ],
+  "newOrdersSent": 0
+}

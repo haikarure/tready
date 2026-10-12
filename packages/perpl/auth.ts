@@ -6,7 +6,7 @@ import { TESTNET } from './config';
 
 ed.hashes.sha512 = sha512;
 ed.hashes.sha512Async = async message => sha512(message);
-export interface ApiCredential { token: string; secret: Uint8Array; wallet: string; expiresAt: number; scope: number }
+export interface ApiCredential { token: string; secret: Uint8Array; wallet: string; expiresAt: number; scope: number; source?:'venue-import'|'enrollment' }
 export function assertCredential(key: ApiCredential, now = Date.now(), trade = false): void {
   if (key.secret.length !== 32 || !key.token || !/^0x[0-9a-fA-F]{40}$/.test(key.wallet) || !Number.isSafeInteger(key.expiresAt) || key.expiresAt < 0 || !Number.isInteger(key.scope) || key.scope < 1 || key.scope > 3 || (key.expiresAt !== 0 && key.expiresAt <= now)) throw new Error('API_KEY_INVALID_OR_EXPIRED');
   if (trade && !(key.scope & 2)) throw new Error('API_KEY_TRADE_SCOPE_REQUIRED');

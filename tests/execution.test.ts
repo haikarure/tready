@@ -1,12 +1,14 @@
 import { describe, expect, it, vi } from 'vitest';
 import { Coordinator, requestOutcome, type ExecutionContext } from '../packages/execution/coordinator';
 import { MemoryJournal } from '../packages/storage/memory';
-import { approve } from '../packages/domain/plan';
+import { approve, assertApproval } from '../packages/domain/plan';
 import { order } from '../packages/perpl/inventory';
 import { makePlan, o } from './fixtures';
 
 const ctx:ExecutionContext={sessionId:'s',live:true,fresh:true,accountFlat:true,lastForwarded:7n,head:100n,configDigest:'config',wallet:'0x1111111111111111111111111111111111111111',accountId:'42'};
 describe('execution safety invariants',()=>{
+  it('requires a real approval timestamp inside the plan and current session',()=>{const p=makePlan();for(const now of [NaN,999,4001])expect(()=>approve(p,'s',now)).toThrow();const a=approve(p,'s',1000);expect(()=>assertApproval(p,{...a,approvedAt:undefined as unknown as number},'s',2000)).toThrow();expect(()=>assertApproval(p,{...a,approvedAt:3000},'s',2000)).toThrow();});
+
   it('persists intent before send and ignores double taps',async()=>{const db=new MemoryJournal();const send=vi.fn(()=>{expect(db.values).toHaveLength(1);expect(db.values[0]?.status).toBe('prepared');});const c=new Coordinator(db,send);const p=makePlan();const a=approve(p,'s',1000);const outcomes=await Promise.allSettled([c.entry(p,a,ctx,20n,2000),c.entry(p,a,ctx,20n,2000)]);expect(send).toHaveBeenCalledTimes(1);expect(outcomes.filter(r=>r.status==='fulfilled')).toHaveLength(1);expect(db.values[0]?.id).toBe('8');});
   it('does not send when the durable write fails',async()=>{const db=new MemoryJournal();db.prepare=async()=>{throw new Error('disk');};const send=vi.fn();const p=makePlan();await expect(new Coordinator(db,send).entry(p,approve(p,'s',1000),ctx,20n,2000)).rejects.toThrow('disk');expect(send).not.toHaveBeenCalled();});
   it('blocks replacement after ambiguous transport failure',async()=>{const db=new MemoryJournal();const send=vi.fn(()=>{throw new Error('connection disappeared after send');});const c=new Coordinator(db,send);const p=makePlan();const a=approve(p,'s',1000);await expect(c.entry(p,a,ctx,20n,2000)).rejects.toThrow();expect(db.values[0]?.status).toBe('unknown');await expect(c.entry(p,a,ctx,20n,2000)).rejects.toThrow('UNKNOWN');expect(send).toHaveBeenCalledTimes(1);});

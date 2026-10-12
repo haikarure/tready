@@ -1,0 +1,55 @@
+{
+  "checkedAt": "2026-10-12T12:15:04.808Z",
+  "classification": "read_only_production_HTTP_socket_inventory_adapters_in_Node",
+  "rest": {
+    "results": [
+      {
+        "target": "/v1/trading/wallet",
+        "ok": true,
+        "mt": 19
+      },
+      {
+        "target": "/v1/trading/orders",
+        "ok": true,
+        "mt": 23
+      },
+      {
+        "target": "/v1/trading/positions",
+        "ok": true,
+        "mt": 26
+      }
+    ],
+    "allSnapshotsReady": true,
+    "accountCount": 1,
+    "orderCount": 0,
+    "positionCount": 0
+  },
+  "websocket": {
+    "completed": true,
+    "disconnected": false,
+    "parseError": null,
+    "sentTypes": [
+      29
+    ],
+    "messages": [
+      19,
+      23,
+      26,
+      100,
+      100,
+      100
+    ],
+    "heartbeats": 3,
+    "allSnapshotsReady": true,
+    "continuous": true,
+    "headPositive": true,
+    "accountCount": 1,
+    "orderCount": 0,
+    "positionCount": 0
+  },
+  "limitations": [
+    "Venue-created key, not enrolled through Android/Mera.",
+    "Node transport, not native Android WebSocket or SecureStore.",
+    "No proof of actual trade scope, fills, triggers, owner actions, or nonempty position/order decoding."
+  ]
+}

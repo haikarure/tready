@@ -3,7 +3,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import type { ExpoConfig } from 'expo/config';
 import { hasEnrollmentPolicy } from '../packages/perpl/enrollment';
-const apk='artifacts/tready-0.1.0-preview.apk';const data=await readFile(apk);
+const apk=process.argv[2]??'apps/android/android/app/build/outputs/apk/release/app-release.apk';const data=await readFile(apk);
 // Read the installed artifact, not current environment or TS module interop.
 const config=JSON.parse(execFileSync('unzip',['-p',apk,'assets/app.config'],{encoding:'utf8'})) as ExpoConfig;
 const badging=execFileSync('.tooling/android-sdk/build-tools/36.0.0/aapt',['dump','badging',apk],{encoding:'utf8'});
@@ -21,5 +21,5 @@ await mkdir('apps/access/public/.well-known',{recursive:true});await writeFile('
 // serves the same signed association from a root JSON file with HTTP200.
 await writeFile('apps/access/public/assetlinks.json',associationJson);
 let commit='uncommitted';try{commit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}).trim();}catch{}
-const report={version:config.version,build,package:packageName,network:'Monad Testnet',chainId:10143,file:'tready-0.1.0-preview.apk',bytes:data.length,sha256:createHash('sha256').update(data).digest('hex'),certificateSha256:sha256Cert,sourceCommit:commit,builtAt:new Date().toISOString(),rpId:config.extra?.rpId??'',origin:config.extra?.origin??'',enrollmentConfigured:hasEnrollmentPolicy(config.extra?.enrollmentPolicy),supportedAbis:['arm64-v8a','x86_64'],classification:'standalone_preview_APK_not_production_release',limitations:['Authenticated API, owner transactions and live trading are not verified.','Native PRF/provider, hardware biometrics and provider sync require separate verification.']};
+const report={version:config.version,build,package:packageName,network:'Monad Testnet',chainId:10143,file:apk.split('/').at(-1)!,bytes:data.length,sha256:createHash('sha256').update(data).digest('hex'),certificateSha256:sha256Cert,sourceCommit:commit,builtAt:new Date().toISOString(),rpId:config.extra?.rpId??'',origin:config.extra?.origin??'',enrollmentConfigured:hasEnrollmentPolicy(config.extra?.enrollmentPolicy),supportedAbis:['arm64-v8a','x86_64'],classification:'standalone_preview_APK_not_production_release',limitations:['Authenticated reads were verified in Node; native owner transactions and live trading are not verified.','Native PRF/provider, hardware biometrics and provider sync require separate verification.']};
 await writeFile('artifacts/release.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));

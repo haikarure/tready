@@ -15,9 +15,9 @@ export interface Binding { chainId: 10143; instanceId: string; exchange: string;
 export interface Plan { version: 1; id: string; revision: number; binding: Binding; input: RiskInput; quote: RiskQuote; configDigest: string; bookBlock: string; receivedAt: number; expiresAt: number }
 export interface Approval { planDigest: string; approvedAt: number; sessionId: string }
 export function approve(plan: Plan, sessionId: string, now: number): Approval {
-  if (!plan.quote.executable || now > plan.expiresAt) throw new Error('PLAN_NOT_EXECUTABLE_OR_EXPIRED');
+  if (!plan.quote.executable || !sessionId || !Number.isSafeInteger(now) || now<plan.receivedAt || now > plan.expiresAt) throw new Error('PLAN_NOT_EXECUTABLE_OR_EXPIRED');
   return { planDigest: digest(plan), approvedAt: now, sessionId };
 }
 export function assertApproval(plan: Plan, approval: Approval, sessionId: string, now: number): void {
-  if (approval.planDigest !== digest(plan) || approval.sessionId !== sessionId || now > plan.expiresAt || !plan.quote.executable) throw new Error('PLAN_REVIEW_REQUIRED');
+  if (approval.planDigest !== digest(plan) || !sessionId || approval.sessionId !== sessionId || !Number.isSafeInteger(approval.approvedAt) || approval.approvedAt<plan.receivedAt || approval.approvedAt>now || now > plan.expiresAt || !plan.quote.executable) throw new Error('PLAN_REVIEW_REQUIRED');
 }

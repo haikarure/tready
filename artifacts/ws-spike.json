@@ -1,0 +1,75 @@
+{
+  "classification": "read_only_authenticated_websocket_signin_probe",
+  "checkedAt": "2026-10-12T07:08:42.302Z",
+  "endpoint": "wss://testnet.perpl.xyz/ws/v1/trading",
+  "opened": true,
+  "signInFrameMessageType": 29,
+  "messages": [
+    {
+      "mt": 19,
+      "addr": "0xbe3265b29b106f58691fc22a7b47239b5f888407",
+      "keys": [
+        "mt",
+        "sid",
+        "sn",
+        "at",
+        "addr",
+        "n",
+        "fl",
+        "as",
+        "sts"
+      ]
+    },
+    {
+      "mt": 23,
+      "addr": null,
+      "keys": [
+        "mt",
+        "sid",
+        "sn",
+        "at",
+        "d"
+      ]
+    },
+    {
+      "mt": 26,
+      "addr": null,
+      "keys": [
+        "mt",
+        "sid",
+        "sn",
+        "at",
+        "d"
+      ]
+    },
+    {
+      "mt": 100,
+      "addr": null,
+      "keys": [
+        "mt",
+        "sn",
+        "h"
+      ]
+    },
+    {
+      "mt": 100,
+      "addr": null,
+      "keys": [
+        "mt",
+        "sn",
+        "h"
+      ]
+    },
+    {
+      "mt": 100,
+      "addr": null,
+      "keys": [
+        "mt",
+        "sn",
+        "h"
+      ]
+    }
+  ],
+  "failure": null,
+  "note": "No order, cancel or mutating command was sent; only mt:29 sign-in and passive observation."
+}

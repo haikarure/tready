@@ -1,0 +1,11 @@
+import {describe,it,expect,vi} from 'vitest';
+import {importVenueKey} from '../packages/perpl/import';
+import type {PerplHttp} from '../packages/perpl/http';
+const wallet='0x1111111111111111111111111111111111111111';
+const snapshot={mt:19,sn:1,addr:wallet,as:[{in:12,id:42,b:'1000000',lb:0,lfr:0,fr:false,fw:true,ft:0}]};
+describe('user-created API key import boundary',()=>{
+  it('requires a valid seed, unlocked session and real wallet snapshot before returning a key',async()=>{const request=vi.fn(async()=>snapshot);const key=await importVenueKey({request} as unknown as PerplHttp,' test-token ','0x'+'77'.repeat(32),wallet,()=>true);expect(key.wallet).toBe(wallet);expect(key.source).toBe('venue-import');expect(key.expiresAt).toBeGreaterThan(Date.now());expect(request).toHaveBeenCalledWith('/v1/trading/wallet',{key});key.secret.fill(0);});
+  it('rejects another wallet and zeroes the candidate secret without saving it',async()=>{let candidate:Uint8Array|undefined;const request=vi.fn(async(_target,options)=>{candidate=options.key.secret;return {...snapshot,addr:'0x'+'22'.repeat(20)};});await expect(importVenueKey({request} as unknown as PerplHttp,'test-token','77'.repeat(32),wallet,()=>true)).rejects.toThrow('WALLET_MISMATCH');expect(candidate?.every(v=>v===0)).toBe(true);});
+  it('does not authenticate malformed input or a locked session',async()=>{const request=vi.fn();for(const [token,secret] of [['','77'.repeat(32)],['test-token','bad'],['contains spaces','77'.repeat(32)]])await expect(importVenueKey({request} as unknown as PerplHttp,token!,secret!,wallet,()=>true)).rejects.toThrow('IMPORT_INVALID');await expect(importVenueKey({request} as unknown as PerplHttp,'test-token','77'.repeat(32),wallet,()=>false)).rejects.toThrow('LOCKED');expect(request).not.toHaveBeenCalled();});
+  it('rejects a missing account or a session that ends during authentication',async()=>{await expect(importVenueKey({request:async()=>({...snapshot,as:[]})} as unknown as PerplHttp,'test-token','77'.repeat(32),wallet,()=>true)).rejects.toThrow('ACCOUNT_MISSING');let unlocked=true;await expect(importVenueKey({request:async()=>{unlocked=false;return snapshot;}} as unknown as PerplHttp,'test-token','77'.repeat(32),wallet,()=>unlocked)).rejects.toThrow('LOCKED');});
+});

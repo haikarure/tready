@@ -17,6 +17,8 @@ apps/android/ios/
 *.aab
 artifacts/private/
 artifacts/android-bundle/
+# Perpl API key exports (token + Ed25519 secret) dropped at the repo root.
+perpl-api-key*.txt
 __pycache__/
 *.pyc
 

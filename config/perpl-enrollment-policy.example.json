@@ -1,0 +1,81 @@
+{
+  "domainName": "perpl.xyz",
+  "domainVersion": "1",
+  "verifyingContract": "0x0000000000000000000000000000000000000000",
+  "primaryType": "PerplRegisterApiKey",
+  "addressField": "signer",
+  "publicKeyField": "publicKey",
+  "scopeField": "scope",
+  "expiryField": "expiresAt",
+  "statement": "I authorize the creation of Perpl API key with the specified scope and parameters",
+  "types": {
+    "EIP712Domain": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "version",
+        "type": "string"
+      },
+      {
+        "name": "chainId",
+        "type": "uint256"
+      },
+      {
+        "name": "verifyingContract",
+        "type": "address"
+      },
+      {
+        "name": "salt",
+        "type": "bytes32"
+      }
+    ],
+    "PerplRegisterApiKey": [
+      {
+        "name": "signer",
+        "type": "address"
+      },
+      {
+        "name": "statement",
+        "type": "string"
+      },
+      {
+        "name": "publicKey",
+        "type": "string"
+      },
+      {
+        "name": "scope",
+        "type": "string"
+      },
+      {
+        "name": "label",
+        "type": "string"
+      },
+      {
+        "name": "expiresAt",
+        "type": "string"
+      },
+      {
+        "name": "ipCidrs",
+        "type": "string"
+      },
+      {
+        "name": "origin",
+        "type": "string"
+      },
+      {
+        "name": "builderId",
+        "type": "string"
+      },
+      {
+        "name": "maxBuilderFeePer100K",
+        "type": "string"
+      },
+      {
+        "name": "time",
+        "type": "uint64"
+      }
+    ]
+  }
+}

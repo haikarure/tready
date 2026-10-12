@@ -1,0 +1,44 @@
+{
+  "checkedAt": "2026-10-12T12:15:02.535706+00:00",
+  "classification": "public_HTTPS_download_and_association_recheck",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "redirected": false,
+      "bytes": 1542,
+      "sha256": "97dc30d84d1efd542b59763a3d64eb70f5c42e5ad764168135eb51b1614938fa"
+    },
+    {
+      "path": "/.well-known/assetlinks.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "redirected": false,
+      "bytes": 334,
+      "sha256": "3ea470b151c25541b840197db5f835404620ffc093bc96ee6997b37f60413f18",
+      "matchesPackageAndCertificate": true
+    },
+    {
+      "path": "/downloads/release.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "redirected": false,
+      "bytes": 932,
+      "sha256": "912ec6ed232212cccc76a3ac4da723f3c0ca2d54156c217a664d81fae108d9be",
+      "matchesLocalRelease": true,
+      "sourceCommit": "adb0e9ed578f8edcb27dfa16dadd6cb0bdd0f56e",
+      "enrollmentConfigured": false
+    },
+    {
+      "path": "/downloads/tready-0.1.0-preview.apk",
+      "status": 200,
+      "contentType": "application/vnd.android.package-archive",
+      "redirected": false,
+      "bytes": 54202455,
+      "sha256": "b887c49bb4aec5372c682d0391b1a9c2e04a535d956232ead55e21349ef4d9c7",
+      "matchesLocalRelease": true
+    }
+  ],
+  "localApkMatchesRelease": true
+}

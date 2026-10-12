@@ -12,7 +12,11 @@
     "test": "vitest run",
     "check": "pnpm typecheck && pnpm test",
     "export:android": "pnpm --filter @tready/android export:android",
-    "probe": "tsx scripts/probe.ts"
+    "probe": "tsx scripts/probe.ts",
+    "keyspike": "tsx scripts/key-spike.ts",
+    "wsspike": "tsx scripts/ws-spike.ts",
+    "enrollspike": "tsx scripts/enroll-spike.ts",
+    "enrolle2e": "tsx scripts/enroll-e2e.ts"
   },
   "dependencies": {
     "@noble/ed25519": "3.2.0",

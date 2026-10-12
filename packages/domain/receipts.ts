@@ -23,7 +23,7 @@ export function settlementFacts(value:unknown,priceDecimals:number,sizeDecimals:
   ];
 }
 export function netAccountFacts(value:unknown):Fact[]{const a=record(value);return [{label:'Account ID',value:String(integer(a.id))},{label:'PnL realized akun, net',value:amount(a.trp)},{label:'Total biaya akun',value:amount(a.tf)},{label:'Cakupan',value:'Lifetime akun, bukan satu trade'}];}
-export function actualTxHash(value:unknown):string|undefined{const at=record(value);const hash=at.txid;if(hash===undefined)return undefined;const s=text(hash);return /^0x[0-9a-fA-F]{64}$/.test(s)?s:undefined;}
+export function actualTxHash(value:unknown):string|undefined{const at=record(value);const hash=at.txid;if(hash===undefined)return undefined;const s=text(hash).replace(/^0x/i,'');return /^[0-9a-fA-F]{64}$/.test(s)&&!/^0{64}$/.test(s)?`0x${s.toLowerCase()}`:undefined;}
 export function settlementEventId(value:unknown):string{
   const e=record(value);const at=record(e.at);
   // A closed/opened inversion can share a tx/log: include entity/reason identity.

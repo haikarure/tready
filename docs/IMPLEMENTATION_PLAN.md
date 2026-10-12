@@ -98,7 +98,36 @@ User-facing chart, TP, export/sync, key-management improvements, public web view
 
 Ini draft pertanyaan, **belum dikirim** ke mentor/sponsor. Mengirim pesan membutuhkan instruksi eksplisit terpisah.
 
-Untuk Perpl: “Kami membangun Android native Mera untuk Metropolis. Origin/rpId yang direncanakan: [host milik tim]. Bagaimana mendapatkan whitelist enrollment di testnet? Apakah ada format Origin native yang disarankan? Mohon konfirmasi linked close trigger terhadap partial IOC dan lifecycle stop ketika API key kedaluwarsa/revoked. Apakah expiry membebaskan active-key slot?”
+Untuk Perpl (final, **siap dikirim — belum terkirim**; pengirim harus founder):
+
+> Subject: Origin whitelist request — Tready (Monad Metropolis, Android)
+>
+> Hi Perpl team,
+>
+> We're building **Tready**, a native Android trade-planning app for Monad Metropolis Track 01, using Mera passkey accounts on Monad Testnet (chain 10143).
+>
+> **Request: please whitelist this Origin for `/api/v1/api-key/payload` and `/api/v1/api-key/enroll`:**
+> `https://tready-archzxy.netlify.app`
+>
+> What we've measured so far (12 Oct 2026, testnet):
+> - `POST /api/v1/api-key/payload` with that Origin → **HTTP 400**, reproduced 6 times interleaved with controls.
+> - The same request with no `Origin` header → 200; with `Origin: https://testnet.perpl.xyz` → 200.
+> - We are deliberately **not** omitting the Origin header to slip past the check — your docs require it to be whitelisted, and we'd rather be on the list.
+> - Our Ed25519 signing for REST (`X-API-Key`/`X-API-Timestamp`/`X-API-Nonce`/`X-API-Signature`) and the WebSocket `mt:29` sign-in both work against testnet with a key created from your web UI.
+>
+> Additional questions:
+> 1. Is there a supported format for a **native Android** Origin, or should we enroll from our HTTPS host as above?
+> 2. Our observed payload returns `chainId` as `0x`-hex and the Ed25519 `publicKey` as base64url. Is that stable, or should we expect canonical encodings?
+> 3. Does a linked close trigger behave correctly against a partial IOC?
+> 4. What is the lifecycle of a stop when an API key expires or is revoked?
+> 5. Does expiry free the active-key slot (max 16)?
+> 6. What are the correct steps to create a Perpl account for a brand-new wallet over the API? We see `404 target profile not found` when enrolling for a wallet that has no account yet.
+>
+> Repo and evidence: [tready] (MIT, AI disclosure included). Happy to share the repro script.
+>
+> Thanks!
+
+Enroll `404` pada probe kita terbaca sesuai tabel status dokumentasi sebagai *target profile not found*: wallet probe dibuat acak tanpa akun Perpl. Pertanyaan 6 di atas menutup gap tersebut.
 
 Untuk Agora/Mera: “Apakah Android APK dengan operasi Mera→testnet AUSD→trade Perpl memenuhi mobile bounty? Format distribusi/judge access apa yang diharapkan? Mohon kartu requirements/deliverables/award distribution terkini dan acceptance recovery setelah clear app data.”
 

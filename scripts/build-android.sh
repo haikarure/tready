@@ -18,5 +18,12 @@ export TREADY_KEYSTORE_PATH="$TREADY_ROOT/.tooling/keys/preview.p12"
 export TREADY_KEYSTORE_PASSWORD_FILE="$TREADY_ROOT/.tooling/keys/preview.password"
 ./scripts/dev.sh bash -c 'cd apps/android; node ../../node_modules/expo/bin/cli prebuild --platform android --no-install'
 ./scripts/dev.sh bash -c 'cd apps/android/android; ./gradlew assembleRelease --no-daemon --max-workers=2 -PreactNativeArchitectures=arm64-v8a,x86_64 -Dorg.gradle.jvmargs=-Xmx3072m'
-cp apps/android/android/app/build/outputs/apk/release/app-release.apk artifacts/tready-0.1.0-preview.apk
-./scripts/dev.sh node node_modules/tsx/dist/cli.mjs scripts/release-metadata.ts
+TREADY_APK_VERSION="$(python3 - <<'PY'
+import json,zipfile
+with zipfile.ZipFile('apps/android/android/app/build/outputs/apk/release/app-release.apk') as z:
+ print(json.loads(z.read('assets/app.config'))['version'])
+PY
+)"
+TREADY_APK_OUTPUT="artifacts/tready-$TREADY_APK_VERSION-preview.apk"
+cp apps/android/android/app/build/outputs/apk/release/app-release.apk "$TREADY_APK_OUTPUT"
+./scripts/dev.sh node node_modules/tsx/dist/cli.mjs scripts/release-metadata.ts "$TREADY_APK_OUTPUT"

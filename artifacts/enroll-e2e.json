@@ -1,0 +1,47 @@
+{
+  "classification": "end_to_end_enrollment_probe_on_throwaway_wallet",
+  "checkedAt": "2026-10-12T07:15:03.760Z",
+  "noOriginHeaderSent": true,
+  "throwawayWallet": "0x9885F3f70cFDD362f5f5a48C8A23F08680327DA5",
+  "scopeSent": 3,
+  "expiresAtSent": 1791875703460,
+  "payload": {
+    "domain": {
+      "name": "perpl.xyz",
+      "version": "1",
+      "chainId": "0x279f",
+      "verifyingContract": "0x0000000000000000000000000000000000000000",
+      "salt": "0x00000000000000000000000000000000000000006acc88f7895a93c38d8ec355"
+    },
+    "primaryType": "PerplRegisterApiKey",
+    "message": {
+      "builderId": "0",
+      "expiresAt": "1791875703460",
+      "ipCidrs": "",
+      "label": "Tready enrollment probe",
+      "maxBuilderFeePer100K": "0",
+      "origin": "",
+      "publicKey": "1_klILcAc2TBFnyViFC5EhmuVsID8aDKWnTy6jRKXo0",
+      "scope": "3",
+      "signer": "0x9885F3f70cFDD362f5f5a48C8A23F08680327DA5",
+      "statement": "I authorize the creation of Perpl API key with the specified scope and parameters",
+      "time": "0x1a12ef70758"
+    },
+    "publicKeySent": "0xd7f92520b7007364c1167c958850b91219ae56c203f1a0ca5a74f2ea344a5e8d"
+  },
+  "enroll": {
+    "called": true,
+    "status": 404,
+    "error": "Perpl HTTP 404",
+    "returnedApiKey": false,
+    "binding": null
+  },
+  "verification": null,
+  "verifyError": null,
+  "safeNumberProbe": {
+    "chainIdRaw": "0x279f",
+    "safeNumberAccepts": null,
+    "error": "INTEGER_INVALID"
+  },
+  "note": "Key bound to a random unfunded wallet; it cannot move funds. Stored without any secret or token."
+}

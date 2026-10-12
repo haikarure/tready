@@ -1,0 +1,57 @@
+{
+  "classification": "read_only_authenticated_probe_no_order_submission",
+  "checkedAt": "2026-10-12T07:46:03.164Z",
+  "endpointBase": "https://testnet.perpl.xyz/api",
+  "credentialShape": "32-byte ed25519 seed, scope 3, expiresAt 0, placeholder wallet (wallet is not part of the REST signature)",
+  "note": "A second attempt adds Origin: https://testnet.perpl.xyz to distinguish an invalid key from a per-key origin restriction.",
+  "attempts": [
+    {
+      "target": "/v1/trading/wallet",
+      "origin": null,
+      "ok": true,
+      "error": null,
+      "topLevelKeys": [
+        "mt",
+        "sid",
+        "sn",
+        "at",
+        "addr",
+        "n",
+        "fl",
+        "as",
+        "sts"
+      ],
+      "wallets": [
+        "0xbe3265b29b106f58691fc22a7b47239b5f888407"
+      ]
+    },
+    {
+      "target": "/v1/trading/orders",
+      "origin": null,
+      "ok": true,
+      "error": null,
+      "topLevelKeys": [
+        "mt",
+        "sid",
+        "sn",
+        "at",
+        "d"
+      ],
+      "wallets": []
+    },
+    {
+      "target": "/v1/trading/positions",
+      "origin": null,
+      "ok": true,
+      "error": null,
+      "topLevelKeys": [
+        "mt",
+        "sid",
+        "sn",
+        "at",
+        "d"
+      ],
+      "wallets": []
+    }
+  ]
+}

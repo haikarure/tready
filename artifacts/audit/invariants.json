@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-10-12T12:16:58.395Z",
+  "classification": "offline_adversarial_reproductions_no_signatures_or_network",
+  "enrollment": {
+    "baselineAccepted": true,
+    "mutations": [
+      {
+        "mutation": "unexpected_origin",
+        "accepted": true,
+        "desiredAccepted": false
+      },
+      {
+        "mutation": "unexpected_builder_fee",
+        "accepted": true,
+        "desiredAccepted": false
+      },
+      {
+        "mutation": "changed_primary_type_fields",
+        "accepted": true,
+        "desiredAccepted": false
+      }
+    ]
+  },
+  "execution": {
+    "faultInjected": true,
+    "settledBeforeSent": true,
+    "finalStatus": "sent",
+    "nonFailureSeen": true,
+    "unresolved": true,
+    "laterOutcomeIgnored": true,
+    "syntheticSends": 1,
+    "realNetworkRequests": 0
+  },
+  "stopCoverage": {
+    "positionLots": "100",
+    "stopOriginalLots": "1",
+    "registered": true,
+    "workflow": "active",
+    "desired": "Show partial protection and enable a deliberate repair flow, rather than classify the whole position as active."
+  },
+  "limitations": [
+    "Journal race uses injected write ordering; native SQLite timing was not measured.",
+    "Enrollment mutations are local objects; no vendor request or wallet signature was made."
+  ]
+}

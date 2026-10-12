@@ -40,7 +40,8 @@ export class Coordinator {
       if(row.command.acc.toString()!==context.accountId)throw new Error('COMMAND_ACCOUNT_MISMATCH');
       try { this.send(row.command); await this.journal.update(row.id,'sent'); }
       catch(error) { await this.journal.update(row.id,'unknown','Outcome belum dikonfirmasi. Periksa journal dan venue.'); throw error; }
-      return {...row,status:'sent'};
+      // An outcome can commit while the transport write is completing.
+      return (await this.journal.rows()).find(r=>r.id===row.id&&r.account===row.account)??row;
     } finally {this.busy=false;}
   }
 }

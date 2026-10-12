@@ -1,0 +1,149 @@
+{
+  "completedAt": "2026-10-12T12:21:06.044068+00:00",
+  "classification": "read_only_implementation_and_hackathon_readiness_audit",
+  "source": {
+    "head": "228219ee64d2554d190245825f27825266e212e2",
+    "workingTreeIncludesPreexistingUncommittedEdits": true,
+    "sha256": {
+      "packages/perpl/enrollment.ts": "b0f3addf6d4a20a733de1784cbf587a522196f8df8fba753158609226548a7c4",
+      "packages/execution/coordinator.ts": "c33ecfe22562cdf08ece71131de0a2422831f274e2744c96317103f6d4a5c27a",
+      "packages/execution/workflow.ts": "67aaa7926e9c91351c2cb3ae53eab9c414759db9253ef90f3b66ad5d67da51d3",
+      "packages/perpl/socket.ts": "a687540f0a3edd09eb34737ee5a1c407f6cf95662555d9156a4da37fae084ff4",
+      "packages/perpl/inventory.ts": "3d9b036a17d2096e766aa5b15ba527a2c636b231f9e77a0e4fe7d8edb1e53815",
+      "apps/android/src/storage.ts": "82cda98250469595f05dd1c573f7806a9b6894044816248032cd9b36a50caadc",
+      "apps/android/src/controller.ts": "0830c054948b90ef702025279327259b7816ffdda462cdb537a8a9716509ccd8",
+      "scripts/audit-invariants.ts": "9fe9be6e9254a6a786b53924e41fdb2ad91176b2c5ea44c434ede202f438e580",
+      "scripts/audit-transport.ts": "c1aa37ec8278473abbc5c40570a0dba5a9c5f84f27c22eb9ab81f85415380b1b"
+    }
+  },
+  "apk": {
+    "sourceCommit": "adb0e9ed578f8edcb27dfa16dadd6cb0bdd0f56e",
+    "sha256": "b887c49bb4aec5372c682d0391b1a9c2e04a535d956232ead55e21349ef4d9c7",
+    "build": 3,
+    "enrollmentConfigured": false,
+    "containsLatestEnrollmentNormalization": false,
+    "publicDownloadMatches": true
+  },
+  "core": {
+    "total": 39,
+    "passed": 39,
+    "failed": 0,
+    "success": true,
+    "testFiles": 7,
+    "scope": "current_source_offline_synthetic"
+  },
+  "authenticatedRead": {
+    "RESTAllPassed": true,
+    "productionInventoryDecoder": true,
+    "productionSocketWrapper": true,
+    "WSCompleted": true,
+    "runtime": "Node",
+    "accountCount": 1,
+    "positions": 0,
+    "orders": 0,
+    "writesSent": 0,
+    "nativeOrMeraOnboardingVerified": false
+  },
+  "priorEvidence": {
+    "browserVirtualPRFChecks": 8,
+    "emulatorSyntheticChecks": 7,
+    "nativePromptCancellationChecks": 3,
+    "nativePRFHappyPath": false,
+    "rerunEmulatorDuringAudit": false
+  },
+  "originProbeCorrection": {
+    "totalAttempts": 6,
+    "appOriginAttempts": 3,
+    "appOriginHTTP400": 3,
+    "otherHTTP200": 3,
+    "serverReasonCaptured": false
+  },
+  "findings": [
+    {
+      "id": "A1",
+      "priority": "P1",
+      "title": "Enrollment authorization fields and field/type graph not pinned",
+      "reproducedOffline": true
+    },
+    {
+      "id": "A2",
+      "priority": "P1",
+      "title": "Terminal journal state overwritten by sent under injected completion ordering",
+      "reproducedOffline": true,
+      "nativeTimingMeasured": false
+    },
+    {
+      "id": "A3",
+      "priority": "P1",
+      "title": "Undersized linked stop marks position active and blocks repair",
+      "reproducedOffline": true
+    },
+    {
+      "id": "A4",
+      "priority": "blocker",
+      "title": "Own-Origin native onboarding has not succeeded"
+    },
+    {
+      "id": "A5",
+      "priority": "delivery",
+      "title": "Public APK predates current enrollment source fixes"
+    },
+    {
+      "id": "A6",
+      "priority": "submission",
+      "title": "Public repository, real trading demo and external-user evidence unavailable in workspace"
+    }
+  ],
+  "readiness": {
+    "score": 50,
+    "maximum": 100,
+    "officialRubric": false,
+    "predictsWinProbability": false,
+    "method": "Five equal groups, four internal milestones per group, five points per milestone",
+    "points": {
+      "distributionInfrastructure": 20,
+      "planningPublicUI": 15,
+      "identityOnboarding": 5,
+      "executionRecovery": 5,
+      "evidenceSubmission": 5
+    },
+    "P0RequirementEvidenceCounts": {
+      "Parsial": 21,
+      "Lokal": 8,
+      "Terblokir": 1,
+      "Celah": 2,
+      "Belum": 1
+    }
+  },
+  "auditProductCodeChanged": false,
+  "auditDeploymentChanged": false,
+  "auditNewEnrollmentOrTradeSubmitted": false,
+  "vendorSources": [
+    {
+      "url": "https://github.com/PerplFoundation/api-docs/blob/main/integrations.md",
+      "retrievedOn": "2026-10-12",
+      "sha256": "1c3583c9e7209cac0d8f4ac0b34b4da06341116290a0ce14feac933d6563ca4d",
+      "cacheIgnored": true
+    },
+    {
+      "url": "https://github.com/PerplFoundation/api-docs/blob/main/websocket.md",
+      "retrievedOn": "2026-10-12",
+      "sha256": "e0a66f21a4ce472052a22a585b929c7f36036fe3a257e5b029f502db96fdc8ea",
+      "cacheIgnored": true
+    },
+    {
+      "url": "https://github.com/PerplFoundation/api-docs/blob/main/types.md",
+      "retrievedOn": "2026-10-12",
+      "sha256": "643bbb1d2384f235cac9fecfe90c66e1b588908a5a5e798916a1ea858ea85f51",
+      "cacheIgnored": true
+    }
+  ],
+  "report": "docs/IMPLEMENTATION_AUDIT_2026-10-12.md",
+  "typecheck": {
+    "passed": true,
+    "command": "./scripts/dev.sh pnpm typecheck",
+    "scope": "current_working_tree_including_audit_scripts",
+    "exitCode": 0
+  },
+  "reportSha256": "6bd9da5e339289f8cda6ebf90a570b38bf26044061a997259b8ac39a2755fb51"
+}

@@ -5,6 +5,8 @@ import type { Journal, JournalRow, Command, RequestState } from '../../../packag
 import type { ApiCredential } from '../../../packages/perpl/auth';
 import { decode, encode } from '../../../packages/perpl/codec';
 import { canonical } from '../../../packages/domain/plan';
+import { journalUpdate, recoverJournalSql } from '../../../packages/storage/transitions';
+import { u64 } from '../../../packages/domain/units';
 
 type StoredRow={id:string;account:string;kind:JournalRow['kind'];command:string;plan_id:string|null;status:RequestState;created_at:number;seen:number;reason:string|null};
 const row=(r:StoredRow):JournalRow=>({id:r.id,account:r.account,kind:r.kind,command:decode(r.command) as Command,planId:r.plan_id,status:r.status,createdAt:r.created_at,nonFailureSeen:r.seen===1,reason:r.reason});
@@ -23,14 +25,15 @@ export class NativeStore implements Journal {
       CREATE TABLE IF NOT EXISTS owner_transactions(hash TEXT PRIMARY KEY,action TEXT NOT NULL,status TEXT NOT NULL,created_at INTEGER NOT NULL);
       CREATE TABLE IF NOT EXISTS receipts(id TEXT PRIMARY KEY,value TEXT NOT NULL,created_at INTEGER NOT NULL);`);
     // No in-flight command is resent after process death.
-    await db.runAsync("UPDATE requests SET status='unknown',reason='App restart: rekonsiliasi diperlukan.' WHERE status IN ('prepared','sent','forwarded')");
+    await db.execAsync(recoverJournalSql);
     return new NativeStore(db);
   }
   async prepare(account:string,last:bigint,kind:JournalRow['kind'],planId:string|null,create:(id:bigint)=>Command):Promise<JournalRow>{
     let result:JournalRow|undefined;
     await this.db.withExclusiveTransactionAsync(async tx=>{
-      const old=await tx.getFirstAsync<{value:string}>('SELECT value FROM counters WHERE account=?',account);
-      const local=BigInt(old?.value??0);const time=BigInt(Date.now());const rq=[local,last,time].reduce((a,b)=>a>b?a:b)+1n;
+      // IDs are a global table key, while the venue requires monotonic IDs per account.
+      const counters=await tx.getAllAsync<{value:string}>('SELECT value FROM counters');
+      const time=BigInt(Date.now());const rq=u64([...counters.map(c=>BigInt(c.value)),last,time].reduce((a,b)=>a>b?a:b)+1n);
       const command=create(rq);if(command.acc.toString()!==account)throw new Error('ACCOUNT_MISMATCH');
       result={id:String(rq),account,kind,command,planId,status:'prepared',createdAt:Date.now(),nonFailureSeen:false,reason:null};
       await tx.runAsync('INSERT OR REPLACE INTO counters(account,value) VALUES(?,?)',account,String(rq));
@@ -39,7 +42,8 @@ export class NativeStore implements Journal {
     if(!result)throw new Error('JOURNAL_COMMIT_FAILED');return result;
   }
   async update(id:string,status:RequestState,reason?:string,seen?:boolean):Promise<void>{
-    await this.db.runAsync('UPDATE requests SET status=?,reason=COALESCE(?,reason),seen=COALESCE(?,seen) WHERE id=?',status,reason??null,seen===undefined?null:seen?1:0,id);
+    const update=journalUpdate(id,status,reason,seen);
+    await this.db.runAsync(update.sql,...update.params);
   }
   async rows():Promise<JournalRow[]>{return (await this.db.getAllAsync<StoredRow>('SELECT * FROM requests ORDER BY created_at DESC')).map(r=>hydrate(row(r)));}
   async unresolved(account:string):Promise<boolean>{return !!await this.db.getFirstAsync("SELECT id FROM requests WHERE account=? AND status IN ('prepared','sent','forwarded','unknown')",account);}
