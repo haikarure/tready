@@ -1,0 +1,11 @@
+{
+  "createdAt": "2026-10-12T14:04:47.574957+00:00",
+  "classification": "silent_Android_preview_screen_recording_with_explicit_synthetic_flow_and_separate_Node_venue_proof",
+  "durationSeconds": 92.5,
+  "bytes": 3236818,
+  "sha256": "e9ddadc168d841f2fedc3582224ee9d0a41a0b2600a2d940ccc6f44768e04487",
+  "apkSha256": "dcc62264fccb7c74192b6e67f8d5eeafc14d68518060ca64508cdf4d72873da0",
+  "publicPath": "/downloads/tready-preview-demo.mp4",
+  "nativeMeraOnboardingClaimed": false,
+  "qualifiedUserClaimed": false
+}

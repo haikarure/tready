@@ -1,6 +1,7 @@
 import { decode, encode, record, safeNumber } from './codec';
 import { assertCredential, signIn, type ApiCredential } from './auth';
 import { TESTNET } from './config';
+import {NotSentError} from '../execution/transport-error';
 
 export interface SocketLike { readyState:number; send(data:string):void; close():void; onopen:((event:unknown)=>void)|null; onmessage:((event:{data:unknown})=>void)|null; onerror:((event:unknown)=>void)|null; onclose:((event:unknown)=>void)|null }
 export class TradingSocket {
@@ -15,6 +16,12 @@ export class TradingSocket {
     const end=()=>{if(gen===this.generation){this.close();this.onDisconnect();}};
     socket.onerror=end; socket.onclose=end;
   }
-  send(command:unknown,key:ApiCredential):void { assertCredential(key,Date.now(),true); if(this.socket?.readyState!==1)throw new Error('SOCKET_NOT_CONNECTED'); this.socket.send(encode(command)); }
+  send(command:unknown,key:ApiCredential):void {
+    let frame:string;
+    try{assertCredential(key,Date.now(),true);if(this.socket?.readyState!==1)throw new Error('SOCKET_NOT_CONNECTED');frame=encode(command);}
+    catch{throw new NotSentError('Sesi/key atau koneksi belum siap. Command belum dikirim.');}
+    // Do not classify exceptions from send as definitely unsent.
+    this.socket!.send(frame);
+  }
   close():void { this.generation++; if(this.ping)clearInterval(this.ping); this.ping=null; const s=this.socket; this.socket=null; if(s){s.onclose=null;s.onerror=null;s.onmessage=null;s.close();} }
 }

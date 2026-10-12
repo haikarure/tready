@@ -17,6 +17,7 @@ import { enroll, hasEnrollmentPolicy, type EnrollmentPolicy } from '../../../pac
 import { importVenueKey } from '../../../packages/perpl/import';
 import { orderHistory } from '../../../packages/perpl/history';
 import { Coordinator, requestOutcome, type JournalRow, type ExecutionContext } from '../../../packages/execution/coordinator';
+import {NotSentError} from '../../../packages/execution/transport-error';
 import { workflow, linkedStops } from '../../../packages/execution/workflow';
 import { NativeStore, loadKey, saveKey } from './storage';
 import { WalletManager, type Identity } from './wallet';
@@ -45,7 +46,7 @@ export class TreadyController {
   snapshot=()=>this.state;
   private patch(value:Partial<View>):void{if(this.destroyed)return;this.state={...this.state,...value};for(const l of this.listeners)l();}
   async initialize():Promise<void>{
-    try{this.store=await NativeStore.open();this.wallet=new WalletManager(this.store,this.extra.rpId??'',()=>this.locked());await this.wallet.initialize();this.owner=new OwnerTransactions(this.wallet,this.store);this.coordinator=new Coordinator(this.store,command=>{if(!this.key||!this.wallet.unlocked||AppState.currentState!=='active'||this.state.mode!=='testnet')throw new Error('API_SESSION_LOCKED');this.socket.send(command,this.key);});
+    try{this.store=await NativeStore.open();this.wallet=new WalletManager(this.store,this.extra.rpId??'',()=>this.locked());await this.wallet.initialize();this.owner=new OwnerTransactions(this.wallet,this.store);this.coordinator=new Coordinator(this.store,command=>{if(!this.key||!this.wallet.unlocked||AppState.currentState!=='active'||this.state.mode!=='testnet')throw new NotSentError('Sesi terkunci sebelum command dikirim.');this.socket.send(command,this.key);});
       const rows=await this.store.receipts();this.patch({ready:true,identity:this.wallet.identity,journal:await this.store.rows(),receipts:rows.map(r=>JSON.parse(r.value) as Receipt)});this.startPublic();
     }catch(error){this.patch({error:userError(error)});}
   }

@@ -1,0 +1,34 @@
+{
+  "testedAt": "2026-10-12T13:50:36.255986+00:00",
+  "classification": "actual_Expo_NativeStore_open_on_Android_with_synthetic_journal_rows",
+  "success": true,
+  "apkSha256": "dcc62264fccb7c74192b6e67f8d5eeafc14d68518060ca64508cdf4d72873da0",
+  "appSourceCommit": "1f16b9b093d776d82ea7aeb43f5c66bb90d1169a",
+  "cases": [
+    {
+      "id": "9000000000001",
+      "status": "settled",
+      "seen": 1
+    },
+    {
+      "id": "9000000000002",
+      "status": "unknown",
+      "seen": 0
+    },
+    {
+      "id": "9000000000003",
+      "status": "unknown",
+      "seen": 0
+    },
+    {
+      "id": "9000000000004",
+      "status": "settled",
+      "seen": 1
+    }
+  ],
+  "realOrdersSent": 0,
+  "rowsRemovedAfterProbe": true,
+  "limitations": [
+    "Exercises actual startup migration, not timing of a live order race."
+  ]
+}

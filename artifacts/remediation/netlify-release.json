@@ -1,0 +1,87 @@
+{
+  "deployedAt": "2026-10-12T14:24:23.774877+00:00",
+  "siteId": "4d3736b5-024f-4255-82a7-fbf2d2849945",
+  "site": "https://tready-archzxy.netlify.app",
+  "deployId": "6acceaba66a7053fac766199",
+  "published": true,
+  "release": {
+    "version": "0.1.1",
+    "build": 4,
+    "package": "xyz.tready.app",
+    "network": "Monad Testnet",
+    "chainId": 10143,
+    "file": "tready-0.1.1-preview.apk",
+    "bytes": 54218559,
+    "sha256": "dcc62264fccb7c74192b6e67f8d5eeafc14d68518060ca64508cdf4d72873da0",
+    "certificateSha256": "4C:81:BA:5E:EA:B3:EB:C6:4F:BD:5A:41:FD:09:4F:58:26:0C:FD:66:D5:99:87:31:70:FA:5C:3F:F9:2A:09:C4",
+    "sourceCommit": "1f16b9b093d776d82ea7aeb43f5c66bb90d1169a",
+    "builtAt": "2026-10-12T13:49:31.287Z",
+    "rpId": "tready-archzxy.netlify.app",
+    "origin": "https://tready-archzxy.netlify.app",
+    "enrollmentConfigured": false,
+    "supportedAbis": [
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "classification": "standalone_preview_APK_not_production_release",
+    "limitations": [
+      "Authenticated reads were verified in Node; native owner transactions and live trading are not verified.",
+      "Native PRF/provider, hardware biometrics and provider sync require separate verification."
+    ]
+  },
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "redirected": false,
+      "bytes": 1890,
+      "sha256": "c573e9c26209683b6483bbdec8a4cfa1bc53d6cccaaf40c92283f0e5251e3498",
+      "contentType": "text/html; charset=UTF-8"
+    },
+    {
+      "path": "/.well-known/assetlinks.json",
+      "status": 200,
+      "redirected": false,
+      "bytes": 334,
+      "sha256": "3ea470b151c25541b840197db5f835404620ffc093bc96ee6997b37f60413f18",
+      "contentType": "application/json; charset=utf-8",
+      "matchesCertificate": true
+    },
+    {
+      "path": "/downloads/release.json",
+      "status": 200,
+      "redirected": false,
+      "bytes": 963,
+      "sha256": "55a368ac9431591943020c4da86b7784ba1bc9ecc3b8ba532466e456f876b77f",
+      "contentType": "application/json; charset=utf-8",
+      "matchesRelease": true
+    },
+    {
+      "path": "/downloads/tready-preview-demo.mp4",
+      "status": 200,
+      "redirected": false,
+      "bytes": 3236818,
+      "sha256": "e9ddadc168d841f2fedc3582224ee9d0a41a0b2600a2d940ccc6f44768e04487",
+      "contentType": "video/mp4"
+    },
+    {
+      "path": "/downloads/trade-evidence.json",
+      "status": 200,
+      "redirected": false,
+      "bytes": 1824,
+      "sha256": "8404cb31058a8fbe426a3786a308acd053bdaa502cb814d77325faed1e0dcc85",
+      "contentType": "application/json"
+    },
+    {
+      "path": "/downloads/tready-0.1.1-preview.apk",
+      "status": 200,
+      "bytes": 54218559,
+      "sha256": "dcc62264fccb7c74192b6e67f8d5eeafc14d68518060ca64508cdf4d72873da0",
+      "matchesRelease": true,
+      "method": "complete_curl_download_with_transfer_validation"
+    }
+  ],
+  "existingApexSiteModified": false,
+  "DNSModified": false,
+  "uploadMethod": "file_digest_after_zip_timeout"
+}

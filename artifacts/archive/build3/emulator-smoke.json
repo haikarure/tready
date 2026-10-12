@@ -1,0 +1,45 @@
+{
+  "classification": "real_emulator_UI_test_of_public_data_and_synthetic_execution_only",
+  "testedAt": "2026-10-12T03:51:45.602392+00:00",
+  "apkSha256": "b887c49bb4aec5372c682d0391b1a9c2e04a535d956232ead55e21349ef4d9c7",
+  "appSourceCommit": "adb0e9ed578f8edcb27dfa16dadd6cb0bdd0f56e",
+  "device": "Pixel7 emulator, Android API36 x86_64, 360dp",
+  "passed": [
+    "standalone start; configured passkey control enabled, ceremony not implied",
+    "synthetic entry reaches protection-pending",
+    "synthetic stop registration visible",
+    "synthetic close returns flat",
+    "receipt clearly labels synthetic results",
+    "SQLite receipts survive force-stop/restart",
+    "navigation and receipts usable at font scale1.4; visual review required"
+  ],
+  "screenshots": [
+    "account-360dp.png",
+    "plan-360dp.png",
+    "trade-unprotected-360dp.png",
+    "trade-protected-360dp.png",
+    "receipt-360dp.png",
+    "account-large-font.png",
+    "receipt-large-font.png"
+  ],
+  "not_verified": [
+    "physical PRF/biometric/passkey recovery",
+    "owner funding/signing",
+    "authenticated API",
+    "real entry/stop/close/recovery",
+    "customer demand"
+  ],
+  "visualReview": {
+    "reviewedAt": "2026-10-12T03:53:48.353851+00:00",
+    "screens": [
+      "account-large-font",
+      "receipt-large-font",
+      "native-passkey-cancelled"
+    ],
+    "observations": "Account/Receipt text wraps and fixed navigation stays accessible at 360dp/font1.4. Native cancellation displays a clear message and keeps the wallet locked. This is visual inspection, not a customer study."
+  },
+  "runtimeInspection": {
+    "scope": "final process after restart",
+    "AndroidRuntimeOrReactNativeJsErrorLines": 0
+  }
+}

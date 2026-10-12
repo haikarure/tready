@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-10-12",
+  "sourceCommit": "1f16b9b093d776d82ea7aeb43f5c66bb90d1169a",
+  "url": "https://github.com/haikarure/tready/actions/runs/38258094676",
+  "jobStarted": false,
+  "stepsExecuted": 0,
+  "reason": "The job was not started because your account is locked due to a billing issue.",
+  "localCoreTestsPassed": 65,
+  "accountBillingModified": false
+}

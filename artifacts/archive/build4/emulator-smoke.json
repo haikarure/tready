@@ -1,0 +1,44 @@
+{
+  "classification": "real_emulator_UI_test_of_public_data_and_synthetic_execution_only",
+  "testedAt": "2026-10-12T13:59:19.114934+00:00",
+  "apkSha256": "dcc62264fccb7c74192b6e67f8d5eeafc14d68518060ca64508cdf4d72873da0",
+  "appSourceCommit": "1f16b9b093d776d82ea7aeb43f5c66bb90d1169a",
+  "device": "Pixel7 emulator, Android API36 x86_64, 360dp",
+  "passed": [
+    "standalone start; configured passkey control enabled, ceremony not implied",
+    "synthetic entry reaches protection-pending",
+    "synthetic stop registration visible",
+    "synthetic close returns flat",
+    "receipt clearly labels synthetic results",
+    "SQLite receipts survive force-stop/restart",
+    "navigation and receipts usable at font scale1.4; visual review required"
+  ],
+  "screenshots": [
+    "account-360dp.png",
+    "plan-360dp.png",
+    "trade-unprotected-360dp.png",
+    "trade-protected-360dp.png",
+    "receipt-360dp.png",
+    "account-large-font.png",
+    "receipt-large-font.png"
+  ],
+  "not_verified": [
+    "physical PRF/biometric/passkey recovery",
+    "owner funding/signing",
+    "authenticated API",
+    "real entry/stop/close/recovery",
+    "customer demand"
+  ],
+  "visualReview": {
+    "reviewedAt": "2026-10-12T14:03:53.215907+00:00",
+    "screens": [
+      "account-large-font",
+      "receipt-large-font"
+    ],
+    "observations": "Text wraps and bottom navigation remains accessible at 360dp/font1.4; reviewed screenshots from APK build4."
+  },
+  "runtimeInspection": {
+    "scope": "final process after restart",
+    "AndroidRuntimeOrReactNativeJsErrorLines": 0
+  }
+}

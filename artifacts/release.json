@@ -1,15 +1,15 @@
 {
-  "version": "0.1.0",
-  "build": 3,
+  "version": "0.1.1",
+  "build": 4,
   "package": "xyz.tready.app",
   "network": "Monad Testnet",
   "chainId": 10143,
-  "file": "tready-0.1.0-preview.apk",
-  "bytes": 54202455,
-  "sha256": "b887c49bb4aec5372c682d0391b1a9c2e04a535d956232ead55e21349ef4d9c7",
+  "file": "tready-0.1.1-preview.apk",
+  "bytes": 54218559,
+  "sha256": "dcc62264fccb7c74192b6e67f8d5eeafc14d68518060ca64508cdf4d72873da0",
   "certificateSha256": "4C:81:BA:5E:EA:B3:EB:C6:4F:BD:5A:41:FD:09:4F:58:26:0C:FD:66:D5:99:87:31:70:FA:5C:3F:F9:2A:09:C4",
-  "sourceCommit": "adb0e9ed578f8edcb27dfa16dadd6cb0bdd0f56e",
-  "builtAt": "2026-10-12T03:48:10.911Z",
+  "sourceCommit": "1f16b9b093d776d82ea7aeb43f5c66bb90d1169a",
+  "builtAt": "2026-10-12T13:49:31.287Z",
   "rpId": "tready-archzxy.netlify.app",
   "origin": "https://tready-archzxy.netlify.app",
   "enrollmentConfigured": false,
@@ -19,7 +19,7 @@
   ],
   "classification": "standalone_preview_APK_not_production_release",
   "limitations": [
-    "Authenticated API, owner transactions and live trading are not verified.",
+    "Authenticated reads were verified in Node; native owner transactions and live trading are not verified.",
     "Native PRF/provider, hardware biometrics and provider sync require separate verification."
   ]
 }

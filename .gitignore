@@ -15,6 +15,7 @@ apps/android/ios/
 *.password
 *.apk
 *.aab
+*.mp4
 artifacts/private/
 artifacts/android-bundle/
 # Perpl API key exports (token + Ed25519 secret) dropped at the repo root.

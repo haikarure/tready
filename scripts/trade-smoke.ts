@@ -16,6 +16,7 @@ import {stopCoverage} from '../packages/execution/workflow';
 import type {ApiCredential} from '../packages/perpl/auth';
 import {createPublicClient,http as rpcHttp} from 'viem';
 import {monadTestnet} from 'viem/chains';
+import {orderHistory} from '../packages/perpl/history';
 
 // Explicit opt-in: one BTC lot on Monad testnet, only an initially flat account.
 // No owner key, funding, enrollment or mainnet route. Unknown writes are never retried.
@@ -23,7 +24,8 @@ if(process.env.TREADY_ALLOW_TESTNET_TRADING!=='1')throw new Error('TESTNET_TRADE
 const files=(await readdir('.')).filter(f=>/^perpl-api-key.*\.txt$/.test(f));if(files.length!==1)throw new Error('KEY_FILE_COUNT');
 const raw=await readFile(files[0]!,'utf8');const token=raw.match(/API Key \(X-API-Key header\):\s*(\S+)/)?.[1];const seed=raw.match(/0x[0-9a-fA-F]{64}/)?.[0];if(!token||!seed)throw new Error('KEY_FORMAT');
 const key:ApiCredential={token,secret:hexToBytes(seed.slice(2)),wallet:'0x'+'0'.repeat(40),expiresAt:0,scope:3};
-const h=new PerplHttp();const journal=new MemoryJournal();const dir='.tooling/trade-smoke';mkdirSync(dir,{recursive:true});
+const recoveryMode=process.env.TREADY_SMOKE_DISCONNECT_AFTER_ENTRY==='1';
+const h=new PerplHttp();const journal=new MemoryJournal();const dir=recoveryMode?'.tooling/recovery-smoke':'.tooling/trade-smoke';mkdirSync(dir,{recursive:true});
 const journalFile=`${dir}/journal.json`;
 if(existsSync(journalFile)&&list(decode(readFileSync(journalFile,'utf8'))).length)throw new Error('PRIOR_TRADE_JOURNAL_EXISTS_REVIEW_BEFORE_ANOTHER_RUN');
 const persist=()=>writeFileSync(journalFile,encode(journal.values));
@@ -31,6 +33,7 @@ const prepare=journal.prepare.bind(journal);journal.prepare=async(...args)=>{con
 const update=journal.update.bind(journal);journal.update=async(...args)=>{await update(...args);persist();};
 let inventory=emptyInventory('smoke');let disconnected=false;let parseError:string|null=null;let queue=Promise.resolve();
 let accountId='';let sentCount=0;let entrySent=false;let closeSent=false;
+let unknownAfterDisconnect=false;let historyReconciled=false;let entrySends=0;
 const events:Array<Record<string,unknown>>=[];
 const socket=new TradingSocket(url=>{
   const ws=new WebSocket(url);const send=ws.send.bind(ws);
@@ -47,7 +50,7 @@ const cfg=resolveConfig(await h.request('/v1/pub/context'));
 const rpc=createPublicClient({chain:monadTestnet,transport:rpcHttp(TESTNET.rpc,{retryCount:0,timeout:12_000})});
 if(await rpc.getChainId()!==10143||cfg.chainId!==10143||cfg.marketId!==16n||cfg.instanceId!==12n)throw new Error('TESTNET_BINDING_MISMATCH');
 let success=false;let error:string|null=null;let finalFlat=false;let actualStopCoverage:string|null=null;let positionId:string|null=null;
-const coordinator=new Coordinator(journal,command=>socket.send(command,key));
+const coordinator=new Coordinator(journal,command=>{socket.send(command,key);if(command.t===1){entrySends++;if(recoveryMode)socket.close();}});
 const context=():ExecutionContext=>({sessionId:'testnet-cli',live:true,fresh:inventory.continuous&&Date.now()-inventory.receivedAt<5000,accountFlat:true,lastForwarded:inventory.accounts.find(a=>String(a.id)===accountId)!.lfr,head:inventory.head,configDigest:cfg.digest,wallet:key.wallet,accountId});
 try{
   const initial=await snapshots();key.wallet=initial.wallet!;const account=initial.accounts.find(a=>a.instance===cfg.instanceId);
@@ -59,6 +62,21 @@ try{
   const quote=calculateRisk(input);if(!quote.executable||quote.quantity!==1n)throw new Error('SMOKE_QUOTE_UNEXECUTABLE');
   const now=Date.now();const plan:Plan={version:1,id:'testnet-single-lot-smoke',revision:1,binding:{chainId:10143,instanceId:String(cfg.instanceId),exchange:cfg.exchange,collateral:cfg.collateral,marketId:String(cfg.marketId),perpetualId:String(cfg.perpetualId),accountId,wallet:key.wallet},input,quote,configDigest:cfg.digest,bookBlock:String(book.block),receivedAt:now,expiresAt:now+30_000};
   entrySent=true;const entry=await coordinator.entry(plan,approve(plan,'testnet-cli',Date.now()),context(),cfg.ttlBlocks);
+  if(recoveryMode){
+    await journal.update(entry.id,'unknown','Intentional connection loss immediately after send');unknownAfterDisconnect=journal.values.find(r=>r.id===entry.id)?.status==='unknown';
+    const deadline=Date.now()+20_000;
+    while(Date.now()<deadline){
+      const history=await orderHistory(h,key,new Set([entry.id]));
+      for(const o of history.orders.filter(o=>String(o.account)===accountId&&String(o.request)===entry.id)){
+        const row=journal.values.find(r=>r.id===entry.id)!;const outcome=requestOutcome(row,o);
+        if(outcome?.status==='settled'){await journal.update(row.id,'settled','Outcome recovered from venue history',true);historyReconciled=true;}
+      }
+      if(historyReconciled)break;await new Promise(r=>setTimeout(r,1000));
+    }
+    if(!historyReconciled)throw new Error('RECOVERY_HISTORY_UNKNOWN_NO_REPLACEMENT');
+    inventory=emptyInventory('recovered');disconnected=false;await socket.connect(key);
+    await waitUntil(()=>inventory.walletReady&&inventory.positionsReady&&inventory.ordersReady&&inventory.head>0n);
+  }
   await waitUntil(()=>journal.values.find(r=>r.id===entry.id)?.status==='settled'&&inventory.positions.some(p=>String(p.account)===accountId&&p.market===cfg.marketId&&p.size===1n));
   const position=inventory.positions.find(p=>String(p.account)===accountId&&p.market===cfg.marketId)!;positionId=String(position.id);
   const stop=await coordinator.stop(position,position.entry*99n/100n,context());
@@ -71,5 +89,5 @@ try{
   // Cleanup only after a known entry outcome; never replace an unknown request or close.
   if(entrySent&&!closeSent&&!await journal.unresolved(accountId)&&!disconnected){try{const state=await snapshots();const position=state.positions.find(p=>String(p.account)===accountId&&p.market===cfg.marketId&&p.size===1n);if(position){closeSent=true;const row=await coordinator.close(position,Math.min(100,cfg.maxSlippageBps),context(),cfg.ttlBlocks);await waitUntil(()=>journal.values.find(r=>r.id===row.id)?.status==='settled');}const final=await snapshots();finalFlat=final.positions.length===0&&final.orders.length===0;}catch{error+='; CLEANUP_NOT_CONFIRMED_REVIEW_VENUE';}}
 }finally{socket.close();key.secret.fill(0);}
-const report={checkedAt:new Date().toISOString(),classification:'actual_single_lot_Monad_testnet_venue_trade_through_production_core_in_Node',success,error,chainId:10143,marketId:'16',accountId,positionId,quantityLots:'1',actualStopCoverage,finalFlat,orderRequestsSent:sentCount,events,journal:journal.values.map(r=>({id:r.id,kind:r.kind,status:r.status,nonFailureSeen:r.nonFailureSeen})),limitations:['Venue UI API key; no native Mera enrollment or owner funding tested.','Node transport and disk-backed synthetic journal adapter; native socket/SQLite not verified by this test.','No claim of hardware passkey, sponsor eligibility or customer demand.']};
-await mkdir('artifacts/remediation',{recursive:true});await writeFile('artifacts/remediation/trade-smoke.json',encode(report)+'\n');console.log(encode(report));if(!success)process.exitCode=1;
+const report={checkedAt:new Date().toISOString(),classification:recoveryMode?'actual_testnet_send_disconnect_history_recovery_in_Node':'actual_single_lot_Monad_testnet_venue_trade_through_production_core_in_Node',success,error,chainId:10143,marketId:'16',accountId,positionId,quantityLots:'1',actualStopCoverage,finalFlat,orderRequestsSent:sentCount,recovery:recoveryMode?{unknownAfterDisconnect,historyReconciled,entrySends,noReplacement:entrySends===1}:null,events,journal:journal.values.map(r=>({id:r.id,kind:r.kind,status:r.status,nonFailureSeen:r.nonFailureSeen})),limitations:['Venue UI API key; no native Mera enrollment or owner funding tested.','Node transport and disk-backed synthetic journal adapter; native socket/SQLite not verified by this test.','No claim of hardware passkey, sponsor eligibility or customer demand.']};
+await mkdir('artifacts/remediation',{recursive:true});await writeFile(`artifacts/remediation/${recoveryMode?'recovery-smoke':'trade-smoke'}.json`,encode(report)+'\n');console.log(encode(report));if(!success)process.exitCode=1;

@@ -1,5 +1,5 @@
 """Review a dedicated emulator: public data + synthetic flow, no ceremony or orders."""
-import hashlib, json, re, subprocess, time, xml.etree.ElementTree as ET
+import hashlib, json, re, subprocess, time, os, xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -52,6 +52,9 @@ def shot(name):
 
 cases = []
 release = json.loads((ROOT/'artifacts/release.json').read_text())
+recording=None
+if os.environ.get('TREADY_RECORD_DEMO')=='1':
+    recording=subprocess.Popen([str(ADB),'-s',SERIAL,'shell','screenrecord','--size','720x1600','--bit-rate','2500000','--time-limit','180','/sdcard/tready-preview-demo.mp4'],stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
 adb('shell','wm','density','480')  # 1080px / 3 = 360dp
 adb('shell','am','force-stop','xyz.tready.app')
 adb('shell','am','start','-n','xyz.tready.app/.MainActivity')
@@ -86,3 +89,9 @@ assert hashlib.sha256((ROOT/'artifacts'/release['file']).read_bytes()).hexdigest
 report = {'classification':'real_emulator_UI_test_of_public_data_and_synthetic_execution_only','testedAt':datetime.now(timezone.utc).isoformat(),'apkSha256':release['sha256'],'appSourceCommit':release['sourceCommit'],'device':'Pixel7 emulator, Android API36 x86_64, 360dp','passed':cases,'screenshots':[f'{name}.png' for name in ['account-360dp','plan-360dp','trade-unprotected-360dp','trade-protected-360dp','receipt-360dp','account-large-font','receipt-large-font']],'not_verified':['physical PRF/biometric/passkey recovery','owner funding/signing','authenticated API','real entry/stop/close/recovery','customer demand']}
 (ROOT/'artifacts/emulator-smoke.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))
+if recording:
+    adb('shell','pkill','-2','screenrecord')
+    recording.wait(timeout=15)
+    target=ROOT/'.tooling/tready-preview-demo-raw.mp4'
+    subprocess.run([str(ADB),'-s',SERIAL,'pull','/sdcard/tready-preview-demo.mp4',str(target)],check=True,stdout=subprocess.DEVNULL)
+    print('Demo screen recording captured. UI flow is synthetic; venue proof is separate.')

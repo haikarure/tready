@@ -1,8 +1,8 @@
 {
   "classification": "native_Android_provider_prompt_and_cancellation_probe",
-  "testedAt": "2026-10-12T03:49:08.761260+00:00",
-  "apkSha256": "b887c49bb4aec5372c682d0391b1a9c2e04a535d956232ead55e21349ef4d9c7",
-  "appSourceCommit": "adb0e9ed578f8edcb27dfa16dadd6cb0bdd0f56e",
+  "testedAt": "2026-10-12T13:56:02.982142+00:00",
+  "apkSha256": "dcc62264fccb7c74192b6e67f8d5eeafc14d68518060ca64508cdf4d72873da0",
+  "appSourceCommit": "1f16b9b093d776d82ea7aeb43f5c66bb90d1169a",
   "rpId": "tready-archzxy.netlify.app",
   "device": "tready-api36, Android API36 Google APIs x86_64 emulator",
   "credentialProvider": "com.google.android.gms/com.google.android.gms.auth.api.credentials.credman.service.PasswordAndPasskeyService",

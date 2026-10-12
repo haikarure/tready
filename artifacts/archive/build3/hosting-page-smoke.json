@@ -1,0 +1,12 @@
+{
+  "origin": "https://tready-archzxy.netlify.app",
+  "testedAt": "2026-10-12T04:05:10.250868+00:00",
+  "viewport": "360x800",
+  "checks": [
+    "HTTP200 landing",
+    "APK download link",
+    "attribution link",
+    "no horizontal overflow"
+  ],
+  "classification": "download_page_only_not_native_trading_test"
+}

@@ -1,0 +1,48 @@
+{
+  "siteId": "4d3736b5-024f-4255-82a7-fbf2d2849945",
+  "name": "tready-archzxy",
+  "netlifyHostname": "tready-archzxy.netlify.app",
+  "originalSiteId": "65bc0f0a-6cdc-4aef-aafc-005f6d9631d6",
+  "originalPublishedDeploy": "6ac78359360a5f0e7bcecfa7",
+  "deployId": "6acc5ba3b3535734ce5b7850",
+  "deployState": "ready",
+  "deployUrl": "https://6acc5ba3b3535734ce5b7850--tready-archzxy.netlify.app",
+  "createdAt": "2026-10-12T03:07:36.774Z",
+  "customDomainConfigured": false,
+  "productionPublicConfigured": true,
+  "activeRpId": "tready-archzxy.netlify.app",
+  "activeOrigin": "https://tready-archzxy.netlify.app",
+  "customDomainStatus": "optional_pending_external_DNS_access",
+  "verifiedAt": "2026-10-12T04:05:21.941441+00:00",
+  "assetlinks": {
+    "url": "https://tready-archzxy.netlify.app/.well-known/assetlinks.json",
+    "httpStatus": 200,
+    "contentType": "application/json; charset=utf-8",
+    "redirected": false,
+    "sha256": "3ea470b151c25541b840197db5f835404620ffc093bc96ee6997b37f60413f18"
+  },
+  "originalSiteUnchanged": true,
+  "apkDownload": {
+    "url": "https://tready-archzxy.netlify.app/downloads/tready-0.1.0-preview.apk",
+    "expectedSha256": "b887c49bb4aec5372c682d0391b1a9c2e04a535d956232ead55e21349ef4d9c7",
+    "build": 3,
+    "sourceCommit": "adb0e9ed578f8edcb27dfa16dadd6cb0bdd0f56e",
+    "downloadVerified": true,
+    "httpStatus": 200,
+    "bytes": 54202455,
+    "sha256": "b887c49bb4aec5372c682d0391b1a9c2e04a535d956232ead55e21349ef4d9c7",
+    "contentType": "application/vnd.android.package-archive",
+    "contentDisposition": "attachment",
+    "redirected": false,
+    "verifiedDeployId": "6acc5ba3b3535734ce5b7850"
+  },
+  "metadataUrl": "https://tready-archzxy.netlify.app/downloads/release.json",
+  "dnsMutationsPerformed": false,
+  "optionalCustomDomainDnsRecord": {
+    "type": "CNAME",
+    "host": "auth",
+    "target": "tready-archzxy.netlify.app"
+  },
+  "requestedCustomDomain": "auth.archzxy.com",
+  "attributionPublished": true
+}

@@ -4,9 +4,11 @@ import { MemoryJournal } from '../packages/storage/memory';
 import { approve, assertApproval } from '../packages/domain/plan';
 import { order } from '../packages/perpl/inventory';
 import { makePlan, o } from './fixtures';
+import {NotSentError} from '../packages/execution/transport-error';
 
 const ctx:ExecutionContext={sessionId:'s',live:true,fresh:true,accountFlat:true,lastForwarded:7n,head:100n,configDigest:'config',wallet:'0x1111111111111111111111111111111111111111',accountId:'42'};
 describe('execution safety invariants',()=>{
+  it('keeps a definitely-unsent command out of unknown and requires a new request for a later manual action',async()=>{const db=new MemoryJournal();let locked=true;const send=vi.fn(()=>{if(locked)throw new NotSentError('locked before send');});const c=new Coordinator(db,send);const p=makePlan();const a=approve(p,'s',1000);await expect(c.entry(p,a,ctx,20n,2000)).rejects.toThrow();expect(db.values[0]?.status).toBe('failed');expect(await db.unresolved('42')).toBe(false);locked=false;const next=await c.entry(p,a,ctx,20n,2000);expect(next.id).not.toBe(db.values[0]?.id);expect(send).toHaveBeenCalledTimes(2);});
   it('requires a real approval timestamp inside the plan and current session',()=>{const p=makePlan();for(const now of [NaN,999,4001])expect(()=>approve(p,'s',now)).toThrow();const a=approve(p,'s',1000);expect(()=>assertApproval(p,{...a,approvedAt:undefined as unknown as number},'s',2000)).toThrow();expect(()=>assertApproval(p,{...a,approvedAt:3000},'s',2000)).toThrow();});
 
   it('persists intent before send and ignores double taps',async()=>{const db=new MemoryJournal();const send=vi.fn(()=>{expect(db.values).toHaveLength(1);expect(db.values[0]?.status).toBe('prepared');});const c=new Coordinator(db,send);const p=makePlan();const a=approve(p,'s',1000);const outcomes=await Promise.allSettled([c.entry(p,a,ctx,20n,2000),c.entry(p,a,ctx,20n,2000)]);expect(send).toHaveBeenCalledTimes(1);expect(outcomes.filter(r=>r.status==='fulfilled')).toHaveLength(1);expect(db.values[0]?.id).toBe('8');});

@@ -1,6 +1,7 @@
 import { assertApproval, type Plan, type Approval } from '../domain/plan';
 import { u64 } from '../domain/units';
 import type { Order, Position } from '../perpl/inventory';
+import {NotSentError} from './transport-error';
 
 export interface Command { mt:22; sn:bigint; rq:bigint; mkt:bigint; acc:bigint; t:number; p?:bigint; s:bigint; fl:number; lv:number; lb:bigint; ms?:number; tp?:bigint; tpc?:number; lp?:bigint; oid?:bigint }
 export type RequestState='prepared'|'sent'|'forwarded'|'settled'|'failed'|'unknown';
@@ -39,7 +40,7 @@ export class Coordinator {
       const row=await this.journal.prepare(context.accountId,context.lastForwarded,kind,planId,create);
       if(row.command.acc.toString()!==context.accountId)throw new Error('COMMAND_ACCOUNT_MISMATCH');
       try { this.send(row.command); await this.journal.update(row.id,'sent'); }
-      catch(error) { await this.journal.update(row.id,'unknown','Outcome belum dikonfirmasi. Periksa journal dan venue.'); throw error; }
+      catch(error) { await this.journal.update(row.id,error instanceof NotSentError?'failed':'unknown',error instanceof NotSentError?'Command belum dikirim. Periksa sesi dan review sebelum mencoba lagi.':'Outcome belum dikonfirmasi. Periksa journal dan venue.'); throw error; }
       // An outcome can commit while the transport write is completing.
       return (await this.journal.rows()).find(r=>r.id===row.id&&r.account===row.account)??row;
     } finally {this.busy=false;}

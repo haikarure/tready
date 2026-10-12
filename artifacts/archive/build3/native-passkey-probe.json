@@ -1,0 +1,29 @@
+{
+  "classification": "native_Android_provider_prompt_and_cancellation_probe",
+  "testedAt": "2026-10-12T03:49:08.761260+00:00",
+  "apkSha256": "b887c49bb4aec5372c682d0391b1a9c2e04a535d956232ead55e21349ef4d9c7",
+  "appSourceCommit": "adb0e9ed578f8edcb27dfa16dadd6cb0bdd0f56e",
+  "rpId": "tready-archzxy.netlify.app",
+  "device": "tready-api36, Android API36 Google APIs x86_64 emulator",
+  "credentialProvider": "com.google.android.gms/com.google.android.gms.auth.api.credentials.credman.service.PasswordAndPasskeyService",
+  "configuredAccountCount": 0,
+  "providerPrompt": "Create passkey on another device?",
+  "nativeFailureClass": "CreateCredentialCancellationException",
+  "nativePasskeySucceeded": false,
+  "nativePrfVerified": false,
+  "checksPassed": [
+    "native passkey bridge opens the provider external-device prompt",
+    "cancelling the native prompt produces a cancellation message and no wallet",
+    "unconfigured Perpl enrollment remains disabled"
+  ],
+  "screenshots": [
+    "screenshots/native-passkey-provider-prompt.png",
+    "screenshots/native-passkey-cancelled.png"
+  ],
+  "notVerified": [
+    "native PRF happy path",
+    "hardware biometrics",
+    "provider sync/restore",
+    "funding, authenticated API or live trading"
+  ]
+}

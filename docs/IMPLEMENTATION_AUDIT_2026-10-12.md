@@ -1,5 +1,7 @@
 # Audit implementasi Tready — 12 Oktober 2026
 
+**Laporan ini adalah baseline audit sebelum perbaikan.** Hasil terbaru ada di [remediation](REMEDIATION_2026-10-12.md). Bukti APK build3 disimpan di [arsip](../artifacts/archive/build3/release.json); file emulator/release di root artifacts mengikuti rilis terbaru.
+
 **Verdict: native preview sudah dapat diunduh dan dijalankan; produk trading end-to-end dan submission belum siap.** Estimasi kesiapan masih sekitar **50%** menurut milestone internal di bawah. Ini bukan persentase jumlah kode, rubric resmi Metropolis, atau peluang menang.
 
 Audit memeriksa working tree pada HEAD `228219ee64d2554d190245825f27825266e212e2`, termasuk perubahan enrollment yang belum di-commit. APK publik memakai snapshot aplikasi `adb0e9ed578f8edcb27dfa16dadd6cb0bdd0f56e`; keduanya dinilai terpisah. Audit tidak mengubah implementasi aplikasi, membangun ulang/deploy APK, melakukan enrollment baru, funding, ataupun mengirim order. Perubahan yang sudah ada di workspace dipertahankan.
