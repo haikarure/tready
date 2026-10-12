@@ -1,11 +1,14 @@
 {
-  "checkedAt": "2026-10-12T15:06:40.665Z",
+  "checkedAt": "2026-10-12T17:19:38.585Z",
   "classification": "own_origin_unsigned_payload_readiness_only",
   "origin": "https://tready-archzxy.netlify.app",
+  "wallet": "0xE804159b01FD4F466A6479022007Cb40434966E4",
   "status": 400,
   "schemaAccepted": false,
   "error": "Perpl HTTP 400",
+  "confirmedPolicyFile": null,
   "enrollCalled": false,
   "walletSignatureProduced": false,
+  "apiKeyCreated": false,
   "otherOriginsUsed": false
 }

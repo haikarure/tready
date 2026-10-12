@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-10-12T16:04:48.515226+00:00",
+  "classification": "browser_live_RPC_readback_of_existing_Node_trade_receipts",
+  "chainId": 10143,
+  "receiptsVerified": 3,
+  "networkReadMethods": [
+    "eth_chainId",
+    "eth_getTransactionReceipt"
+  ],
+  "newOrdersSent": 0,
+  "nativeTradeVerified": false,
+  "horizontalOverflow": false,
+  "screenshot": "screenshots/chain-proof.png",
+  "videoPrivatePath": ".tooling/proof-browser/proof-live.webm"
+}

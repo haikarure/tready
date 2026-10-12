@@ -17,11 +17,12 @@ downloads=stage/'downloads';downloads.mkdir(exist_ok=True)
 shutil.copy2(apk,downloads/release['file']);shutil.copy2(ROOT/'artifacts/release.json',downloads/'release.json')
 shutil.copy2(ROOT/'artifacts/remediation/trade-evidence.json',downloads/'trade-evidence.json')
 shutil.copy2(ROOT/'artifacts/remediation/recovery-smoke.json',downloads/'recovery-smoke.json')
-old=ROOT/'artifacts/tready-0.1.0-preview.apk'
-if old.exists():shutil.copy2(old,downloads/old.name)
-previous=ROOT/'artifacts/tready-0.1.1-preview.apk'
-if previous.exists():shutil.copy2(previous,downloads/previous.name)
-(downloads/'releases').mkdir(exist_ok=True);shutil.copy2(ROOT/'artifacts/archive/build3/release.json',downloads/'releases/0.1.0.json')
+for version,build in [('0.1.0','build3'),('0.1.1','build4'),('0.1.2','build5')]:
+ old=ROOT/'artifacts'/f'tready-{version}-preview.apk'
+ if old.exists():shutil.copy2(old,downloads/old.name)
+ metadata=ROOT/'artifacts/archive'/build/'release.json'
+ if metadata.exists():
+  (downloads/'releases').mkdir(exist_ok=True);shutil.copy2(metadata,downloads/'releases'/f'{version}.json')
 demo=ROOT/'.tooling/tready-preview-demo-final.mp4'
 assert demo.exists(),'Demo must be finalized before deployment.'
 shutil.copy2(demo,downloads/'tready-preview-demo.mp4')
@@ -60,7 +61,7 @@ for _ in range(60):
 assert current['state']=='ready'
 site=api('/sites/'+SITE);assert site['published_deploy']['id']==id
 checks=[]
-for path in ['/','/.well-known/assetlinks.json','/downloads/release.json','/downloads/'+release['file'],'/downloads/tready-preview-demo.mp4']:
+for path in ['/','/proof.html','/.well-known/assetlinks.json','/downloads/release.json','/downloads/'+release['file'],'/downloads/tready-preview-demo.mp4']:
  if path.endswith('.apk'):
   downloaded=ROOT/'.tooling/netlify-verified.apk'
   subprocess.run(['curl','--silent','--show-error','--fail','--connect-timeout','20','--max-time','120','--retry','2','--retry-all-errors','--output',str(downloaded),ORIGIN+path],check=True)

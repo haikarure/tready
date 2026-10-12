@@ -1,4 +1,4 @@
-"""Probe and cancel the signed-out emulator's external passkey prompt.
+"""Probe and cancel a known provider's passkey prompt on a dedicated emulator.
 
 No external device is paired, no credential is created, and no funds/orders
 are used. Native provider UI/cancellation does not prove a PRF happy path.
@@ -19,8 +19,10 @@ accounts=adb('shell','dumpsys','account').decode()
 match=re.search(r'Accounts:\s*(\d+)',accounts)
 assert match and match.group(1)=='0', 'This signed-out probe requires an empty test emulator.'
 provider=adb('shell','settings','get','secure','credential_service_primary').decode().strip()
+assert any(name in provider for name in ['com.google.android.gms','com.kunzisoft.keepass.libre']), 'Inspect an unknown provider before probing.'
 
 def hierarchy():
+    adb('shell','rm','-f','/sdcard/tready-passkey-probe.xml')
     adb('shell','uiautomator','dump','/sdcard/tready-passkey-probe.xml')
     return ET.fromstring(adb('exec-out','cat','/sdcard/tready-passkey-probe.xml'))
 def labels(root): return [n.get('text','') or n.get('content-desc','') for n in root.iter('node')]
@@ -40,7 +42,7 @@ for _ in range(6):
     time.sleep(1)
 assert button is not None and button.get('enabled')=='true'
 tap(button)
-prompt='Create passkey on another device?'
+prompt='Create passkey to sign in to Tready?' if 'com.kunzisoft.keepass.libre' in provider else 'Create passkey on another device?'
 for _ in range(10):
     root=hierarchy()
     if any(prompt in text for text in labels(root)): break
@@ -76,7 +78,7 @@ report={'classification':'native_Android_provider_prompt_and_cancellation_probe'
         'credentialProvider':provider,'configuredAccountCount':0,
         'providerPrompt':prompt,
         'nativeFailureClass':exception,'nativePasskeySucceeded':False,'nativePrfVerified':False,
-        'checksPassed':['native passkey bridge opens the provider external-device prompt',
+        'checksPassed':['native passkey bridge opens the configured provider prompt',
                         'cancelling the native prompt produces a cancellation message and no wallet',
                         'unconfigured Perpl enrollment remains disabled'],
         'screenshots':['screenshots/native-passkey-provider-prompt.png','screenshots/native-passkey-cancelled.png'],

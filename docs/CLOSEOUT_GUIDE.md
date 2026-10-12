@@ -16,7 +16,7 @@ Rules v3 yang diambil ulang dari [policy resmi](https://hackathon.monad.xyz/api/
 | Pekerjaan | Bukti selesai |
 |---|---|
 | Setup provider PRF pada emulator khusus | Native create, lock/unlock, restart dan discoverable restore menghasilkan alamat yang sama; APK/checksum/provider dicatat |
-| Cek endpoint dan konfigurasi Perpl | Origin sendiri diterima200, policy lengkap cocok dan account/market/token/chain terverifikasi |
+| Cek endpoint dan konfigurasi Perpl | Endpoint publik menerima Origin sendiri dengan 200; challenge enrollment `/v1/api-key/payload` tetap **HTTP 400** ([origin.json](../artifacts/remediation/origin.json), diukur ulang); policy schema cocok dengan payload vendor dan account/market/token/chain terverifikasi |
 | Aktifkan auto-enrollment | Setelah challenge Origin sendiri lolos validasi, build baru dengan policy terpin; tidak ada signature/key dari probe kesiapan |
 | Actual APK trade | Wallet Mera yang sama, gas+AUSD testnet, create account, forwarding, key SecureStore, entry kecil→stop penuh→close; history/RPC dan final flat |
 | Demo final | Operasi aplikasi dan interaksi Monad nyata terlihat; synthetic dan Node dibedakan; panjang maksimal3menit menurut Rules v3 |
@@ -35,12 +35,12 @@ Pemeriksaan tersebut dapat dilakukan pada emulator dengan provider PRF yang komp
 
 ## Jika mencoba Android sendiri
 
-1. Install [APK0.1.2](https://tready-archzxy.netlify.app/downloads/tready-0.1.2-preview.apk). Aktifkan credential provider dan screen lock. Jika memilih Google Password Manager, login akun Google. Kehadiran akun/provider saja belum membuktikan PRF didukung.
-2. Account → **Buat passkey**. Catat versi Android/provider, apakah alamat muncul dan error yang terlihat. Jangan mengirim PIN, password atau PRF.
+1. Install [APK0.1.3](https://tready-archzxy.netlify.app/downloads/tready-0.1.3-preview.apk). Aktifkan credential provider dan screen lock. Jika memilih Google Password Manager, login akun Google. Kehadiran akun/provider saja belum membuktikan PRF didukung.
+2. Account → **Buat passkey**. Prompt/provider diberi waktu300detik pada build0.1.3. Catat versi Android/provider, apakah alamat muncul dan error yang terlihat. Jangan mengirim PIN, password atau PRF.
 3. **Kunci sesi** → **Buka passkey**. Pastikan wallet tetap sama. Force-stop/restart lalu ulangi. Jangan membuat credential baru untuk memulihkan wallet lama.
-4. Setelah wallet dapat dipulihkan dan sudah didokumentasikan, siapkan MON dari faucet untuk gas; **Minta AUSD testnet** memerlukan gas karena memanggil kontrak.
+4. Tekan lama alamat wallet lengkap untuk menyalinnya. Setelah wallet dapat dipulihkan dan sudah didokumentasikan, siapkan MON dari faucet untuk gas; **Minta AUSD testnet** memerlukan gas karena memanggil kontrak.
 5. **Approve jumlah ini** → **Buka akun Perpl** → **Aktifkan order forwarding**. Ikuti minimum collateral yang tampil. Periksa receipt tiap transaksi sebelum lanjut; transaksi unknown diperiksa ulang, tidak otomatis diulang.
-6. Tombol **Otorisasi API trading** tetap disabled pada APK0.1.2 karena whitelist/policy belum siap. Import key hanya untuk wallet Mera yang sama; key engineering dari wallet lain akan ditolak. App belum menyediakan connector wallet Mera ke UI Perpl, sehingga import bukan langkah onboarding otomatis yang sudah selesai.
+6. Tombol **Otorisasi API trading** tetap disabled pada APK0.1.3 karena whitelist/policy belum siap. Import key hanya untuk wallet Mera yang sama; key engineering dari wallet lain akan ditolak. App belum menyediakan connector wallet Mera ke UI Perpl, sehingga import bukan langkah onboarding otomatis yang sudah selesai.
 7. Pengujian entry/stop/close melalui APK baru dapat dituntaskan setelah gate wallet, funding, account dan API di atas selesai. Trading lewat Node yang telah lulus tetap merupakan bukti terpisah.
 
 ## Keputusan sebelum deadline
