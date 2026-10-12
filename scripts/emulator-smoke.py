@@ -1,4 +1,4 @@
-"""Review a dedicated emulator: public data + synthetic flow, never passkey or orders."""
+"""Review a dedicated emulator: public data + synthetic flow, no ceremony or orders."""
 import hashlib, json, re, subprocess, time, xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
@@ -39,6 +39,10 @@ def assert_disabled(label):
     matches = [n for n in hierarchy().iter('node') if n.get('content-desc') == label]
     assert matches and all(n.get('enabled') == 'false' for n in matches), f'Expected disabled: {label}'
 
+def assert_enabled(label):
+    matches = [n for n in hierarchy().iter('node') if n.get('content-desc') == label]
+    assert matches and all(n.get('enabled') == 'true' for n in matches), f'Expected enabled: {label}'
+
 def top():
     # UIAutomator omits offscreen labels; inspect status at the top after actions.
     for _ in range(3): adb('shell','input','swipe','550','650','550','1750','250')
@@ -47,11 +51,19 @@ def shot(name):
     (OUT / f'{name}.png').write_bytes(adb('exec-out','screencap','-p'))
 
 cases = []
+release = json.loads((ROOT/'artifacts/release.json').read_text())
 adb('shell','wm','density','480')  # 1080px / 3 = 360dp
 adb('shell','am','force-stop','xyz.tready.app')
 adb('shell','am','start','-n','xyz.tready.app/.MainActivity')
 time.sleep(3)
-assert_text('Belum ada wallet'); assert_disabled('Buat passkey'); shot('account-360dp'); cases.append('standalone start; passkey disabled without rpId')
+assert_text('Belum ada wallet')
+if release.get('rpId'):
+    assert_enabled('Buat passkey')
+    cases.append('standalone start; configured passkey control enabled, ceremony not implied')
+else:
+    assert_disabled('Buat passkey')
+    cases.append('standalone start; passkey disabled without rpId')
+shot('account-360dp')
 tap('Pilih mode testnet atau latihan'); tap('Latihan'); tap('Rencana')
 for _ in range(12):
     if any('LATIHAN · collateral sintetis' in x for x in labels()): break
@@ -70,7 +82,6 @@ adb('shell','settings','put','system','font_scale','1.4');time.sleep(1)
 adb('shell','am','force-stop','xyz.tready.app');adb('shell','am','start','-n','xyz.tready.app/.MainActivity');time.sleep(2)
 shot('account-large-font');tap('Bukti');shot('receipt-large-font');cases.append('navigation and receipts usable at font scale1.4; visual review required')
 adb('shell','settings','put','system','font_scale','1.0')
-release = json.loads((ROOT/'artifacts/release.json').read_text())
 assert hashlib.sha256((ROOT/'artifacts'/release['file']).read_bytes()).hexdigest() == release['sha256']
 report = {'classification':'real_emulator_UI_test_of_public_data_and_synthetic_execution_only','testedAt':datetime.now(timezone.utc).isoformat(),'apkSha256':release['sha256'],'appSourceCommit':release['sourceCommit'],'device':'Pixel7 emulator, Android API36 x86_64, 360dp','passed':cases,'screenshots':[f'{name}.png' for name in ['account-360dp','plan-360dp','trade-unprotected-360dp','trade-protected-360dp','receipt-360dp','account-large-font','receipt-large-font']],'not_verified':['physical PRF/biometric/passkey recovery','owner funding/signing','authenticated API','real entry/stop/close/recovery','customer demand']}
 (ROOT/'artifacts/emulator-smoke.json').write_text(json.dumps(report,indent=2)+'\n')
