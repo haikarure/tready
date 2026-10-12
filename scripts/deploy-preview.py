@@ -11,7 +11,7 @@ assert release['build']>=4 and release['rpId']=='tready-archzxy.netlify.app'
 apk=ROOT/'artifacts'/release['file'];assert hashlib.sha256(apk.read_bytes()).hexdigest()==release['sha256']
 for name in ['emulator-smoke.json','native-passkey-probe.json']:
  evidence=json.loads((ROOT/'artifacts'/name).read_text());assert evidence['apkSha256']==release['sha256']
-assert json.loads((ROOT/'artifacts/remediation/native-journal-bootstrap.json').read_text())['success']
+bootstrap=json.loads((ROOT/'artifacts/remediation/native-journal-bootstrap.json').read_text());assert bootstrap['success'] and bootstrap['apkSha256']==release['sha256']
 stage=ROOT/'.tooling/netlify-build4';shutil.rmtree(stage,ignore_errors=True);shutil.copytree(ROOT/'apps/access/public',stage)
 downloads=stage/'downloads';downloads.mkdir(exist_ok=True)
 shutil.copy2(apk,downloads/release['file']);shutil.copy2(ROOT/'artifacts/release.json',downloads/'release.json')

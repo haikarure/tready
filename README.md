@@ -18,7 +18,7 @@ chmod +x scripts/*.sh
 
 Preview build memuat JS bundle dan memakai private signing certificate lokal yang stabil. Output APK/checksum/certificate di `artifacts/`; secret signing tidak masuk Git. Untuk development, gunakan `./scripts/dev.sh pnpm start` dan native app dari `pnpm android`. Native passkey tidak diuji lewat Expo Go.
 
-[Download APK Android preview](https://tready-archzxy.netlify.app/downloads/tready-0.1.1-preview.apk), sekitar52MiB, Android API24+ dan CPU arm64-v8a/x86_64. [Release metadata](artifacts/release.json) memuat SHA256, commit source aplikasi, RP ID dan status gate enrollment yang dibaca dari APK; minimum install tidak membuktikan kompatibilitas passkey provider pada HP nyata.
+[Download APK Android preview](https://tready-archzxy.netlify.app/downloads/tready-0.1.2-preview.apk), sekitar52MiB, Android API24+ dan CPU arm64-v8a/x86_64. [Release metadata](artifacts/release.json) memuat SHA256, commit source aplikasi, RP ID dan status gate enrollment yang dibaca dari APK; minimum install tidak membuktikan kompatibilitas passkey provider pada HP nyata.
 
 **Alur review:** pilih Latihan → Plan → review sizing → entry latihan → Trade → stop → close → Receipt. Harga berasal dari market testnet; collateral100AUSD dan fills latihan merupakan simulasi. Bila market unavailable, UI memperlihatkan loading/stale, tanpa mengganti dengan quote fixture.
 
@@ -27,7 +27,7 @@ Preview memakai RP ID `tready-archzxy.netlify.app` pada site Netlify terpisah di
 ## Bukti dan batas implementasi
 
 - [Status terbaru](docs/IMPLEMENTATION_STATUS.md): apa yang dibangun, apa yang diuji, dan gate yang belum selesai.
-- [Core tests](artifacts/remediation/core-tests.json): 65offline/synthetic tests; money precision, risk assumptions, authorization, duplicate-entry, failure/late-success, receipt semantics dan empty-policy/native-error regressions.
+- [Core tests](artifacts/remediation/core-tests.json): 68offline/synthetic tests; money precision, risk assumptions, authorization, duplicate-entry, failure/late-success, receipt semantics dan empty-policy/native-error regressions.
 - [Browser passkey](artifacts/passkey-browser-smoke.json): delapan checks memakai Mera dan production derivation melalui WebAuthn virtual PRF; create/restore/sign/lock, wrong RP dan missing PRF.
 - [Native passkey probe](artifacts/native-passkey-probe.json): provider prompt dan cancellation nyata di emulator, wallet tetap terkunci dan enrollment disabled; tidak menghasilkan passkey/PRF native.
 - [Public integration probe](artifacts/integration-probe.json): real unsigned context/book/RPC reads; tidak ada wallet signing, enrollment atau trade.
@@ -51,6 +51,6 @@ Native Android PRF/biometric/restore, test funding/account creation, entry/stop/
 
 Source Tready berlisensi [MIT](LICENSE). [Third-party attribution dan AI disclosure](third-party/NOTICE.md). Keunggulan UX, demand, sponsor eligibility dan hasil kompetisi belum dibuktikan oleh keberadaan code atau test count.
 
-Audit dan perbaikan terbaru: [laporan audit](docs/IMPLEMENTATION_AUDIT_2026-10-12.md), [remediation](docs/REMEDIATION_2026-10-12.md), [65core tests](artifacts/remediation/core-tests.json), [actual testnet trade](artifacts/remediation/trade-smoke.json). Key/signing material lokal tidak dipublikasikan.
+Audit dan perbaikan terbaru: [laporan audit](docs/IMPLEMENTATION_AUDIT_2026-10-12.md), [remediation](docs/REMEDIATION_2026-10-12.md), [68core tests](artifacts/remediation/core-tests.json), [actual testnet trade](artifacts/remediation/trade-smoke.json). Key/signing material lokal tidak dipublikasikan.
 
-[Release0.1.1](https://github.com/haikarure/tready/releases/tag/v0.1.1) · [Demo92detik](https://tready-archzxy.netlify.app/downloads/tready-preview-demo.mp4) · [Chain receipts](artifacts/remediation/trade-evidence.json) · [Actual disconnect recovery](artifacts/remediation/recovery-smoke.json). CI remote tidak memulai job karena account billing lock; checks lokal tercatat.
+[Release0.1.2](https://github.com/haikarure/tready/releases/tag/v0.1.2) · [Demo98detik](https://tready-archzxy.netlify.app/downloads/tready-preview-demo.mp4) · [Chain receipts](artifacts/remediation/trade-evidence.json) · [Actual disconnect recovery](artifacts/remediation/recovery-smoke.json). CI remote tidak memulai job karena account billing lock; checks lokal tercatat.

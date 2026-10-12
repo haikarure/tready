@@ -1,8 +1,8 @@
 # Status implementasi Tready
 
-**Remediation12Oktober:** tiga temuan kode audit sudah diperbaiki. Enrollment memeriksa seluruh otorisasi sebelum signature; SQLite memakai transisi atomik yang mempertahankan outcome; stop parsial mempunyai status/cakupan dan flow pembatalan untuk perbaikan. Key impor venue diperiksa terhadap wallet Mera yang sama sebelum SecureStore. [Core tests terbaru](../artifacts/remediation/core-tests.json):65/65 lulus. [Regresi audit](../artifacts/remediation/invariants.json) lulus.
+**Remediation12Oktober:** tiga temuan kode audit sudah diperbaiki. Enrollment memeriksa seluruh otorisasi sebelum signature; SQLite memakai transisi atomik yang mempertahankan outcome; stop parsial mempunyai status/cakupan dan flow pembatalan untuk perbaikan. Key impor venue diperiksa terhadap wallet Mera yang sama sebelum SecureStore. [Core tests terbaru](../artifacts/remediation/core-tests.json):68/68 lulus. [Regresi audit](../artifacts/remediation/invariants.json) lulus.
 
-**Actual testnet venue proof:** [entry→stop→close](../artifacts/remediation/trade-smoke.json) berhasil untuk1lot BTC pada account1112. Tiga request settled; stop penuh terdaftar; final account flat tanpa order/position tersisa. Ini Node+key UI venue, bukan native Mera onboarding. Own Origin masihHTTP400 pada [cek terbaru](../artifacts/remediation/origin.json). APK0.1.1/build4 dibangun dan lolos smoke tests; release.json menjadi sumber versi/checksum yang benar. Detail hasil di [remediation](REMEDIATION_2026-10-12.md).
+**Actual testnet venue proof:** [entry→stop→close](../artifacts/remediation/trade-smoke.json) berhasil untuk1lot BTC pada account1112. Tiga request settled; stop penuh terdaftar; final account flat tanpa order/position tersisa. Ini Node+key UI venue, bukan native Mera onboarding. Own Origin masihHTTP400 pada [cek terbaru](../artifacts/remediation/origin.json). APK0.1.2/build5 dibangun dan lolos smoke tests; release.json menjadi sumber versi/checksum yang benar. Detail hasil di [remediation](REMEDIATION_2026-10-12.md).
 
 Update12Oktober2026; bukti build/core/browser/emulator dan deployment diperbarui12Oktober. Dokumen ini membedakan kode yang tersedia, pengujian yang dilakukan, dan gate yang masih membutuhkan akses/device. PRD tetap merupakan target P0; keberadaan kode tidak menandai seluruh acceptance criteria selesai.
 
@@ -24,7 +24,7 @@ Update12Oktober2026; bukti build/core/browser/emulator dan deployment diperbarui
 | Pemeriksaan | Bukti/status |
 |---|---|
 | TypeScript strict | Lulus pada source TypeScript final; snapshot aplikasi APK adb0e9e |
-| Core tests | 65tests lulus di [remediation/core-tests.json](../artifacts/remediation/core-tests.json); offline/synthetic. Laporan34tests lama milik snapshot APK build3 |
+| Core tests | 68tests lulus di [remediation/core-tests.json](../artifacts/remediation/core-tests.json); offline/synthetic. Laporan34tests lama milik snapshot APK build3 |
 | Android JS/Hermes export | Berhasil; bundle tidak menggantikan APK/device test |
 | Native build | Final standalone preview berhasil compile JDK17/SDK36, exact lockfile, private preview certificate; checksum/ABI/cert association cocok dengan [release.json](../artifacts/release.json) |
 | Emulator | Tujuh checks lulus di [emulator-smoke.json](../artifacts/emulator-smoke.json): start dengan passkey control enabled, entry→protection-pending, stop registered, close→flat, label synthetic, receipt tersimpan sesudah force-stop/restart, navigasi font1.4 |
@@ -36,7 +36,7 @@ Update12Oktober2026; bukti build/core/browser/emulator dan deployment diperbarui
 | Enrollment/origin probe | [enroll-spike](../artifacts/enroll-spike.json): origin aplikasi 400 tiga kali dalam enam request total, dua Origin pembanding 200; [enroll-e2e](../artifacts/enroll-e2e.json): schema vendor terekam, enroll 404 *target profile not found* pada wallet tanpa akun Perpl. Nol API key dibuat |
 | Users/sponsor/submission | Nol sesi pengguna; kartu bounty belum dikonfirmasi; belum submission/outreach |
 
-[APK preview](https://tready-archzxy.netlify.app/downloads/tready-0.1.1-preview.apk) build4 berukuran54,218,559bytes. Source aplikasi `1f16b9b093d776d82ea7aeb43f5c66bb90d1169a`, SHA256 `dcc62264fccb7c74192b6e67f8d5eeafc14d68518060ca64508cdf4d72873da0`. Emulator/native cancellation dan bootstrap migration memakai checksum ini. [Build3 diarsipkan](../artifacts/archive/build3/release.json).
+[APK preview](https://tready-archzxy.netlify.app/downloads/tready-0.1.2-preview.apk) build5 berukuran54,218,703bytes. Source aplikasi `1a8c7291541bc54545ff15fd1d910b952261d387`, SHA256 `a6f69ada57b29dc6b4d78ef4caf8fcb889ea82ab0c2c3a4e0c49e6dfdb480639`. Emulator/native cancellation dan bootstrap migration memakai checksum ini. [Build3](../artifacts/archive/build3/release.json) dan [build4](../artifacts/archive/build4/release.json) diarsipkan.
 
 [Account](../artifacts/screenshots/account-360dp.png), [Plan](../artifacts/screenshots/plan-360dp.png), [stop latihan terdaftar](../artifacts/screenshots/trade-protected-360dp.png), dan [Receipt](../artifacts/screenshots/receipt-360dp.png) merupakan real emulator UI. Account/Receipt font1.4 diperiksa secara visual: teks membungkus, navigasi dapat dipakai, dan konten panjang dapat digulir pada viewport360dp. Pemeriksaan ini tidak mengukur keunggulan UX terhadap pesaing atau pemakaian oleh pengguna nyata. CI remote dipicu namun job tidak dimulai karena account billing lock; [bukti](../artifacts/remediation/cloud-ci.json).
 

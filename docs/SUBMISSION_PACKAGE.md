@@ -38,7 +38,7 @@ Chain proof: [entry/stop/close receipts](../artifacts/remediation/trade-evidence
 4. Tampilkan actual venue proof terpisah beserta chain links; sebutkan Node adapter dan key UI.
 5. Jelaskan journal unknown/partial coverage dan gate native onboarding yang masih belum selesai.
 
-[Video UI preview92detik](https://tready-archzxy.netlify.app/downloads/tready-preview-demo.mp4) sudah direkam dengan batas bukti eksplisit. Batas/formats final mengikuti aturan portal yang terkonfirmasi, bukan outline ini.
+[Video UI preview98detik](https://tready-archzxy.netlify.app/downloads/tready-preview-demo.mp4) sudah direkam dengan batas bukti eksplisit. Batas/formats final mengikuti aturan portal yang terkonfirmasi, bukan outline ini.
 
 ## Submission gates
 

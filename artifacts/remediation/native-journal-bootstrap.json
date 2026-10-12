@@ -1,9 +1,9 @@
 {
-  "testedAt": "2026-10-12T13:50:36.255986+00:00",
+  "testedAt": "2026-10-12T14:52:32.958671+00:00",
   "classification": "actual_Expo_NativeStore_open_on_Android_with_synthetic_journal_rows",
   "success": true,
-  "apkSha256": "dcc62264fccb7c74192b6e67f8d5eeafc14d68518060ca64508cdf4d72873da0",
-  "appSourceCommit": "1f16b9b093d776d82ea7aeb43f5c66bb90d1169a",
+  "apkSha256": "a6f69ada57b29dc6b4d78ef4caf8fcb889ea82ab0c2c3a4e0c49e6dfdb480639",
+  "appSourceCommit": "1a8c7291541bc54545ff15fd1d910b952261d387",
   "cases": [
     {
       "id": "9000000000001",

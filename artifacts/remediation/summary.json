@@ -1,0 +1,40 @@
+{
+  "checkedAt": "2026-10-12T15:03:15.714143+00:00",
+  "classification": "code_and_distribution_remediation_with_explicit_remaining_external_gates",
+  "version": "0.1.2",
+  "build": 5,
+  "appSourceCommit": "1a8c7291541bc54545ff15fd1d910b952261d387",
+  "apkSha256": "a6f69ada57b29dc6b4d78ef4caf8fcb889ea82ab0c2c3a4e0c49e6dfdb480639",
+  "coreTestsPassed": 68,
+  "typecheckPassed": true,
+  "emulatorUIChecksPassed": 7,
+  "nativeCancellationChecksPassed": 3,
+  "AndroidSQLCasesPassed": 6,
+  "NativeStoreBootstrapPassed": true,
+  "actualVenueCyclesPassed": 2,
+  "finalAccountFlat": true,
+  "automaticReplacementSent": false,
+  "publicRepository": "https://github.com/haikarure/tready",
+  "release": "https://github.com/haikarure/tready/releases/tag/v0.1.2",
+  "site": "https://tready-archzxy.netlify.app",
+  "demoSeconds": 98.333333,
+  "fixed": [
+    "A1 enrollment authority fields/type graph",
+    "A2 atomic journal terminal outcomes",
+    "A3 partial-stop quantity/lifecycle/repair",
+    "A5 APK includes fixes",
+    "Known failures before frame emission remain distinguishable from transport uncertainty"
+  ],
+  "partial": [
+    "A4 same-wallet venue-key import available, native onboarding/Origin approval unverified",
+    "A6 repo/video/chain evidence available, customer/sponsor/submission gates unfinished"
+  ],
+  "remaining": [
+    "Native Android PRF create/restore and biometric SecureStore/funding/trading",
+    "Own-Origin API payload returnsHTTP400; programmatic enrollment disabled",
+    "External users, sponsor rules/cards and final submission",
+    "GitHub Actions account billing lock; local checks complete"
+  ],
+  "fullP0Complete": false,
+  "mainnetWrites": false
+}
